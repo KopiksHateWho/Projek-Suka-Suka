@@ -1,12 +1,16 @@
 /* Gaming Theme: KingSlayer Purple Galaxy */
 :root {
   --primary: #bf00ff;
+  --primary-glow: rgba(191, 0, 255, 0.6);
   --secondary: #ff0040;
-  --bg-dark: #090a0f;
-  --bg-gradient: linear-gradient(135deg, #1b0033 0%, #090a0f 100%);
-  --glass: rgba(255, 255, 255, 0.05);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --neon-glow: 0 0 10px rgba(191, 0, 255, 0.5), 0 0 20px rgba(191, 0, 255, 0.3);
+  --secondary-glow: rgba(255, 0, 64, 0.4);
+  --bg-dark: #07080d;
+  --bg-gradient: linear-gradient(145deg, #150029 0%, #07080d 100%);
+  --glass: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --neon-glow: 0 0 15px var(--primary-glow), 0 0 30px rgba(191, 0, 255, 0.2);
 }
 
 * {
@@ -24,9 +28,10 @@ html, body {
 body {
   font-family: 'Cairo', sans-serif;
   background-color: var(--bg-dark);
-  color: #ffffff;
+  color: var(--text-main);
   overflow-x: hidden;
   position: relative;
+  line-height: 1.6;
 }
 
 h1, h2, h3, .logo-text, .hero-title {
@@ -96,10 +101,12 @@ h1, h2, h3, .logo-text, .hero-title {
   left: 0;
   right: 0;
   height: 80px;
-  background: rgba(9, 10, 15, 0.85);
-  backdrop-filter: blur(15px);
+  background: rgba(7, 8, 13, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--glass-border);
   z-index: 1000;
+  transition: all 0.3s ease;
 }
 
 .nav-content {
@@ -172,19 +179,24 @@ h1, h2, h3, .logo-text, .hero-title {
 }
 
 .nav-link {
-  color: #ccc;
+  color: var(--text-muted);
   text-decoration: none;
   font-weight: 700;
   font-size: 0.85rem;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  transition: all 0.3s ease;
+  padding: 0.6rem 1.2rem;
+  border-radius: 12px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  letter-spacing: 0.5px;
 }
 
 .nav-link:hover, .nav-link.active {
   color: #fff;
-  background: rgba(191, 0, 255, 0.1);
-  box-shadow: inset 0 0 10px rgba(191, 0, 255, 0.1);
+  background: rgba(191, 0, 255, 0.15);
+  box-shadow: 0 0 20px rgba(191, 0, 255, 0.1);
+}
+
+.mobile-only {
+  display: none;
 }
 
 /* Hero Section */
@@ -277,16 +289,22 @@ h1, h2, h3, .logo-text, .hero-title {
 }
 
 .game-card {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 20px;
-  padding: 2.5rem 1.5rem;
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 3rem 1.5rem;
   text-align: center;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 280px;
 }
 
 .game-card::before {
@@ -306,10 +324,12 @@ h1, h2, h3, .logo-text, .hero-title {
 }
 
 .game-card:hover {
-  transform: translateY(-10px);
+  transform: translateY(-12px) scale(1.02);
   background: rgba(191, 0, 255, 0.08);
-  border-color: rgba(191, 0, 255, 0.6);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 25px rgba(191, 0, 255, 0.4);
+  border-color: var(--primary);
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    0 0 30px rgba(191, 0, 255, 0.3);
 }
 
 .game-icon-container {
@@ -516,12 +536,21 @@ h1, h2, h3, .logo-text, .hero-title {
 
 .modal.show {
   display: flex !important;
-  animation: modalFadeIn 0.4s ease;
+  animation: modalFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal.show .glass-card {
+  animation: modalScaleUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes modalFadeIn {
   from { opacity: 0; backdrop-filter: blur(0px); }
-  to { opacity: 1; backdrop-filter: blur(10px); }
+  to { opacity: 1; backdrop-filter: blur(15px); }
+}
+
+@keyframes modalScaleUp {
+  from { opacity: 0; transform: scale(0.9) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 .glass {
@@ -840,17 +869,22 @@ h1, h2, h3, .logo-text, .hero-title {
     top: 70px;
     left: 0;
     right: 0;
-    background: rgba(9, 10, 15, 0.98);
-    backdrop-filter: blur(20px);
+    background: rgba(7, 8, 13, 0.98);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
     flex-direction: column;
     align-items: center;
     padding: 3rem 0;
     gap: 1.5rem;
     height: calc(100vh - 70px);
     transform: translateX(100%);
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     border-top: 1px solid var(--glass-border);
     visibility: hidden;
+  }
+
+  .mobile-only {
+    display: block;
   }
 
   .nav-links.active {

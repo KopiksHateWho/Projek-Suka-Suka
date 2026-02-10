@@ -13,7 +13,7 @@
     <!-- CSS -->
     <link rel="stylesheet" href="css/style.css">
     
-    <!-- SDKs (Retained for functionality if present) -->
+    <!-- SDKs -->
     <script src="/_sdk/element_sdk.js"></script>
     <script src="/_sdk/data_sdk.js"></script>
 </head>
@@ -42,6 +42,7 @@
                         <div id="gameSearchResults" class="search-results"></div>
                     </div>
                     <a href="#" class="nav-link" onclick="openHistory(event)">📋 HISTORY</a>
+                    <a href="#" class="nav-link mobile-only" onclick="requestGame(); return false;">🎮 REQUEST GAME</a>
                     <a href="#contact" class="nav-link" onclick="scrollToSection('contact', event)">📞 CONTACT</a>
                 </div>
             </div>
@@ -85,107 +86,29 @@
                         <div class="game-name">PUBG MOBILE</div>
                         <div class="game-subtitle">UC • Instant</div>
                     </div>
-                    <div class="game-card" onclick="window.open('https://direz-store-robloxrobux.my.canva.site/', '_blank')">
+                    <div class="game-card" onclick="selectGame('roblox')">
                         <div class="game-icon-container">🔳</div>
                         <div class="game-name">ROBLOX</div>
                         <div class="game-subtitle">Robux • Instant</div>
                     </div>
-                    <div class="game-card" onclick="window.open('https://direzstorebydiorezz.my.canva.site/genshin-impact', '_blank')">
+                    <div class="game-card" onclick="selectGame('genshin')">
                         <div class="game-icon-container">✨</div>
                         <div class="game-name">GENSHIN IMPACT</div>
                         <div class="game-subtitle">Genesis Crystal</div>
                     </div>
-                    <div class="game-card" onclick="window.open('https://direzstorebydiorezz.my.canva.site/telestars', '_blank')">
+                    <div class="game-card" onclick="selectGame('telegram')">
                         <div class="game-icon-container">✈️</div>
                         <div class="game-name">TELEGRAM STARS</div>
                         <div class="game-subtitle">Stars • Instant</div>
-                    </div>
-                    <div class="game-card request-card" onclick="requestGame()">
-                        <div class="game-icon-container">🎮</div>
-                        <div class="game-name">REQUEST GAME</div>
-                        <div class="game-subtitle">Contact Admin</div>
                     </div>
                 </div>
 
                 <!-- Price Panels -->
                 <div class="price-container" id="priceContainer">
-                    <!-- ML Prices -->
-                    <div class="price-panel" id="mlPrices">
-                        <h3 class="price-header">💎 MOBILE LEGENDS DIAMOND</h3>
-                        <div class="price-category">
-                            <div class="category-name">👑 WEEKLY DIAMOND PASS</div>
-                            <div class="price-grid">
-                                <div class="price-box" onclick="selectPackage('MOBILE LEGENDS', '💎 Weekly Diamond Pass', 'Rp28.777', event)">
-                                    <div class="diamond-value">Weekly Diamond Pass</div>
-                                    <div class="price-value">Rp28.777</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="price-category">
-                            <div class="category-name">🟢 DIAMOND PACKS</div>
-                            <div class="price-grid">
-                                <div class="price-box" onclick="selectPackage('MOBILE LEGENDS', '💎 5', 'Rp1.800', event)">
-                                    <div class="diamond-value">5 💎</div>
-                                    <div class="price-value">Rp1.800</div>
-                                </div>
-                                <div class="price-box" onclick="selectPackage('MOBILE LEGENDS', '💎 12', 'Rp3.800', event)">
-                                    <div class="diamond-value">12 💎</div>
-                                    <div class="price-value">Rp3.800</div>
-                                </div>
-                                <div class="price-box" onclick="selectPackage('MOBILE LEGENDS', '💎 50', 'Rp14.000', event)">
-                                    <div class="diamond-value">50 💎</div>
-                                    <div class="price-value">Rp14.000</div>
-                                </div>
-                                <div class="price-box" onclick="selectPackage('MOBILE LEGENDS', '💎 100', 'Rp27.200', event)">
-                                    <div class="diamond-value">100 💎</div>
-                                    <div class="price-value">Rp27.200</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- FF Prices -->
-                    <div class="price-panel" id="ffPrices">
-                        <h3 class="price-header">🔥 FREE FIRE DIAMOND</h3>
-                        <div class="price-category">
-                            <div class="category-name">👑 MEMBERSHIP</div>
-                            <div class="price-grid">
-                                <div class="price-box" onclick="selectPackage('FREE FIRE', '🚀 Member Mingguan', 'Rp27.555', event)">
-                                    <div class="diamond-value">Member Mingguan</div>
-                                    <div class="price-value">Rp27.555</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="price-category">
-                            <div class="category-name">💎 DIAMOND PACKS</div>
-                            <div class="price-grid">
-                                <div class="price-box" onclick="selectPackage('FREE FIRE', '💎 75', 'Rp10.000', event)">
-                                    <div class="diamond-value">75 💎</div>
-                                    <div class="price-value">Rp10.000</div>
-                                </div>
-                                <div class="price-box" onclick="selectPackage('FREE FIRE', '💎 150', 'Rp20.000', event)">
-                                    <div class="diamond-value">150 💎</div>
-                                    <div class="price-value">Rp20.000</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- PUBG Prices -->
-                    <div class="price-panel" id="pubgPrices">
-                        <h3 class="price-header">🎯 PUBG MOBILE UC</h3>
-                        <div class="price-category">
-                            <div class="category-name">🎯 UC PACKS</div>
-                            <div class="price-grid">
-                                <div class="price-box" onclick="selectPackage('PUBG MOBILE', '🎯 60 UC', 'Rp16.200', event)">
-                                    <div class="diamond-value">60 UC</div>
-                                    <div class="price-value">Rp16.200</div>
-                                </div>
-                                <div class="price-box" onclick="selectPackage('PUBG MOBILE', '🎯 325 UC', 'Rp79.500', event)">
-                                    <div class="diamond-value">325 UC</div>
-                                    <div class="price-value">Rp79.500</div>
-                                </div>
-                            </div>
+                    <div class="price-panel" id="dynamicPricePanel">
+                        <h3 class="price-header" id="dynamicPriceHeader">💎 PACKAGES</h3>
+                        <div class="price-grid" id="dynamicPriceGrid">
+                            <!-- Dynamic items injected here -->
                         </div>
                     </div>
                 </div>
@@ -267,8 +190,7 @@
         </footer>
 
         <!-- Modals -->
-        <!-- History Modal -->
-        <div id="historyModal" class="modal history-modal">
+        <div id="historyModal" class="modal">
             <div class="glass glass-card" style="max-width: 32rem; width: 100%;">
                 <h2 class="price-header">📋 PURCHASE HISTORY</h2>
                 <div class="form-field">
@@ -281,8 +203,7 @@
             </div>
         </div>
 
-        <!-- Receipt Modal -->
-        <div id="receiptModal" class="modal receipt-modal">
+        <div id="receiptModal" class="modal">
             <div class="glass glass-card" style="max-width: 32rem; width: 100%; text-align: center;">
                 <div style="font-size: 3.75rem; margin-bottom: 1rem;">✅</div>
                 <h2 class="price-header" style="color: #4ade80;">ORDER SUCCESS</h2>
@@ -292,38 +213,14 @@
                     <div class="admin-stat-label">Order Number</div>
                     <div class="admin-stat-value text-purple" id="receiptOrderNumber" style="font-size: 1.25rem;">-</div>
                     <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1.5rem; text-align: left; border-top: 1px solid #1e293b; padding-top: 1.5rem;">
-                        <div>
-                            <div class="admin-stat-label">Game</div>
-                            <div class="summary-highlight" id="receiptGame">-</div>
-                        </div>
-                        <div>
-                            <div class="admin-stat-label">Package</div>
-                            <div class="summary-highlight" id="receiptDiamond">-</div>
-                        </div>
-                        <div>
-                            <div class="admin-stat-label">ID Game</div>
-                            <div class="summary-highlight" id="receiptGameId">-</div>
-                        </div>
-                        <div>
-                            <div class="admin-stat-label">Nickname</div>
-                            <div class="summary-highlight" id="receiptNickname">-</div>
-                        </div>
-                        <div>
-                            <div class="admin-stat-label">WhatsApp</div>
-                            <div class="summary-highlight" id="receiptWhatsapp">-</div>
-                        </div>
-                        <div>
-                            <div class="admin-stat-label">Qty</div>
-                            <div class="summary-highlight" id="receiptQty">1</div>
-                        </div>
-                        <div>
-                            <div class="admin-stat-label">Payment</div>
-                            <div class="summary-highlight" id="receiptPayment">-</div>
-                        </div>
-                        <div>
-                            <div class="admin-stat-label">Total</div>
-                            <div class="summary-highlight text-green" id="receiptTotal">-</div>
-                        </div>
+                        <div><div class="admin-stat-label">Game</div><div class="summary-highlight" id="receiptGame">-</div></div>
+                        <div><div class="admin-stat-label">Package</div><div class="summary-highlight" id="receiptDiamond">-</div></div>
+                        <div><div class="admin-stat-label">ID Game</div><div class="summary-highlight" id="receiptGameId">-</div></div>
+                        <div><div class="admin-stat-label">Nickname</div><div class="summary-highlight" id="receiptNickname">-</div></div>
+                        <div><div class="admin-stat-label">WhatsApp</div><div class="summary-highlight" id="receiptWhatsapp">-</div></div>
+                        <div><div class="admin-stat-label">Qty</div><div class="summary-highlight" id="receiptQty">1</div></div>
+                        <div><div class="admin-stat-label">Payment</div><div class="summary-highlight" id="receiptPayment">-</div></div>
+                        <div><div class="admin-stat-label">Total</div><div class="summary-highlight text-green" id="receiptTotal">-</div></div>
                     </div>
                 </div>
 
@@ -334,8 +231,7 @@
             </div>
         </div>
 
-        <!-- Admin Login Modal -->
-        <div id="adminLoginModal" class="modal admin-login-modal">
+        <div id="adminLoginModal" class="modal">
             <div class="glass glass-card" style="max-width: 28rem; width: 100%;">
                 <h2 class="price-header">👨‍💼 ADMIN ACCESS</h2>
                 <form onsubmit="handleAdminLogin(event)">
@@ -349,78 +245,40 @@
             </div>
         </div>
 
-        <!-- Admin Panel Modal -->
-        <div id="adminPanelModal" class="modal admin-panel-modal" style="align-items: flex-start; overflow-y: auto;">
+        <div id="adminPanelModal" class="modal" style="align-items: flex-start; overflow-y: auto;">
             <div style="max-width: 72rem; width: 100%; margin: 0 auto; padding: 2rem;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
                     <h2 class="owner-name" style="font-size: 1.875rem;">👨‍💼 ADMIN PANEL</h2>
                     <button onclick="logoutAdmin()" style="padding: 0.5rem 1.5rem; background: rgba(127, 29, 29, 0.5); color: #f87171; border: 1px solid #7f1d1d; border-radius: 0.5rem; font-weight: 700; cursor: pointer;">LOGOUT</button>
                 </div>
-
                 <div class="admin-stat-grid">
-                    <div class="admin-stat-card">
-                        <div class="admin-stat-label">Total Orders</div>
-                        <div class="admin-stat-value" id="adminTotalOrders">0</div>
-                    </div>
-                    <div class="admin-stat-card">
-                        <div class="admin-stat-label">Success</div>
-                        <div class="admin-stat-value" style="color: #22c55e;" id="adminSuccessOrders">0</div>
-                    </div>
-                    <div class="admin-stat-card">
-                        <div class="admin-stat-label">Pending</div>
-                        <div class="admin-stat-value" style="color: #eab308;" id="adminPendingOrders">0</div>
-                    </div>
-                    <div class="admin-stat-card">
-                        <div class="admin-stat-label">Revenue</div>
-                        <div class="admin-stat-value text-purple" id="adminTotalRevenue">Rp0</div>
-                    </div>
+                    <div class="admin-stat-card"><div class="admin-stat-label">Total Orders</div><div class="admin-stat-value" id="adminTotalOrders">0</div></div>
+                    <div class="admin-stat-card"><div class="admin-stat-label">Success</div><div class="admin-stat-value" style="color: #22c55e;" id="adminSuccessOrders">0</div></div>
+                    <div class="admin-stat-card"><div class="admin-stat-label">Pending</div><div class="admin-stat-value" style="color: #eab308;" id="adminPendingOrders">0</div></div>
+                    <div class="admin-stat-card"><div class="admin-stat-label">Revenue</div><div class="admin-stat-value text-purple" id="adminTotalRevenue">Rp0</div></div>
                 </div>
-
-                <div class="admin-table-container">
-                    <div id="adminOrdersList"></div>
-                </div>
+                <div class="admin-table-container"><div id="adminOrdersList"></div></div>
             </div>
         </div>
 
-        <!-- Admin Order Detail Modal -->
-        <div id="adminReceiptModal" class="modal admin-receipt-modal">
+        <div id="adminReceiptModal" class="modal">
             <div class="glass glass-card" style="max-width: 42rem; width: 100%;">
                 <div style="text-align: center; margin-bottom: 2rem;">
-                    <h2 class="price-header" style="margin-bottom: 0.25rem;">ORDER DETAILS</h2>
+                    <h2 class="price-header">ORDER DETAILS</h2>
                     <p id="adminReceiptSubtitle" class="admin-stat-label text-purple">PENDING</p>
                 </div>
-
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
                     <div style="display: flex; flex-direction: column; gap: 1rem;">
-                        <div class="order-summary-box" style="margin-bottom: 0; padding: 1rem;">
-                            <div class="admin-stat-label">Order Number</div>
-                            <div id="adminReceiptOrderNumber" style="font-family: monospace; font-size: 0.875rem; font-weight: 700;">-</div>
-                        </div>
-                        <div class="order-summary-box" style="margin-bottom: 0; padding: 1rem;">
-                            <div class="admin-stat-label">Game & Package</div>
-                            <div style="font-size: 0.875rem;"><span id="adminReceiptGame">-</span> - <span id="adminReceiptDiamond">-</span> (<span id="adminReceiptQty">1</span>x)</div>
-                        </div>
-                        <div class="order-summary-box" style="margin-bottom: 0; padding: 1rem;">
-                            <div class="admin-stat-label">Game ID</div>
-                            <div id="adminReceiptGameId" style="font-size: 0.875rem; font-weight: 700;">-</div>
-                        </div>
+                        <div class="order-summary-box" style="margin-bottom: 0; padding: 1rem;"><div class="admin-stat-label">Order Number</div><div id="adminReceiptOrderNumber" style="font-family: monospace; font-size: 0.875rem; font-weight: 700;">-</div></div>
+                        <div class="order-summary-box" style="margin-bottom: 0; padding: 1rem;"><div class="admin-stat-label">Game & Package</div><div style="font-size: 0.875rem;"><span id="adminReceiptGame">-</span> - <span id="adminReceiptDiamond">-</span> (<span id="adminReceiptQty">1</span>x)</div></div>
+                        <div class="order-summary-box" style="margin-bottom: 0; padding: 1rem;"><div class="admin-stat-label">Game ID</div><div id="adminReceiptGameId" style="font-size: 0.875rem; font-weight: 700;">-</div></div>
                     </div>
                     <div style="display: flex; flex-direction: column; gap: 1rem;">
-                        <div class="order-summary-box" style="margin-bottom: 0; padding: 1rem;">
-                            <div class="admin-stat-label">Customer Info</div>
-                            <div style="font-size: 0.875rem;"><span id="adminReceiptNickname">-</span> (<span id="adminReceiptWhatsapp">-</span>)</div>
-                        </div>
-                        <div class="order-summary-box" style="margin-bottom: 0; padding: 1rem;">
-                            <div class="admin-stat-label">Payment & Date</div>
-                            <div style="font-size: 0.875rem;"><span id="adminReceiptPayment">-</span> | <span id="adminReceiptDate">-</span></div>
-                        </div>
-                        <div class="order-summary-box" style="margin-bottom: 0; padding: 1rem;">
-                            <div class="admin-stat-label">Total Amount</div>
-                            <div id="adminReceiptTotal" class="text-green" style="font-size: 1.125rem; font-weight: 900;">Rp0</div>
-                        </div>
+                        <div class="order-summary-box" style="margin-bottom: 0; padding: 1rem;"><div class="admin-stat-label">Customer Info</div><div style="font-size: 0.875rem;"><span id="adminReceiptNickname">-</span> (<span id="adminReceiptWhatsapp">-</span>)</div></div>
+                        <div class="order-summary-box" style="margin-bottom: 0; padding: 1rem;"><div class="admin-stat-label">Payment & Date</div><div style="font-size: 0.875rem;"><span id="adminReceiptPayment">-</span> | <span id="adminReceiptDate">-</span></div></div>
+                        <div class="order-summary-box" style="margin-bottom: 0; padding: 1rem;"><div class="admin-stat-label">Total Amount</div><div id="adminReceiptTotal" class="text-green" style="font-size: 1.125rem; font-weight: 900;">Rp0</div></div>
                     </div>
                 </div>
-
                 <div class="order-summary-box" style="margin-bottom: 2rem; background: rgba(191, 0, 255, 0.05); border-color: rgba(191, 0, 255, 0.2);">
                     <label class="admin-stat-label text-purple">Update Status</label>
                     <select id="adminModalStatusSelect" style="width: 100%; background: #0f172a; border: 1px solid #334155; padding: 0.75rem; border-radius: 0.5rem; color: #fff; font-weight: 700;">
@@ -429,7 +287,6 @@
                         <option value="failed">❌ FAILED</option>
                     </select>
                 </div>
-
                 <div style="display: flex; gap: 1rem;">
                     <button id="saveStatusBtn" onclick="saveAdminReceiptStatus()" class="submit-btn" style="flex: 1;">SAVE STATUS</button>
                     <button onclick="closeAdminReceipt()" class="cancel-btn" style="flex: 0 0 auto; width: auto; padding: 0 2rem; background: #1e293b; border-radius: 0.75rem;">CLOSE</button>
