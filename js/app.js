@@ -1,149 +1,274 @@
+/**
+ * KingSlayer - Premium Gaming Top-Up Logic
+ */
 
-// KingSlayer - Main Application Logic
-
-let currentOrder = { game: '', diamond: '', price: '', unitPrice: '', quantity: 1 };
-let allOrders = [];
-let isSubmitting = false;
-let ownerClickCount = 0;
-let ownerClickTimer = null;
-
-// NOTE: This is a client-side concept for this portfolio project.
-// In a production environment, authentication would be handled by a secure backend.
 const ADMIN_PASSWORD = 'Dio213z';
-let currentAdminOrderId = null;
-
-const games = [
-  { name: 'Mobile Legends', id: 'ml', emoji: '⚔️', key: 'MOBILE LEGENDS' },
-  { name: 'Free Fire', id: 'ff', emoji: '🔫', key: 'FREE FIRE' },
-  { name: 'PUBG Mobile', id: 'pubg', emoji: '🪖', key: 'PUBG MOBILE' },
-  { name: 'Roblox', id: 'roblox', emoji: '🔳', external: 'https://direz-store-robloxrobux.my.canva.site/' },
-  { name: 'Genshin Impact', id: 'genshin', emoji: '✨', key: 'GENSHIN IMPACT' },
-  { name: 'Telegram Stars', id: 'telegram', emoji: '✈️', key: 'TELEGRAM STARS' }
-];
 
 const GAME_PACKAGES = {
-  'MOBILE LEGENDS': [
-    { diamond: '💎 Weekly Diamond Pass', price: 'Rp28.777' },
-    { diamond: '💎 5', price: 'Rp1.800' },
-    { diamond: '💎 12', price: 'Rp3.800' },
-    { diamond: '💎 14', price: 'Rp4.300' },
-    { diamond: '💎 19', price: 'Rp5.800' },
-    { diamond: '💎 28', price: 'Rp8.200' },
-    { diamond: '💎 36', price: 'Rp10.200' },
-    { diamond: '💎 50', price: 'Rp14.000' },
-    { diamond: '💎 59', price: 'Rp16.200' },
-    { diamond: '💎 67', price: 'Rp18.300' },
-    { diamond: '💎 70', price: 'Rp19.200' },
-    { diamond: '💎 85', price: 'Rp22.700' },
-    { diamond: '💎 100', price: 'Rp27.200' },
-    { diamond: '💎 112', price: 'Rp30.700' },
-    { diamond: '💎 140', price: 'Rp37.900' },
-    { diamond: '💎 145', price: 'Rp40.700' },
-    { diamond: '💎 170', price: 'Rp45.200' },
-    { diamond: '💎 185', price: 'Rp49.500' },
-    { diamond: '💎 222', price: 'Rp58.700' },
-    { diamond: '💎 240', price: 'Rp63.300' },
-    { diamond: '💎 257', price: 'Rp68.200' },
-    { diamond: '💎 284', price: 'Rp74.900' },
-    { diamond: '💎 296', price: 'Rp77.700' },
-    { diamond: '💎 344', price: 'Rp91.000' },
-    { diamond: '💎 355', price: 'Rp93.500' },
-    { diamond: '💎 408', price: 'Rp107.000' },
-    { diamond: '💎 429', price: 'Rp113.000' },
-    { diamond: '💎 460', price: 'Rp121.500' },
-    { diamond: '💎 514', price: 'Rp135.500' },
-    { diamond: '💎 568', price: 'Rp146.500' },
-    { diamond: '💎 600', price: 'Rp155.000' },
-    { diamond: '💎 706', price: 'Rp182.000' },
-    { diamond: '💎 875', price: 'Rp222.000' },
-    { diamond: '💎 963', price: 'Rp247.000' },
-    { diamond: '💎 1.050', price: 'Rp269.000' },
-    { diamond: '💎 1.136', price: 'Rp291.000' },
-    { diamond: '💎 1.159', price: 'Rp298.000' },
-    { diamond: '💎 1.220', price: 'Rp307.000' },
-    { diamond: '💎 1.412', price: 'Rp357.000' },
-    { diamond: '💎 1.704', price: 'Rp438.000' },
-    { diamond: '💎 1.750', price: 'Rp445.000' },
-    { diamond: '💎 2.010', price: 'Rp479.000' },
-    { diamond: '💎 2.195', price: 'Rp527.000' },
-    { diamond: '💎 2.380', price: 'Rp579.000' },
-    { diamond: '💎 2.901', price: 'Rp705.000' },
-    { diamond: '💎 3.688', price: 'Rp899.000' },
-    { diamond: '💎 4.394', price: 'Rp1.049.000' },
-    { diamond: '💎 5.532', price: 'Rp1.329.000' },
-    { diamond: '💎 7.720', price: 'Rp1.852.000' },
-    { diamond: '💎 9.288', price: 'Rp2.220.000' },
-    { diamond: '💎 10.050', price: 'Rp2.378.000' },
-    { diamond: '💎 12.976', price: 'Rp3.108.000' },
-    { diamond: '💎 16.080', price: 'Rp3.828.000' },
-    { diamond: '💎 27.864', price: 'Rp6.655.000' },
+  "MOBILE LEGENDS": [
+    { "name": "💎 Weekly Diamond Pass", "price": "Rp28.777" },
+    { "name": "💎 5", "price": "Rp1.800" },
+    { "name": "💎 12", "price": "Rp3.800" },
+    { "name": "💎 14", "price": "Rp4.300" },
+    { "name": "💎 19", "price": "Rp5.800" },
+    { "name": "💎 28", "price": "Rp8.200" },
+    { "name": "💎 36", "price": "Rp10.200" },
+    { "name": " 45", "price": "Rp13.300" },
+    { "name": "💎 50", "price": "Rp14.000" },
+    { "name": "💎 59", "price": "Rp16.200" },
+    { "name": "💎 67", "price": "Rp18.300" },
+    { "name": "💎 70", "price": "Rp19.200" },
+    { "name": "💎 85", "price": "Rp22.700" },
+    { "name": "💎 100", "price": "Rp27.200" },
+    { "name": "💎 112", "price": "Rp30.700" },
+    { "name": "💎 140", "price": "Rp37.900" },
+    { "name": "💎 145", "price": "Rp40.700" },
+    { "name": "💎 170", "price": "Rp45.200" },
+    { "name": "💎 185", "price": "Rp49.500" },
+    { "name": "💎 222", "price": "Rp58.700" },
+    { "name": "💎 240", "price": "Rp63.300" },
+    { "name": "💎 257", "price": "Rp68.200" },
+    { "name": "💎 284", "price": "Rp74.900" },
+    { "name": "💎 296", "price": "Rp77.700" },
+    { "name": "💎 344", "price": "Rp91.000" },
+    { "name": "💎 355", "price": "Rp93.500" },
+    { "name": "💎 408", "price": "Rp107.000" },
+    { "name": "💎 429", "price": "Rp113.000" },
+    { "name": "💎 460", "price": "Rp121.500" },
+    { "name": "💎 514", "price": "Rp135.500" },
+    { "name": "💎 568", "price": "Rp146.500" },
+    { "name": "💎 600", "price": "Rp155.000" },
+    { "name": "💎 706", "price": "Rp182.000" },
+    { "name": "💎 875", "price": "Rp222.000" },
+    { "name": "💎 963", "price": "Rp247.000" },
+    { "name": "💎 1.050", "price": "Rp269.000" },
+    { "name": "💎 1.136", "price": "Rp291.000" },
+    { "name": "💎 1.159", "price": "Rp298.000" },
+    { "name": "💎 1.220", "price": "Rp307.000" },
+    { "name": "💎 1.412", "price": "Rp357.000" },
+    { "name": "💎 1.704", "price": "Rp438.000" },
+    { "name": "💎 1.750", "price": "Rp445.000" },
+    { "name": "💎 2.010", "price": "Rp479.000" },
+    { "name": "💎 2.195", "price": "Rp527.000" },
+    { "name": "💎 2.380", "price": "Rp579.000" },
+    { "name": "💎 2.901", "price": "Rp705.000" },
+    { "name": "💎 3.688", "price": "Rp899.000" },
+    { "name": "💎 4.394", "price": "Rp1.049.000" },
+    { "name": "💎 5.532", "price": "Rp1.329.000" },
+    { "name": "💎 7.720", "price": "Rp1.852.000" },
+    { "name": "💎 9.288", "price": "Rp2.220.000" },
+    { "name": "💎 10.050", "price": "Rp2.378.000" },
+    { "name": "💎 12.976", "price": "Rp3.108.000" },
+    { "name": "💎 16.080", "price": "Rp3.828.000" },
+    { "name": "💎 27.864", "price": "Rp6.655.000" }
   ],
-  'FREE FIRE': [
-    { diamond: '🚀 Member Mingguan', price: 'Rp27.555' },
-    { diamond: '🚀 Member Bulanan', price: 'Rp80.565' },
-    { diamond: '💎 75 ⭐', price: 'Rp10.000' },
-    { diamond: '💎 150 ⭐', price: 'Rp20.000' },
-    { diamond: '💎 130', price: 'Rp20.000' },
-    { diamond: '💎 210 ⭐', price: 'Rp30.000' },
-    { diamond: '💎 190', price: 'Rp30.000' },
-    { diamond: '💎 370', price: 'Rp50.000' },
-    { diamond: '💎 770 ⭐', price: 'Rp100.000' },
-    { diamond: '💎 740', price: 'Rp100.000' },
-    { diamond: '💎 5', price: 'Rp1.490' },
-    { diamond: '💎 10', price: 'Rp1.990' },
-    { diamond: '💎 15', price: 'Rp2.490' },
-    { diamond: '💎 20', price: 'Rp3.490' },
-    { diamond: '💎 25', price: 'Rp4.490' },
-    { diamond: '💎 30', price: 'Rp4.990' },
-    { diamond: '💎 50', price: 'Rp7.490' },
-    { diamond: '💎 60', price: 'Rp8.990' },
-    { diamond: '💎 100', price: 'Rp13.990' },
-    { diamond: '💎 1440 ⭐', price: 'Rp180.000' },
-    { diamond: '💎 2000 ⭐', price: 'Rp252.000' },
-    { diamond: '💎 7290', price: 'Rp960.000' },
+  "FREE FIRE": [
+    { "name": "🚀 Member Mingguan", "price": "Rp27.555" },
+    { "name": "🚀 Member Bulanan", "price": "Rp80.565" },
+    { "name": "💎 75 ⭐", "price": "Rp10.000" },
+    { "name": "💎 80", "price": "HABIS" },
+    { "name": "💎 150 ⭐", "price": "Rp20.000" },
+    { "name": "💎 130", "price": "Rp20.000" },
+    { "name": "💎 210 ⭐", "price": "Rp30.000" },
+    { "name": "💎 190", "price": "Rp30.000" },
+    { "name": "💎 370", "price": "Rp50.000" },
+    { "name": "💎 770 ⭐", "price": "Rp100.000" },
+    { "name": "💎 740", "price": "Rp100.000" },
+    { "name": "💎 5", "price": "Rp1.490" },
+    { "name": "💎 10", "price": "Rp1.990" },
+    { "name": "💎 15", "price": "Rp2.490" },
+    { "name": "💎 20", "price": "Rp3.490" },
+    { "name": "💎 25", "price": "Rp4.490" },
+    { "name": "💎 30", "price": "Rp4.990" },
+    { "name": " 40", "price": "Rp6.490" },
+    { "name": "💎 50", "price": "Rp7.490" },
+    { "name": "💎 60", "price": "Rp8.990" },
+    { "name": "💎 75 ⭐", "price": "Rp9.990" },
+    { "name": "💎 80", "price": "Rp10.990" },
+    { "name": "💎 90", "price": "Rp12.490" },
+    { "name": "💎 95", "price": "Rp12.990" },
+    { "name": "💎 100", "price": "Rp13.990" },
+    { "name": "💎 120", "price": "Rp14.990" },
+    { "name": "💎 130", "price": "Rp16.990" },
+    { "name": "💎 145", "price": "Rp18.990" },
+    { "name": "💎 150 ⭐", "price": "Rp19.490" },
+    { "name": "💎 160", "price": "Rp21.990" },
+    { "name": "💎 170", "price": "Rp22.990" },
+    { "name": "💎 180", "price": "Rp24.990" },
+    { "name": " 190", "price": "Rp25.990" },
+    { "name": "💎 210 ⭐", "price": "Rp27.990" },
+    { "name": "💎 250", "price": "Rp33.990" },
+    { "name": "💎 260", "price": "Rp34.990" },
+    { "name": "💎 280", "price": "Rp36.990" },
+    { "name": "💎 300", "price": "Rp40.000" },
+    { "name": "💎 350", "price": "Rp46.000" },
+    { "name": "💎 375", "price": "Rp48.000" },
+    { "name": "💎 400 ⭐", "price": "Rp50.000" },
+    { "name": "💎 405", "price": "Rp51.000" },
+    { "name": "💎 420", "price": "Rp53.000" },
+    { "name": "💎 425", "price": "Rp54.000" },
+    { "name": "💎 475", "price": "Rp59.000" },
+    { "name": "💎 500 ⭐", "price": "Rp62.000" },
+    { "name": "💎 520", "price": "Rp66.000" },
+    { "name": "💎 545", "price": "Rp69.000" },
+    { "name": " 565", "price": "Rp72.000" },
+    { "name": "💎 600", "price": "Rp77.000" },
+    { "name": "💎 645", "price": "Rp82.000" },
+    { "name": "💎 655", "price": "Rp84.000" },
+    { "name": "💎 700", "price": "Rp90.000" },
+    { "name": "💎 725", "price": "Rp93.000" },
+    { "name": "💎 770 ⭐", "price": "Rp100.000" },
+    { "name": "💎 800", "price": "Rp105.000" },
+    { "name": "💎 860", "price": "Rp112.000" },
+    { "name": "💎 925", "price": "Rp121.000" },
+    { "name": "💎 1000", "price": "Rp130.000" },
+    { "name": "💎 1200", "price": "Rp150.000" },
+    { "name": "💎 1300", "price": "Rp162.000" },
+    { "name": "💎 1440 ⭐", "price": "Rp180.000" },
+    { "name": "💎 1490", "price": "Rp186.000" },
+    { "name": "💎 1580", "price": "Rp198.000" },
+    { "name": "💎 1800", "price": "Rp226.000" },
+    { "name": "💎 2000 ⭐", "price": "Rp252.000" },
+    { "name": "💎 2100", "price": "Rp265.000" },
+    { "name": "💎 2200", "price": "Rp278.000" },
+    { "name": "💎 2280", "price": "Rp290.000" },
+    { "name": "💎 2350", "price": "Rp300.000" },
+    { "name": "💎 2400", "price": "Rp310.000" },
+    { "name": "💎 2575", "price": "Rp335.000" },
+    { "name": "💎 2720", "price": "Rp355.000" },
+    { "name": "💎 3000", "price": "Rp390.000" },
+    { "name": " 3310", "price": "Rp430.000" },
+    { "name": "💎 3640", "price": "Rp470.000" },
+    { "name": "💎 3800", "price": "Rp495.000" },
+    { "name": "💎 4000 ⭐", "price": "Rp520.000" },
+    { "name": "💎 4340", "price": "Rp565.000" },
+    { "name": "💎 4720", "price": "Rp615.000" },
+    { "name": "💎 5500", "price": "Rp720.000" },
+    { "name": "💎 6000", "price": "Rp790.000" },
+    { "name": "💎 6480", "price": "Rp850.000" },
+    { "name": "💎 6900", "price": "Rp910.000" },
+    { "name": "💎 7290", "price": "Rp960.000" },
+    { "name": "💎 8010", "price": "Rp1.050.000" },
+    { "name": "💎 9290", "price": "Rp1.200.000" },
+    { "name": "💎 9800", "price": "Rp1.260.000" },
+    { "name": "💎 14.850", "price": "Rp1.850.000" },
+    { "name": "💎 36.500", "price": "Rp4.750.000" },
+    { "name": "💎 37.050", "price": "Rp4.820.000" },
+    { "name": "💎 73.100", "price": "Rp9.000.000" }
   ],
-  'PUBG MOBILE': [
-    { diamond: '🎯 60 UC', price: 'Rp16.200' },
-    { diamond: '🎯 120 UC', price: 'Rp32.400' },
-    { diamond: '🎯 325 UC', price: 'Rp79.500' },
-    { diamond: '🎯 660 UC', price: 'Rp158.700' },
-    { diamond: '🎯 1800 UC', price: 'Rp394.000' },
-    { diamond: '🎯 3850 UC', price: 'Rp782.000' },
-    { diamond: '🎯 8100 UC', price: 'Rp1.564.000' },
+  "PUBG MOBILE": [
+    { "name": "🎯 60 UC", "price": "Rp16.200" },
+    { "name": "🎯 120 UC", "price": "Rp32.400" },
+    { "name": "🎯 180 UC", "price": "Rp47.600" },
+    { "name": "🎯 240 UC", "price": "Rp63.800" },
+    { "name": "🎯 325 UC (300+25)", "price": "Rp79.500" },
+    { "name": "🎯 385 UC (360+25)", "price": "Rp94.600" },
+    { "name": "🎯 445 UC (420+25)", "price": "Rp111.800" },
+    { "name": "🎯 505 UC (480+25)", "price": "Rp126.900" },
+    { "name": "🎯 565 UC (540+25)", "price": "Rp142.200" },
+    { "name": "🎯 660 UC (600+60)", "price": "Rp158.700" },
+    { "name": "🎯 720 UC", "price": "Rp174.900" },
+    { "name": "🎯 780 UC", "price": "Rp189.500" },
+    { "name": "🎯 840 UC", "price": "Rp204.000" },
+    { "name": "🎯 900 UC", "price": "Rp219.000" },
+    { "name": "🎯 985 UC", "price": "Rp244.000" },
+    { "name": " 1105 UC", "price": "Rp274.500" },
+    { "name": "🎯 1320 UC", "price": "Rp313.500" },
+    { "name": "🎯 1500 UC", "price": "Rp364.000" },
+    { "name": " 1800 UC", "price": "Rp394.000" },
+    { "name": " 2125 UC", "price": "Rp467.000" },
+    { "name": " 2460 UC", "price": "Rp547.000" },
+    { "name": " 2785 UC", "price": "Rp623.000" },
+    { "name": "🎯 3120 UC", "price": "Rp705.500" },
+    { "name": "🎯 3850 UC", "price": "Rp782.000" },
+    { "name": " 4030 UC", "price": "Rp828.000" },
+    { "name": "🎯 4510 UC", "price": "Rp935.000" },
+    { "name": " 5650 UC", "price": "Rp1.171.000" },
+    { "name": "🎯 8100 UC", "price": "Rp1.564.000" },
+    { "name": "🎯 Elite Pass PUBG Mobile", "price": "Rp184.000" },
+    { "name": "🎯 Elite Pass Plus PUBG Mobile", "price": "Rp465.000" },
+    { "name": "🎯 60 UC Voucher", "price": "Rp16.000" },
+    { "name": "🎯 325 UC Voucher", "price": "Rp79.000" },
+    { "name": "🎯 660 UC Voucher", "price": "Rp158.000" },
+    { "name": "🎯 1800 UC Voucher", "price": "Rp394.000" },
+    { "name": "🎯 3850 UC Voucher", "price": "Rp782.000" }
   ],
-  'GENSHIN IMPACT': [
-    { diamond: '💎 30 Crystal', price: 'Rp9.900' },
-    { diamond: '💎 60 Crystal', price: 'Rp19.800' },
+  "GENSHIN IMPACT": [
+    { "name": "💎 30 Crystal", "price": "Rp9.900" },
+    { "name": "💎 60 Crystal", "price": "Rp19.800" }
   ],
-  'TELEGRAM STARS': [
-    { diamond: '⭐ 50 Stars', price: 'Rp17.292' },
-    { diamond: '⭐ 100 Stars', price: 'Rp31.492' },
-    { diamond: '⭐ 500 Stars', price: 'Rp147.192' },
-    { diamond: '⭐ 1000 Stars', price: 'Rp289.692' },
-  ],
+  "TELEGRAM STARS": [
+    { "name": "⭐ 50 Stars", "price": "Rp17.292" },
+    { "name": "⭐ 75 Stars", "price": "Rp24.342" },
+    { "name": "⭐ 100 Stars", "price": "Rp31.492" },
+    { "name": "⭐ 125 Stars", "price": "Rp38.542" },
+    { "name": "⭐ 150 Stars", "price": "Rp45.692" },
+    { "name": "⭐ 175 Stars", "price": "Rp55.692" },
+    { "name": "⭐ 200 Stars", "price": "Rp59.992" },
+    { "name": "⭐ 250 Stars", "price": "Rp74.192" },
+    { "name": "⭐ 300 Stars", "price": "Rp86.992" },
+    { "name": " 350 Stars", "price": "Rp104.692" },
+    { "name": "⭐ 400 Stars", "price": "Rp118.692" },
+    { "name": "⭐ 450 Stars", "price": "Rp132.992" },
+    { "name": "⭐ 500 Stars", "price": "Rp147.192" },
+    { "name": "⭐ 550 Stars", "price": "Rp161.392" },
+    { "name": "⭐ 600 Stars", "price": "Rp175.692" },
+    { "name": "⭐ 650 Stars", "price": "Rp189.992" },
+    { "name": "⭐ 700 Stars", "price": "Rp204.092" },
+    { "name": "⭐ 750 Stars", "price": "Rp218.392" },
+    { "name": "⭐ 800 Stars", "price": "Rp232.592" },
+    { "name": "⭐ 850 Stars", "price": "Rp246.792" },
+    { "name": " 900 Stars", "price": "Rp260.992" },
+    { "name": "⭐ 950 Stars", "price": "Rp275.092" },
+    { "name": "⭐ 1000 Stars", "price": "Rp289.692" },
+    { "name": "⭐ 1100 Stars", "price": "Rp320.992" },
+    { "name": "⭐ 1200 Stars", "price": "Rp349.492" },
+    { "name": "⭐ 1500 Stars", "price": "Rp434.892" },
+    { "name": "⭐ 1700 Stars", "price": "Rp486.492" },
+    { "name": "⭐ 1800 Stars", "price": "Rp514.592" },
+    { "name": " 2000 Stars", "price": "Rp570.992" },
+    { "name": "⭐ 2500 Stars", "price": "Rp710.192" },
+    { "name": "⭐ 3000 Stars", "price": "Rp850.692" },
+    { "name": "⭐ 3500 Stars", "price": "Rp995.970" },
+    { "name": "⭐ 4000 Stars", "price": "Rp1.136.540" },
+    { "name": "⭐ 4500 Stars", "price": "Rp1.277.100" },
+    { "name": "⭐ 5000 Stars", "price": "Rp1.417.670" },
+    { "name": "⭐ 5500 Stars", "price": "Rp1.558.240" },
+    { "name": "⭐ 6000 Stars", "price": "Rp1.698.800" },
+    { "name": "⭐ 6500 Stars", "price": "Rp1.839.370" },
+    { "name": "⭐ 7000 Stars", "price": "Rp1.979.940" },
+    { "name": "⭐ 8000 Stars", "price": "Rp2.269.070" },
+    { "name": "⭐ 9000 Stars", "price": "Rp2.550.200" },
+    { "name": "⭐ 10000 Stars", "price": "Rp2.831.340" },
+    { "name": "⭐ 12000 Stars", "price": "Rp3.393.600" },
+    { "name": "⭐ 15000 Stars", "price": "Rp4.237.000" }
+  ]
 };
+
+// State
+let currentOrder = {
+  game: '',
+  package: '',
+  price: '',
+  unitPrice: 0,
+  quantity: 1,
+  paymentMethod: ''
+};
+
+let allOrders = [];
+let isSubmitting = false;
+let adminClickCount = 0;
+let adminClickTimer = null;
+let currentAdminOrderId = null;
 
 const defaultConfig = {
   store_name: 'KingSlayer',
-  tagline: 'Premium Gaming Top Up Service',
-  footer_text: 'Fast & Secure Transactions',
+  tagline: 'Top Up Game Premium & Terpercaya',
+  footer_text: 'Proses Cepat & Amanah',
   whatsapp_number: '+62 856-4633-5331'
 };
 
-// Security Helpers
-function escapeHTML(str) {
-  if (!str) return '';
-  return str.toString().replace(/[&<>"']/g, function(m) {
-    return {
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#039;'
-    }[m];
-  });
-}
-
+// SDK Handlers
 const dataHandler = {
   onDataChanged(data) {
     if (!data) return;
@@ -155,228 +280,144 @@ async function initDataSDK() {
   if (window.dataSdk) {
     try {
       await window.dataSdk.init(dataHandler);
-    } catch (error) {
-      console.error('Error initializing data SDK:', error);
-    }
+    } catch (e) { console.error('Data SDK Error:', e); }
   }
 }
 
 async function onConfigChange(config) {
-  const elements = ['storeName', 'tagline', 'footerText', 'whatsappNumber', 'navStoreName'];
-  elements.forEach(id => {
+  const elements = {
+    'storeName': config.store_name || defaultConfig.store_name,
+    'navStoreName': config.store_name || defaultConfig.store_name,
+    'tagline': config.tagline || defaultConfig.tagline,
+    'footerText': config.footer_text || defaultConfig.footer_text,
+    'whatsappNumber': config.whatsapp_number || defaultConfig.whatsapp_number
+  };
+
+  for (const [id, val] of Object.entries(elements)) {
     const el = document.getElementById(id);
-    if (el) el.textContent = config[id === 'navStoreName' ? 'store_name' : (id === 'whatsappNumber' ? 'whatsapp_number' : (id === 'footerText' ? 'footer_text' : (id === 'tagline' ? 'tagline' : 'store_name')))] || defaultConfig[id === 'navStoreName' ? 'store_name' : (id === 'whatsappNumber' ? 'whatsapp_number' : (id === 'footerText' ? 'footer_text' : (id === 'tagline' ? 'tagline' : 'store_name')))];
-  });
+    if (el) el.textContent = val;
+  }
 }
 
 async function initElementSDK() {
   if (window.elementSdk) {
     try {
       await window.elementSdk.init({
-        defaultConfig: defaultConfig,
-        onConfigChange: onConfigChange,
-        mapToCapabilities: () => ({ recolorables: [], borderables: [], fontEditable: undefined, fontSizeable: undefined }),
-        mapToEditPanelValues: (config) => new Map([
-          ['store_name', config.store_name || defaultConfig.store_name],
-          ['tagline', config.tagline || defaultConfig.tagline],
-          ['footer_text', config.footer_text || defaultConfig.footer_text],
-          ['whatsapp_number', config.whatsapp_number || defaultConfig.whatsapp_number]
-        ])
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: () => ({ recolorables: [], borderables: [] }),
+        mapToEditPanelValues: (config) => new Map(Object.entries(config))
       });
       await onConfigChange(window.elementSdk.config);
-    } catch (error) {
-      console.error('Error initializing element SDK:', error);
-    }
+    } catch (e) { console.error('Element SDK Error:', e); }
   }
 }
 
-(async function init() {
-  await initDataSDK();
-  await initElementSDK();
-  initMobileMenu();
-})();
-
-function initMobileMenu() {
-  const menuToggle = document.getElementById('menuToggle');
-  const navLinks = document.getElementById('navLinks');
-  if (menuToggle && navLinks) {
-    menuToggle.addEventListener('click', () => {
-      menuToggle.classList.toggle('active');
-      navLinks.classList.toggle('active');
-    });
-    navLinks.querySelectorAll('.nav-link').forEach(link => {
-      link.addEventListener('click', () => {
-        menuToggle.classList.remove('active');
-        navLinks.classList.remove('active');
-      });
-    });
-  }
-}
-
-function parsePrice(priceStr) {
-  return parseInt(priceStr.replace(/[^0-9]/g, ''));
-}
-
-function formatPrice(price) {
-  return `Rp${price.toLocaleString('id-ID')}`;
-}
-
-function showToast(message) {
+// UI Core
+function showToast(msg) {
   const toast = document.createElement('div');
   toast.className = 'toast';
-  toast.textContent = message;
+  toast.textContent = msg;
   document.body.appendChild(toast);
   setTimeout(() => toast.remove(), 3000);
 }
 
 function selectGame(gameId) {
-  const game = games.find(g => g.id === gameId);
-  if (!game) return;
-
-  if (game.external) {
-    window.open(game.external, '_blank');
-    return;
+  const mapping = {
+    'ml': 'MOBILE LEGENDS',
+    'ff': 'FREE FIRE',
+    'pubg': 'PUBG MOBILE',
+    'genshin': 'GENSHIN IMPACT',
+    'telegram': 'TELEGRAM STARS'
+  };
+  const gameKey = mapping[gameId.toLowerCase()];
+  if (!gameKey) {
+    if (gameId === 'roblox') return window.open('https://direz-store-robloxrobux.my.canva.site/', '_blank');
+    return showToast('🎮 Hubungi admin untuk game ini');
   }
 
-  renderPackages(gameId);
-
-  setTimeout(() => {
-    const priceContainer = document.getElementById('priceContainer');
-    if (priceContainer) priceContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 100);
+  currentOrder.game = gameKey;
+  renderPackageSelection(gameKey);
+  openModal('packageModal');
 }
 
-function renderPackages(gameId) {
-  const game = games.find(g => g.id === gameId);
-  const packages = GAME_PACKAGES[game.key] || [];
-  const panel = document.getElementById('dynamicPricePanel');
-  const header = document.getElementById('dynamicPriceHeader');
-  const grid = document.getElementById('dynamicPriceGrid');
+function renderPackageSelection(gameKey) {
+  const container = document.getElementById('packageList');
+  const packages = GAME_PACKAGES[gameKey];
 
-  header.textContent = `💎 ${game.name.toUpperCase()} PACKAGES`;
-  grid.innerHTML = '';
+  container.innerHTML = packages.map(pkg => `
+    <div class="price-box-mini" onclick="selectPackage('${pkg.name}', '${pkg.price}')">
+      <div class="mini-diamond">${pkg.name}</div>
+      <div class="mini-price">${pkg.price}</div>
+    </div>
+  `).join('');
+}
 
-  packages.forEach(pkg => {
-    const box = document.createElement('div');
-    box.className = 'price-box';
-    box.onclick = (e) => selectPackage(game.key, pkg.diamond, pkg.price, e);
+function selectPackage(name, price) {
+  if (price === 'HABIS') return showToast('❌ Stok sedang kosong');
 
-    const diamondEl = document.createElement('div');
-    diamondEl.className = 'diamond-value';
-    diamondEl.textContent = pkg.diamond;
+  currentOrder.package = name;
+  currentOrder.price = price;
+  currentOrder.unitPrice = parseInt(price.replace(/[^0-9]/g, ''));
+  currentOrder.quantity = 1;
 
-    const priceEl = document.createElement('div');
-    priceEl.className = 'price-value';
-    priceEl.textContent = pkg.price;
-
-    box.appendChild(diamondEl);
-    box.appendChild(priceEl);
-    grid.appendChild(box);
+  document.querySelectorAll('.price-box-mini').forEach(el => {
+    if (el.querySelector('.mini-diamond').textContent === name) el.classList.add('selected');
+    else el.classList.remove('selected');
   });
 
-  panel.classList.add('active');
+  updateOrderSummary();
 }
 
-function selectPackage(game, diamond, price, event) {
-  const element = event ? event.currentTarget : null;
-  document.querySelectorAll('.price-box').forEach(item => item.classList.remove('selected'));
-  if (element) element.classList.add('selected');
-
-  currentOrder.game = game;
-  currentOrder.diamond = diamond;
-  currentOrder.unitPrice = price;
-  currentOrder.quantity = 1;
-  currentOrder.price = price;
-
-  updateOrderTotal();
-
-  document.getElementById('summaryGame').textContent = game;
-  document.getElementById('summaryDiamond').textContent = diamond;
-  document.getElementById('summaryPrice').textContent = price;
-  document.getElementById('qtyDisplay').textContent = '1';
-
-  const orderSection = document.getElementById('orderSection');
-  orderSection.classList.add('show');
-
-  setTimeout(() => orderSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
-  showToast(`🎁 Paket dipilih! Isi form untuk melanjutkan`);
+function updateOrderSummary() {
+  const total = currentOrder.unitPrice * currentOrder.quantity;
+  document.getElementById('summaryGame').textContent = currentOrder.game;
+  document.getElementById('summaryPackage').textContent = currentOrder.package;
+  document.getElementById('summaryTotal').textContent = `Rp${total.toLocaleString('id-ID')}`;
+  document.getElementById('qtyDisplay').textContent = currentOrder.quantity;
 }
 
-function updateOrderTotal() {
-  const unitPrice = parsePrice(currentOrder.unitPrice);
-  const totalPrice = unitPrice * currentOrder.quantity;
-  currentOrder.price = formatPrice(totalPrice);
-  const priceEl = document.getElementById('summaryPrice');
-  const qtyEl = document.getElementById('qtyDisplay');
-  if (priceEl) priceEl.textContent = currentOrder.price;
-  if (qtyEl) qtyEl.textContent = currentOrder.quantity;
-}
-
-function increaseQty() {
-  if (currentOrder.quantity < 10) {
-    currentOrder.quantity++;
-    updateOrderTotal();
-  } else {
+function adjustQty(amount) {
+  const newQty = currentOrder.quantity + amount;
+  if (newQty >= 1 && newQty <= 10) {
+    currentOrder.quantity = newQty;
+    updateOrderSummary();
+  } else if (newQty > 10) {
     showToast('⚠️ Maksimal 10x order!');
   }
 }
 
-function decreaseQty() {
-  if (currentOrder.quantity > 1) {
-    currentOrder.quantity--;
-    updateOrderTotal();
-  }
+function selectPaymentMethod(method, el) {
+  currentOrder.paymentMethod = method;
+  document.querySelectorAll('.payment-btn').forEach(btn => btn.classList.remove('selected'));
+  el.classList.add('selected');
 }
 
-function cancelOrder() {
-  document.getElementById('orderForm').reset();
-  document.getElementById('orderSection').classList.remove('show');
-  document.querySelectorAll('.price-box').forEach(item => item.classList.remove('selected'));
-  currentOrder = { game: '', diamond: '', price: '', unitPrice: '', quantity: 1 };
-  showToast('❌ Pemesanan dibatalkan');
-}
-
-function generateOrderNumber() {
-  return `DRZ-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-}
-
-function selectPaymentMethod(method, element) {
-  document.querySelectorAll('.payment-option').forEach(item => item.classList.remove('selected'));
-  element.classList.add('selected');
-  document.getElementById('paymentMethod').value = method;
-  showToast(`✅ ${method.toUpperCase()} dipilih!`);
-}
-
-async function submitOrder(event) {
-  event.preventDefault();
+async function submitOrder(e) {
+  e.preventDefault();
   if (isSubmitting) return;
+  if (!currentOrder.package || !currentOrder.paymentMethod) return showToast('❌ Pilih paket & pembayaran!');
 
-  const gameId = document.getElementById('gameId').value.trim();
-  const nickname = document.getElementById('nickname').value.trim();
-  const whatsapp = document.getElementById('whatsapp').value.trim();
-  const paymentMethod = document.getElementById('paymentMethod').value;
+  const gameId = document.getElementById('gameIdInput').value.trim();
+  const nickname = document.getElementById('nicknameInput').value.trim();
+  const whatsapp = document.getElementById('whatsappInput').value.trim();
 
-  if (!gameId || !nickname || !whatsapp || !paymentMethod) {
-    showToast('❌ Semua field wajib diisi!');
-    return;
-  }
+  if (!gameId || !nickname || !whatsapp) return showToast('❌ Lengkapi data pemain!');
 
   isSubmitting = true;
-  const submitBtn = document.getElementById('submitBtn');
-  submitBtn.disabled = true;
-  submitBtn.textContent = '⏳ Memproses...';
+  startLoading();
 
   try {
-    const orderNumber = generateOrderNumber();
+    const orderNumber = `KS-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
     const orderData = {
       order_number: orderNumber,
       game: currentOrder.game,
-      diamond: currentOrder.diamond,
-      price: currentOrder.price,
-      nickname: nickname,
-      whatsapp: whatsapp,
-      payment_method: paymentMethod,
+      diamond: currentOrder.package,
+      price: document.getElementById('summaryTotal').textContent,
       game_id: gameId,
+      nickname,
+      whatsapp,
+      payment_method: currentOrder.paymentMethod,
       status: 'pending',
       order_date: new Date().toISOString()
     };
@@ -384,203 +425,243 @@ async function submitOrder(event) {
     if (window.dataSdk) {
       const result = await window.dataSdk.create(orderData);
       if (result.isOk) {
-        showReceipt(orderData);
-        cancelOrder();
+        finishLoading(() => showReceipt(orderData));
       } else {
+        stopLoading();
         showToast('❌ Gagal membuat pesanan');
       }
-    } else {
-      showReceipt(orderData);
-      cancelOrder();
     }
-  } catch (error) {
-    console.error(error);
-    showToast('❌ Terjadi kesalahan!');
+  } catch (err) {
+    console.error(err);
+    stopLoading();
+    showToast('❌ Terjadi kesalahan');
   } finally {
     isSubmitting = false;
-    submitBtn.disabled = false;
-    submitBtn.textContent = '🛒 PURCHASE NOW';
   }
 }
 
+// Modal System
+function openModal(id) {
+  document.getElementById(id).classList.add('show');
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('show');
+}
+
+// Loading Rocket
+function startLoading() {
+  const modal = document.getElementById('loadingModal');
+  const bar = modal.querySelector('.progress-bar');
+  const rocket = modal.querySelector('.rocket-icon');
+  const percent = modal.querySelector('.progress-percent');
+
+  modal.classList.add('show');
+  let p = 0;
+  const interval = setInterval(() => {
+    p += Math.random() * 5;
+    if (p >= 100) {
+      p = 100;
+      clearInterval(interval);
+    }
+    bar.style.width = p + '%';
+    percent.textContent = Math.floor(p) + '%';
+    rocket.style.transform = `translateY(-${p * 2}px)`;
+  }, 100);
+  window.loadingInterval = interval;
+}
+
+function stopLoading() {
+  clearInterval(window.loadingInterval);
+  document.getElementById('loadingModal').classList.remove('show');
+}
+
+function finishLoading(callback) {
+  setTimeout(() => {
+    stopLoading();
+    callback();
+  }, 500);
+}
+
+// Receipt
 function showReceipt(data) {
-  document.getElementById('receiptOrderNumber').textContent = data.order_number;
+  closeModal('packageModal');
+  document.getElementById('receiptOrderNum').textContent = data.order_number;
   document.getElementById('receiptGame').textContent = data.game;
-  document.getElementById('receiptDiamond').textContent = data.diamond;
-  document.getElementById('receiptGameId').textContent = data.game_id;
-  document.getElementById('receiptNickname').textContent = data.nickname;
-  document.getElementById('receiptWhatsapp').textContent = data.whatsapp;
-  document.getElementById('receiptPayment').textContent = data.payment_method.toUpperCase();
+  document.getElementById('receiptPackage').textContent = data.diamond;
   document.getElementById('receiptTotal').textContent = data.price;
-  document.getElementById('receiptQty').textContent = currentOrder.quantity || 1;
-
-  window.currentReceiptData = data;
-  document.getElementById('receiptModal').classList.add('show');
+  window.currentReceipt = data;
+  openModal('receiptModal');
 }
 
-function closeReceipt() {
-  document.getElementById('receiptModal').classList.remove('show');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+function sendToWhatsApp() {
+  const d = window.currentReceipt;
+  const adminNum = document.getElementById('whatsappNumber').textContent.replace(/\D/g, '');
+  const msg = encodeURIComponent(`Halo KingSlayer! 👋\n\nKonfirmasi Pesanan:\n📦 No: ${d.order_number}\n🎮 Game: ${d.game}\n💎 Paket: ${d.diamond}\n💰 Total: ${d.price}\n\n👤 Pemain: ${d.nickname} (${d.game_id})\n📱 WA: ${d.whatsapp}\n💳 Bayar: ${d.payment_method}`);
+  window.open(`https://wa.me/${adminNum}?text=${msg}`, '_blank');
 }
 
-function sendReceiptToWhatsApp() {
-  if (!window.currentReceiptData) return;
-  const data = window.currentReceiptData;
-  const adminPhone = document.getElementById('whatsappNumber').textContent.replace(/\D/g, '');
-  const message = `Halo Admin! 👋\n\nPesanan: ${data.order_number}\nGame: ${data.game}\nPaket: ${data.diamond}\nTotal: ${data.price}\n\nNickname: ${data.nickname}\nID: ${data.game_id}`;
-  window.open(`https://wa.me/${adminPhone}?text=${encodeURIComponent(message)}`, '_blank');
+// History
+function openHistory() {
+  openModal('historyModal');
+  document.getElementById('historyList').innerHTML = '';
 }
 
-function openWhatsApp() {
-  const phoneNumber = document.getElementById('whatsappNumber').textContent.replace(/\D/g, '');
-  window.open(`https://wa.me/${phoneNumber}`, '_blank');
-}
+function searchOrders() {
+  const phone = document.getElementById('historyPhone').value.trim();
+  if (!phone) return showToast('❌ Masukkan nomor WhatsApp');
 
-function scrollToSection(sectionId, event) {
-  const element = document.getElementById(sectionId);
-  if (element) {
-    if (event) event.preventDefault();
-    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-}
+  const search = normalizePhone(phone);
+  const matched = allOrders.filter(o => normalizePhone(o.whatsapp || '').includes(search));
 
-function filterGameSearch(event) {
-  const query = event.target.value.toLowerCase().trim();
-  const results = document.getElementById('gameSearchResults');
-  if (!query) { results.style.display = 'none'; return; }
-
-  const filtered = games.filter(g => g.name.toLowerCase().includes(query));
-  results.innerHTML = filtered.length ? filtered.map(g => `
-    <div class="search-result-item" onclick="selectGame('${g.id}')">
-      <span class="emoji">${g.emoji}</span>
-      <span class="name">${g.name}</span>
-    </div>
-  `).join('') : '<div class="search-no-results">❌ Game tidak ditemukan</div>';
-  results.style.display = 'block';
-}
-
-function requestGame() {
-  const adminPhone = document.getElementById('whatsappNumber').textContent.replace(/\D/g, '');
-  window.open(`https://wa.me/${adminPhone}?text=${encodeURIComponent('Halo, saya ingin request game...')}`, '_blank');
-}
-
-// Admin Logic
-function handleOwnerClick() {
-  ownerClickCount++;
-  clearTimeout(ownerClickTimer);
-  if (ownerClickCount === 10) { openAdminLogin(); ownerClickCount = 0; }
-  else ownerClickTimer = setTimeout(() => ownerClickCount = 0, 3000);
-}
-
-function openAdminLogin() {
-  document.getElementById('adminLoginModal').classList.add('show');
-}
-
-function closeAdminLogin() {
-  document.getElementById('adminLoginModal').classList.remove('show');
-}
-
-function handleAdminLogin(event) {
-  event.preventDefault();
-  if (document.getElementById('adminPassword').value === ADMIN_PASSWORD) {
-    closeAdminLogin();
-    document.getElementById('adminPanelModal').classList.add('show');
-    updateAdminStats();
-    renderAdminOrders();
+  const list = document.getElementById('historyList');
+  if (matched.length === 0) {
+    list.innerHTML = '<div class="text-center py-8">📭 Pesanan tidak ditemukan</div>';
   } else {
-    showToast('❌ Password salah!');
+    list.innerHTML = matched.map(o => `
+      <div class="order-item-history">
+        <div class="flex justify-between mb-2">
+          <span class="font-bold text-primary">${o.order_number}</span>
+          <span class="status-badge ${o.status}">${o.status.toUpperCase()}</span>
+        </div>
+        <div class="text-sm text-slate-400">${o.game} - ${o.diamond}</div>
+        <div class="text-sm font-bold mt-1">${o.price}</div>
+      </div>
+    `).join('');
   }
+}
+
+function normalizePhone(p) {
+  p = p.replace(/\D/g, '');
+  return p.startsWith('62') ? p.substring(2) : (p.startsWith('0') ? p.substring(1) : p);
+}
+
+// Admin
+function handleOwnerClick() {
+  adminClickCount++;
+  clearTimeout(adminClickTimer);
+  if (adminClickCount === 10) {
+    adminClickCount = 0;
+    openModal('adminLoginModal');
+  }
+  adminClickTimer = setTimeout(() => adminClickCount = 0, 3000);
+}
+
+function handleAdminLogin(e) {
+  e.preventDefault();
+  const pass = document.getElementById('adminPassInput').value;
+  if (pass === ADMIN_PASSWORD) {
+    closeModal('adminLoginModal');
+    showAdminPanel();
+  } else {
+    showToast('❌ Password salah');
+  }
+}
+
+function showAdminPanel() {
+  updateAdminStats();
+  renderAdminOrders();
+  openModal('adminPanelModal');
 }
 
 function updateAdminStats() {
+  const total = allOrders.length;
   const success = allOrders.filter(o => o.status === 'success').length;
-  const revenue = allOrders.reduce((acc, o) => acc + (o.status === 'success' ? parsePrice(o.price) : 0), 0);
-  document.getElementById('adminTotalOrders').textContent = allOrders.length;
-  document.getElementById('adminSuccessOrders').textContent = success;
-  document.getElementById('adminPendingOrders').textContent = allOrders.length - success;
-  document.getElementById('adminTotalRevenue').textContent = formatPrice(revenue);
+  const revenue = allOrders.reduce((acc, o) => acc + parseInt(o.price.replace(/[^0-9]/g, '') || 0), 0);
+
+  document.getElementById('adminStatTotal').textContent = total;
+  document.getElementById('adminStatSuccess').textContent = success;
+  document.getElementById('adminStatRevenue').textContent = `Rp${revenue.toLocaleString('id-ID')}`;
 }
 
 function renderAdminOrders() {
   const list = document.getElementById('adminOrdersList');
-  if (!allOrders.length) { list.innerHTML = '<div class="no-orders">🚫 Belum ada pesanan</div>'; return; }
+  const sorted = [...allOrders].sort((a, b) => new Date(b.order_date) - new Date(a.order_date));
 
-  list.innerHTML = [...allOrders].sort((a,b) => new Date(b.order_date) - new Date(a.order_date)).map(o => `
-    <div class="admin-table-row">
-      <div class="order-num">${escapeHTML(o.order_number)}</div>
-      <div>${escapeHTML(o.game)}</div>
-      <div>${escapeHTML(o.nickname)}</div>
-      <div class="price">${escapeHTML(o.price)}</div>
-      <div>${escapeHTML(o.whatsapp)}</div>
-      <div><span class="status-badge status-${o.status}">${o.status.toUpperCase()}</span></div>
-      <div><button class="receipt-btn" onclick="viewAdminOrderDetail('${o.__backendId}')">👁️ LIHAT</button></div>
+  list.innerHTML = sorted.map(o => `
+    <div class="admin-row">
+      <div>${o.order_number}</div>
+      <div>${o.game}</div>
+      <div>${o.nickname}</div>
+      <div>${o.status.toUpperCase()}</div>
+      <button onclick="viewAdminDetail('${o.__backendId}')" class="btn-mini">DETAIL</button>
     </div>
   `).join('');
 }
 
-function viewAdminOrderDetail(id) {
-  const o = allOrders.find(order => order.__backendId === id);
+async function viewAdminDetail(id) {
+  const o = allOrders.find(x => x.__backendId === id);
   if (!o) return;
   currentAdminOrderId = id;
-
-  const statusEmoji = { 'pending': '⏳', 'success': '✅', 'failed': '❌' };
-
-  document.getElementById('adminReceiptOrderNumber').textContent = o.order_number;
-  document.getElementById('adminReceiptSubtitle').textContent = `${statusEmoji[o.status] || ''} ${o.status.toUpperCase()}`;
-  document.getElementById('adminReceiptGame').textContent = o.game;
-  document.getElementById('adminReceiptDiamond').textContent = o.diamond;
-  document.getElementById('adminReceiptQty').textContent = o.quantity || 1;
-  document.getElementById('adminReceiptGameId').textContent = o.game_id;
-  document.getElementById('adminReceiptNickname').textContent = o.nickname;
-  document.getElementById('adminReceiptWhatsapp').textContent = o.whatsapp;
-  document.getElementById('adminReceiptPayment').textContent = o.payment_method;
-  document.getElementById('adminReceiptTotal').textContent = o.price;
-  document.getElementById('adminReceiptDate').textContent = new Date(o.order_date).toLocaleString('id-ID');
-
-  document.getElementById('adminModalStatusSelect').value = o.status;
-  document.getElementById('adminReceiptModal').classList.add('show');
+  document.getElementById('adminDetailContent').innerHTML = `
+    <p>📦 <b>No:</b> ${o.order_number}</p>
+    <p>🎮 <b>Game:</b> ${o.game} (${o.diamond})</p>
+    <p>👤 <b>User:</b> ${o.nickname} (${o.game_id})</p>
+    <p>📱 <b>WA:</b> ${o.whatsapp}</p>
+    <p>💳 <b>Pay:</b> ${o.payment_method}</p>
+    <p>💰 <b>Total:</b> ${o.price}</p>
+    <div class="mt-4">
+      <label class="block text-xs mb-1">STATUS</label>
+      <select id="adminStatusUpdate" class="field-input py-2">
+        <option value="pending" ${o.status === 'pending' ? 'selected' : ''}>PENDING</option>
+        <option value="success" ${o.status === 'success' ? 'selected' : ''}>SUCCESS</option>
+        <option value="failed" ${o.status === 'failed' ? 'selected' : ''}>FAILED</option>
+      </select>
+    </div>
+  `;
+  openModal('adminDetailModal');
 }
 
-function closeAdminReceipt() { document.getElementById('adminReceiptModal').classList.remove('show'); }
+async function saveAdminStatus() {
+  const newStatus = document.getElementById('adminStatusUpdate').value;
+  const o = allOrders.find(x => x.__backendId === currentAdminOrderId);
+  if (!o) return;
 
-async function saveAdminReceiptStatus() {
-  const newStatus = document.getElementById('adminModalStatusSelect').value;
-  const order = allOrders.find(o => o.__backendId === currentAdminOrderId);
-  if (order && window.dataSdk) {
-    order.status = newStatus;
-    const res = await window.dataSdk.update(order);
+  o.status = newStatus;
+  if (window.dataSdk) {
+    const res = await window.dataSdk.update(o);
     if (res.isOk) {
-      closeAdminReceipt();
-      updateAdminStats();
+      showToast('✅ Status diupdate');
+      closeModal('adminDetailModal');
       renderAdminOrders();
-      showToast('✅ Status diperbarui!');
+      updateAdminStats();
     }
   }
 }
 
-function logoutAdmin() {
-  document.getElementById('adminPanelModal').classList.remove('show');
-  showToast('👋 Logout berhasil!');
+// Search & Misc
+function filterGames() {
+  const q = document.getElementById('gameSearch').value.toLowerCase();
+  document.querySelectorAll('.game-card').forEach(card => {
+    const name = card.querySelector('.game-name').textContent.toLowerCase();
+    card.style.display = name.includes(q) ? 'flex' : 'none';
+  });
 }
 
-// History Search
-function openHistory(e) { if(e) e.preventDefault(); document.getElementById('historyModal').classList.add('show'); }
-function closeHistory() { document.getElementById('historyModal').classList.remove('show'); }
-
-function searchOrders() {
-  const phone = document.getElementById('searchPhone').value.trim();
-  if (!phone) { showToast('⚠️ Masukkan nomor!'); return; }
-
-  const matched = allOrders.filter(o => o.whatsapp.includes(phone));
-  const list = document.getElementById('ordersList');
-
-  list.innerHTML = matched.length ? matched.map(o => `
-    <div class="order-item">
-      <div class="order-number">📦 ${escapeHTML(o.order_number)}</div>
-      <div class="order-row"><span class="order-label">Game</span><span class="order-value">${escapeHTML(o.game)}</span></div>
-      <div class="order-row"><span class="order-label">Paket</span><span class="order-value">${escapeHTML(o.diamond)}</span></div>
-      <div class="order-row"><span class="order-label">Total</span><span class="order-value">${escapeHTML(o.price)}</span></div>
-      <div class="order-row"><span class="order-label">Status</span><span class="status-badge status-${o.status}">${o.status.toUpperCase()}</span></div>
-    </div>
-  `).join('') : '<div class="no-orders">📭 Tidak ditemukan</div>';
+function requestGame() {
+  const num = document.getElementById('whatsappNumber').textContent.replace(/\D/g, '');
+  window.open(`https://wa.me/${num}?text=${encodeURIComponent('Halo, saya ingin request game yang belum ada!')}`, '_blank');
 }
+
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth' });
+}
+
+function toggleMenu() {
+  const links = document.getElementById('navLinks');
+  links.classList.toggle('hidden');
+}
+
+function closeMenu() {
+  const links = document.getElementById('navLinks');
+  if (!links.classList.contains('hidden')) {
+    links.classList.add('hidden');
+  }
+}
+
+// Init
+window.onload = () => {
+  initDataSDK();
+  initElementSDK();
+};

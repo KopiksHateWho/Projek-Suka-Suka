@@ -1,301 +1,291 @@
 <!DOCTYPE html>
-<html lang="id" class="h-full">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KingSlayer - Professional Gaming Top Up</title>
+    <title>KingSlayer | Premium Gaming Top-Up</title>
     
-    <!-- Google Fonts -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     
     <!-- SDKs -->
     <script src="/_sdk/element_sdk.js"></script>
     <script src="/_sdk/data_sdk.js"></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
     <div class="main-wrapper">
-        <!-- Galaxy Background Elements -->
         <div class="galaxy-bg"></div>
-        <div class="stars"></div>
 
         <!-- Navigation -->
         <nav class="top-nav">
             <div class="nav-content">
-                <div class="logo-section" onclick="scrollToSection('home', event)">
-                    <span class="logo-icon">⚔️</span>
+                <div class="logo-section" onclick="scrollToSection('home')">
+                    <span class="text-2xl">⚔️</span>
                     <span class="logo-text" id="navStoreName">KingSlayer</span>
                 </div>
-                <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                </button>
-                <div class="nav-links" id="navLinks">
-                    <a href="#home" class="nav-link active" onclick="scrollToSection('home', event)">🏠 HOME</a>
-                    <div class="search-container">
-                        <input type="text" id="gameSearchInput" class="nav-link" placeholder="🔍 Cari game..." onkeyup="filterGameSearch(event)">
-                        <div id="gameSearchResults" class="search-results"></div>
-                    </div>
-                    <a href="#" class="nav-link" onclick="openHistory(event)">📋 HISTORY</a>
-                    <a href="#" class="nav-link mobile-only" onclick="requestGame(); return false;">🎮 REQUEST GAME</a>
-                    <a href="#contact" class="nav-link" onclick="scrollToSection('contact', event)">📞 CONTACT</a>
+                <button class="md:hidden text-2xl" onclick="toggleMenu()">☰</button>
+                <div id="navLinks" class="hidden md:flex gap-1 items-center absolute md:relative top-[80px] md:top-0 left-0 w-full md:w-auto bg-[#07080d] md:bg-transparent border-b md:border-none border-white/10 p-4 md:p-0 flex-col md:flex-row transition-all duration-300">
+                    <a href="#home" class="nav-link active w-full md:w-auto text-center" onclick="closeMenu()">HOME</a>
+                    <a href="#games" class="nav-link w-full md:w-auto text-center" onclick="scrollToSection('games'); closeMenu()">GAMES</a>
+                    <a href="#" class="nav-link w-full md:w-auto text-center" onclick="openHistory(); closeMenu()">HISTORY</a>
+                    <a href="#" class="nav-link w-full md:w-auto text-center" onclick="requestGame(); closeMenu()">REQUEST GAME</a>
+                    <a href="#contact" class="nav-link w-full md:w-auto text-center" onclick="scrollToSection('contact'); closeMenu()">CONTACT</a>
                 </div>
             </div>
         </nav>
 
-        <main class="content-area">
-            <!-- Hero Section -->
-            <header id="home" class="header-section">
-                <div class="hero-logo-container">
-                    <div class="hero-logo-glow"></div>
-                    <h1 class="hero-title" id="storeName">KINGSLAYER</h1>
-                </div>
-                <p class="store-tagline" id="tagline">Premium Gaming Top Up Service</p>
-                <p class="store-description">Elevate your gaming experience with instant and secure top-ups. Trusted by thousands of gamers globally.</p>
-            </header>
-
-            <!-- Greeting -->
-            <div class="ramadhan-greeting glass glass-card">
-                <p class="ramadhan-greeting-text">
-                    ✨ Welcome to KingSlayer ✨<br>
-                    Fast, Secure, and Reliable Gaming Transactions! 🎮
-                </p>
+        <!-- Hero Section -->
+        <header class="hero-section" id="home">
+            <div class="hero-logo-container">
+                <div class="hero-logo-glow"></div>
+                <div class="text-8xl mb-4">⚔️</div>
             </div>
+            <h1 class="hero-title" id="storeName">KingSlayer</h1>
+            <p class="hero-subtitle" id="tagline">Top Up Game Premium & Terpercaya</p>
+            <button class="btn-primary" onclick="scrollToSection('games')">TOP UP SEKARANG</button>
+        </header>
 
-            <!-- Games Grid -->
-            <section id="topup" class="section-container">
-                <h2 class="section-title">🎮 TOP UP GAMES</h2>
-                <div class="games-grid">
-                    <div class="game-card" id="mlCard" onclick="selectGame('ml')">
-                        <div class="game-icon-container">🗡️</div>
-                        <div class="game-name">MOBILE LEGENDS</div>
-                        <div class="game-subtitle">Diamond • Instant</div>
-                    </div>
-                    <div class="game-card" id="ffCard" onclick="selectGame('ff')">
-                        <div class="game-icon-container">🔫</div>
-                        <div class="game-name">FREE FIRE</div>
-                        <div class="game-subtitle">Diamond • Fast</div>
-                    </div>
-                    <div class="game-card" id="pubgCard" onclick="selectGame('pubg')">
-                        <div class="game-icon-container">🪖</div>
-                        <div class="game-name">PUBG MOBILE</div>
-                        <div class="game-subtitle">UC • Instant</div>
-                    </div>
-                    <div class="game-card" onclick="selectGame('roblox')">
-                        <div class="game-icon-container">🔳</div>
-                        <div class="game-name">ROBLOX</div>
-                        <div class="game-subtitle">Robux • Instant</div>
-                    </div>
-                    <div class="game-card" onclick="selectGame('genshin')">
-                        <div class="game-icon-container">✨</div>
-                        <div class="game-name">GENSHIN IMPACT</div>
-                        <div class="game-subtitle">Genesis Crystal</div>
-                    </div>
-                    <div class="game-card" onclick="selectGame('telegram')">
-                        <div class="game-icon-container">✈️</div>
-                        <div class="game-name">TELEGRAM STARS</div>
-                        <div class="game-subtitle">Stars • Instant</div>
-                    </div>
+        <!-- Search Bar -->
+        <div class="section-container pb-0">
+            <div class="max-w-md mx-auto relative">
+                <input type="text" id="gameSearch" class="field-input text-center" placeholder="🔍 Cari game favoritmu..." onkeyup="filterGames()">
+            </div>
+        </div>
+
+        <!-- Games Grid -->
+        <main class="section-container" id="games">
+            <h2 class="section-title">PILIH GAME</h2>
+            <div class="games-grid">
+                <div class="game-card" onclick="selectGame('ml')">
+                    <div class="game-icon">🗡️</div>
+                    <div class="game-name">MOBILE LEGENDS</div>
+                    <div class="game-subtitle">Diamond • Instant</div>
                 </div>
-
-                <!-- Price Panels -->
-                <div class="price-container" id="priceContainer">
-                    <div class="price-panel" id="dynamicPricePanel">
-                        <h3 class="price-header" id="dynamicPriceHeader">💎 PACKAGES</h3>
-                        <div class="price-grid" id="dynamicPriceGrid">
-                            <!-- Dynamic items injected here -->
-                        </div>
-                    </div>
+                <div class="game-card" onclick="selectGame('ff')">
+                    <div class="game-icon">🔫</div>
+                    <div class="game-name">FREE FIRE</div>
+                    <div class="game-subtitle">Diamond • Fast</div>
                 </div>
-            </section>
-
-            <!-- Order Form -->
-            <section id="orderSection" class="order-form-section">
-                <h3 class="price-header">🛒 ORDER FORM</h3>
-                <div class="order-summary-box">
-                    <div class="summary-title">📝 Order Summary</div>
-                    <div class="summary-row"><span>Game:</span> <span class="summary-highlight text-purple" id="summaryGame">-</span></div>
-                    <div class="summary-row"><span>Package:</span> <span class="summary-highlight text-purple" id="summaryDiamond">-</span></div>
-                    <div class="summary-row"><span>Total Price:</span> <span class="summary-highlight text-green" id="summaryPrice">-</span></div>
+                <div class="game-card" onclick="selectGame('pubg')">
+                    <div class="game-icon">🪖</div>
+                    <div class="game-name">PUBG MOBILE</div>
+                    <div class="game-subtitle">UC • Instant</div>
                 </div>
-
-                <div class="quantity-selector">
-                    <button type="button" class="qty-btn" onclick="decreaseQty()">−</button>
-                    <div class="qty-display" id="qtyDisplay">1</div>
-                    <button type="button" class="qty-btn" onclick="increaseQty()">+</button>
+                <div class="game-card" onclick="selectGame('genshin')">
+                    <div class="game-icon">✨</div>
+                    <div class="game-name">GENSHIN IMPACT</div>
+                    <div class="game-subtitle">Crystals • Fast</div>
                 </div>
-
-                <form id="orderForm" onsubmit="submitOrder(event)">
-                    <div class="form-field">
-                        <label for="gameId" class="field-label">🎮 GAME ID / SERVER</label>
-                        <input type="text" id="gameId" class="field-input" placeholder="e.g., 123456789 (1234)" required>
-                    </div>
-                    <div class="form-field">
-                        <label for="nickname" class="field-label">👤 NICKNAME</label>
-                        <input type="text" id="nickname" class="field-input" placeholder="e.g., KingSlayer" required>
-                    </div>
-                    <div class="form-field">
-                        <label for="whatsapp" class="field-label">📱 WHATSAPP NUMBER</label>
-                        <input type="tel" id="whatsapp" class="field-input" placeholder="08123456789" required>
-                    </div>
-                    <div class="form-field">
-                        <label class="field-label">💳 PAYMENT METHOD</label>
-                        <div class="payment-grid">
-                            <div class="payment-option" onclick="selectPaymentMethod('gopay', this)">
-                                <div class="icon">🟢</div>
-                                <div class="name">GoPay</div>
-                            </div>
-                            <div class="payment-option" onclick="selectPaymentMethod('dana', this)">
-                                <div class="icon">🔵</div>
-                                <div class="name">Dana</div>
-                            </div>
-                            <div class="payment-option" onclick="selectPaymentMethod('ovo', this)">
-                                <div class="icon">🟣</div>
-                                <div class="name">OVO</div>
-                            </div>
-                            <div class="payment-option" onclick="selectPaymentMethod('qris', this)">
-                                <div class="icon">📱</div>
-                                <div class="name">QRIS</div>
-                            </div>
-                        </div>
-                        <input type="hidden" id="paymentMethod" required>
-                    </div>
-                    <div class="form-field">
-                        <button type="submit" class="submit-btn" id="submitBtn">🛒 PURCHASE NOW</button>
-                        <button type="button" class="cancel-btn" onclick="cancelOrder()">CANCEL</button>
-                    </div>
-                </form>
-            </section>
+                <div class="game-card" onclick="selectGame('telegram')">
+                    <div class="game-icon">✈️</div>
+                    <div class="game-name">TELEGRAM STARS</div>
+                    <div class="game-subtitle">Stars • Instant</div>
+                </div>
+                <div class="game-card" onclick="selectGame('roblox')">
+                    <div class="game-icon">🔳</div>
+                    <div class="game-name">ROBLOX</div>
+                    <div class="game-subtitle">Robux • External</div>
+                </div>
+            </div>
         </main>
 
         <!-- Footer -->
-        <footer id="contact" class="footer-section">
-            <p class="ramadhan-greeting-text" id="footerText">Fast & Secure Transactions</p>
-            <div class="whatsapp-box" onclick="openWhatsApp()">
-                <span class="icon">💬</span>
+        <footer id="contact">
+            <p class="footer-message mb-6" id="footerText">Proses Cepat & Amanah</p>
+            <div class="inline-flex items-center gap-4 bg-slate-900/50 p-6 rounded-2xl border border-primary/20 cursor-pointer hover:scale-105 transition-transform" onclick="window.open('https://wa.me/6285646335331')">
+                <div class="text-4xl">💬</div>
                 <div class="text-left">
-                    <div class="text-xs">Contact Us via WhatsApp</div>
-                    <div class="text-green summary-highlight" id="whatsappNumber">+62 856-4633-5331</div>
+                    <div class="text-xs text-slate-400 uppercase font-bold tracking-widest">WhatsApp Number</div>
+                    <div class="text-2xl font-black text-primary" id="whatsappNumber">+62 856-4633-5331</div>
                 </div>
             </div>
-            <div class="owner-info">
-                <p>Thank you for choosing KingSlayer 💖</p>
-                <p class="owner-name" id="ownerName" onclick="handleOwnerClick()">ADMIN KINGSLAYER</p>
+            <div class="mt-12 opacity-50">
+                <p class="copyright">© 2024 KingSlayer. Built for Gamers.</p>
+                <p class="text-xs mt-2 cursor-pointer" onclick="handleOwnerClick()" id="ownerName">Dio Rezky Maulana</p>
             </div>
         </footer>
+    </div>
 
-        <!-- Modals -->
-        <div id="historyModal" class="modal">
-            <div class="glass glass-card" style="max-width: 32rem; width: 100%;">
-                <h2 class="price-header">📋 PURCHASE HISTORY</h2>
-                <div class="form-field">
-                    <label class="field-label">WHATSAPP NUMBER</label>
-                    <input type="tel" id="searchPhone" class="field-input" placeholder="08123456789">
-                    <button type="button" class="submit-btn" style="margin-top: 1rem;" onclick="searchOrders()" id="searchBtn">SEARCH ORDERS</button>
-                </div>
-                <div id="ordersList" style="max-height: 40vh; overflow-y: auto; margin-bottom: 1.5rem;"></div>
-                <button type="button" class="cancel-btn" onclick="closeHistory()">CLOSE</button>
+    <!-- Modals -->
+
+    <!-- Package Selection Modal -->
+    <div id="packageModal" class="modal">
+        <div class="modal-content max-w-2xl">
+            <button class="close-modal" onclick="closeModal('packageModal')">&times;</button>
+            <div class="modal-header">
+                <h3 class="modal-title">PILIH PAKET</h3>
             </div>
-        </div>
 
-        <div id="receiptModal" class="modal">
-            <div class="glass glass-card" style="max-width: 32rem; width: 100%; text-align: center;">
-                <div style="font-size: 3.75rem; margin-bottom: 1rem;">✅</div>
-                <h2 class="price-header" style="color: #4ade80;">ORDER SUCCESS</h2>
-                <p style="color: #94a3b8; margin-bottom: 2rem;">Please contact admin for confirmation</p>
+            <div id="packageList" class="price-grid-mini mb-8">
+                <!-- Dynamic Content -->
+            </div>
 
-                <div class="order-summary-box">
-                    <div class="admin-stat-label">Order Number</div>
-                    <div class="admin-stat-value text-purple" id="receiptOrderNumber" style="font-size: 1.25rem;">-</div>
-                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1.5rem; text-align: left; border-top: 1px solid #1e293b; padding-top: 1.5rem;">
-                        <div><div class="admin-stat-label">Game</div><div class="summary-highlight" id="receiptGame">-</div></div>
-                        <div><div class="admin-stat-label">Package</div><div class="summary-highlight" id="receiptDiamond">-</div></div>
-                        <div><div class="admin-stat-label">ID Game</div><div class="summary-highlight" id="receiptGameId">-</div></div>
-                        <div><div class="admin-stat-label">Nickname</div><div class="summary-highlight" id="receiptNickname">-</div></div>
-                        <div><div class="admin-stat-label">WhatsApp</div><div class="summary-highlight" id="receiptWhatsapp">-</div></div>
-                        <div><div class="admin-stat-label">Qty</div><div class="summary-highlight" id="receiptQty">1</div></div>
-                        <div><div class="admin-stat-label">Payment</div><div class="summary-highlight" id="receiptPayment">-</div></div>
-                        <div><div class="admin-stat-label">Total</div><div class="summary-highlight text-green" id="receiptTotal">-</div></div>
-                    </div>
+            <div class="order-summary-box mb-8 p-4 bg-slate-950/50 rounded-xl border border-white/5">
+                <div class="flex justify-between mb-2">
+                    <span class="text-slate-400">Game:</span>
+                    <span id="summaryGame" class="font-bold"></span>
                 </div>
-
-                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                    <button class="submit-btn" style="background: #16a34a;" onclick="sendReceiptToWhatsApp()">💬 SEND TO ADMIN</button>
-                    <button class="cancel-btn" onclick="closeReceipt()">CLOSE</button>
+                <div class="flex justify-between mb-2">
+                    <span class="text-slate-400">Paket:</span>
+                    <span id="summaryPackage" class="font-bold text-primary"></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-slate-400">Total:</span>
+                    <span id="summaryTotal" class="font-black text-xl text-green-400"></span>
                 </div>
             </div>
-        </div>
 
-        <div id="adminLoginModal" class="modal">
-            <div class="glass glass-card" style="max-width: 28rem; width: 100%;">
-                <h2 class="price-header">👨‍💼 ADMIN ACCESS</h2>
-                <form onsubmit="handleAdminLogin(event)">
+            <form onsubmit="submitOrder(event)">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                     <div class="form-field">
-                        <label class="admin-stat-label">Password</label>
-                        <input type="password" id="adminPassword" class="field-input" placeholder="••••••••" required>
+                        <label class="field-label">ID Game</label>
+                        <input type="text" id="gameIdInput" class="field-input" placeholder="Contoh: 12345678" required>
                     </div>
-                    <button type="submit" class="submit-btn" id="adminLoginBtn">UNLOCK PANEL</button>
-                    <button type="button" class="cancel-btn" onclick="closeAdminLogin()">CANCEL</button>
-                </form>
-            </div>
-        </div>
+                    <div class="form-field">
+                        <label class="field-label">Nickname</label>
+                        <input type="text" id="nicknameInput" class="field-input" placeholder="Contoh: ProPlayer" required>
+                    </div>
+                </div>
 
-        <div id="adminPanelModal" class="modal" style="align-items: flex-start; overflow-y: auto;">
-            <div style="max-width: 72rem; width: 100%; margin: 0 auto; padding: 2rem;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
-                    <h2 class="owner-name" style="font-size: 1.875rem;">👨‍💼 ADMIN PANEL</h2>
-                    <button onclick="logoutAdmin()" style="padding: 0.5rem 1.5rem; background: rgba(127, 29, 29, 0.5); color: #f87171; border: 1px solid #7f1d1d; border-radius: 0.5rem; font-weight: 700; cursor: pointer;">LOGOUT</button>
+                <div class="form-field mb-6">
+                    <label class="field-label">WhatsApp</label>
+                    <input type="tel" id="whatsappInput" class="field-input" placeholder="08123456789" required>
                 </div>
-                <div class="admin-stat-grid">
-                    <div class="admin-stat-card"><div class="admin-stat-label">Total Orders</div><div class="admin-stat-value" id="adminTotalOrders">0</div></div>
-                    <div class="admin-stat-card"><div class="admin-stat-label">Success</div><div class="admin-stat-value" style="color: #22c55e;" id="adminSuccessOrders">0</div></div>
-                    <div class="admin-stat-card"><div class="admin-stat-label">Pending</div><div class="admin-stat-value" style="color: #eab308;" id="adminPendingOrders">0</div></div>
-                    <div class="admin-stat-card"><div class="admin-stat-label">Revenue</div><div class="admin-stat-value text-purple" id="adminTotalRevenue">Rp0</div></div>
-                </div>
-                <div class="admin-table-container"><div id="adminOrdersList"></div></div>
-            </div>
-        </div>
 
-        <div id="adminReceiptModal" class="modal">
-            <div class="glass glass-card" style="max-width: 42rem; width: 100%;">
-                <div style="text-align: center; margin-bottom: 2rem;">
-                    <h2 class="price-header">ORDER DETAILS</h2>
-                    <p id="adminReceiptSubtitle" class="admin-stat-label text-purple">PENDING</p>
-                </div>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
-                    <div style="display: flex; flex-direction: column; gap: 1rem;">
-                        <div class="order-summary-box" style="margin-bottom: 0; padding: 1rem;"><div class="admin-stat-label">Order Number</div><div id="adminReceiptOrderNumber" style="font-family: monospace; font-size: 0.875rem; font-weight: 700;">-</div></div>
-                        <div class="order-summary-box" style="margin-bottom: 0; padding: 1rem;"><div class="admin-stat-label">Game & Package</div><div style="font-size: 0.875rem;"><span id="adminReceiptGame">-</span> - <span id="adminReceiptDiamond">-</span> (<span id="adminReceiptQty">1</span>x)</div></div>
-                        <div class="order-summary-box" style="margin-bottom: 0; padding: 1rem;"><div class="admin-stat-label">Game ID</div><div id="adminReceiptGameId" style="font-size: 0.875rem; font-weight: 700;">-</div></div>
-                    </div>
-                    <div style="display: flex; flex-direction: column; gap: 1rem;">
-                        <div class="order-summary-box" style="margin-bottom: 0; padding: 1rem;"><div class="admin-stat-label">Customer Info</div><div style="font-size: 0.875rem;"><span id="adminReceiptNickname">-</span> (<span id="adminReceiptWhatsapp">-</span>)</div></div>
-                        <div class="order-summary-box" style="margin-bottom: 0; padding: 1rem;"><div class="admin-stat-label">Payment & Date</div><div style="font-size: 0.875rem;"><span id="adminReceiptPayment">-</span> | <span id="adminReceiptDate">-</span></div></div>
-                        <div class="order-summary-box" style="margin-bottom: 0; padding: 1rem;"><div class="admin-stat-label">Total Amount</div><div id="adminReceiptTotal" class="text-green" style="font-size: 1.125rem; font-weight: 900;">Rp0</div></div>
+                <div class="form-field mb-8">
+                    <label class="field-label mb-3">Metode Pembayaran</label>
+                    <div class="payment-select">
+                        <div class="payment-btn" onclick="selectPaymentMethod('DANA', this)">DANA</div>
+                        <div class="payment-btn" onclick="selectPaymentMethod('GOPAY', this)">GOPAY</div>
+                        <div class="payment-btn" onclick="selectPaymentMethod('OVO', this)">OVO</div>
+                        <div class="payment-btn" onclick="selectPaymentMethod('QRIS', this)">QRIS</div>
                     </div>
                 </div>
-                <div class="order-summary-box" style="margin-bottom: 2rem; background: rgba(191, 0, 255, 0.05); border-color: rgba(191, 0, 255, 0.2);">
-                    <label class="admin-stat-label text-purple">Update Status</label>
-                    <select id="adminModalStatusSelect" style="width: 100%; background: #0f172a; border: 1px solid #334155; padding: 0.75rem; border-radius: 0.5rem; color: #fff; font-weight: 700;">
-                        <option value="pending">⏳ PENDING</option>
-                        <option value="success">✅ SUCCESS</option>
-                        <option value="failed">❌ FAILED</option>
-                    </select>
+
+                <div class="flex items-center justify-center gap-6 mb-8">
+                    <button type="button" class="btn-mini text-2xl px-4" onclick="adjustQty(-1)">−</button>
+                    <div class="text-4xl font-black text-primary" id="qtyDisplay">1</div>
+                    <button type="button" class="btn-mini text-2xl px-4" onclick="adjustQty(1)">+</button>
                 </div>
-                <div style="display: flex; gap: 1rem;">
-                    <button id="saveStatusBtn" onclick="saveAdminReceiptStatus()" class="submit-btn" style="flex: 1;">SAVE STATUS</button>
-                    <button onclick="closeAdminReceipt()" class="cancel-btn" style="flex: 0 0 auto; width: auto; padding: 0 2rem; background: #1e293b; border-radius: 0.75rem;">CLOSE</button>
+
+                <button type="submit" class="checkout-btn">BELI SEKARANG</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Loading Modal -->
+    <div id="loadingModal" class="loading-modal">
+        <div class="rocket-container">
+            <div class="rocket-icon">🚀</div>
+        </div>
+        <div class="loading-text">MEMPROSES PESANAN...</div>
+        <div class="progress-container">
+            <div class="progress-bar"></div>
+        </div>
+        <div class="progress-percent">0%</div>
+    </div>
+
+    <!-- Receipt Modal -->
+    <div id="receiptModal" class="modal">
+        <div class="modal-content">
+            <div class="text-center">
+                <div class="text-6xl mb-4">✅</div>
+                <h3 class="text-2xl font-black mb-6">PESANAN TERKIRIM!</h3>
+
+                <div class="bg-black/40 p-6 rounded-2xl border border-green-500/30 text-left space-y-3 mb-8">
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">Order No:</span>
+                        <span id="receiptOrderNum" class="font-mono text-xs"></span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">Game:</span>
+                        <span id="receiptGame"></span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">Paket:</span>
+                        <span id="receiptPackage" class="text-primary font-bold"></span>
+                    </div>
+                    <div class="flex justify-between pt-3 border-t border-white/5">
+                        <span class="font-bold">Total:</span>
+                        <span id="receiptTotal" class="font-black text-green-400"></span>
+                    </div>
                 </div>
+
+                <button onclick="sendToWhatsApp()" class="checkout-btn bg-green-600 mb-4">KONFIRMASI VIA WA</button>
+                <button onclick="closeModal('receiptModal')" class="text-slate-400 font-bold uppercase tracking-widest text-xs">Tutup</button>
             </div>
         </div>
     </div>
 
-    <!-- JS -->
+    <!-- History Modal -->
+    <div id="historyModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal('historyModal')">&times;</button>
+            <h3 class="modal-title mb-6">RIWAYAT PESANAN</h3>
+            <div class="flex gap-2 mb-6">
+                <input type="tel" id="historyPhone" class="field-input" placeholder="Nomor WhatsApp...">
+                <button onclick="searchOrders()" class="btn-primary py-2 px-6">CARI</button>
+            </div>
+            <div id="historyList" class="space-y-4 max-height-[400px] overflow-y-auto pr-2">
+                <!-- Dynamic -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Logic Modals -->
+    <div id="adminLoginModal" class="modal">
+        <div class="modal-content max-w-sm">
+            <h3 class="modal-title mb-6">ADMIN LOGIN</h3>
+            <form onsubmit="handleAdminLogin(event)">
+                <input type="password" id="adminPassInput" class="field-input mb-6" placeholder="Password...">
+                <button type="submit" class="checkout-btn">LOGIN</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="adminPanelModal" class="modal">
+        <div class="modal-content max-w-4xl">
+            <div class="flex justify-between items-center mb-8">
+                <h3 class="modal-title">ADMIN DASHBOARD</h3>
+                <button class="text-slate-400" onclick="closeModal('adminPanelModal')">Close</button>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4 mb-8">
+                <div class="bg-black/40 p-6 rounded-2xl border border-white/5 text-center">
+                    <div class="text-xs text-slate-400 uppercase mb-1">Total</div>
+                    <div id="adminStatTotal" class="text-3xl font-black">0</div>
+                </div>
+                <div class="bg-black/40 p-6 rounded-2xl border border-white/5 text-center">
+                    <div class="text-xs text-slate-400 uppercase mb-1">Success</div>
+                    <div id="adminStatSuccess" class="text-3xl font-black text-green-400">0</div>
+                </div>
+                <div class="bg-black/40 p-6 rounded-2xl border border-white/5 text-center">
+                    <div class="text-xs text-slate-400 uppercase mb-1">Revenue</div>
+                    <div id="adminStatRevenue" class="text-xl font-black text-primary">Rp0</div>
+                </div>
+            </div>
+
+            <div id="adminOrdersList" class="space-y-2 max-h-[400px] overflow-y-auto">
+                <!-- Dynamic rows -->
+            </div>
+        </div>
+    </div>
+
+    <div id="adminDetailModal" class="modal">
+        <div class="modal-content max-w-md">
+            <h3 class="modal-title mb-6">ORDER DETAIL</h3>
+            <div id="adminDetailContent" class="space-y-2 mb-8 bg-black/40 p-6 rounded-2xl border border-white/5"></div>
+            <button onclick="saveAdminStatus()" class="checkout-btn mb-4">SAVE CHANGES</button>
+            <button onclick="closeModal('adminDetailModal')" class="w-full text-slate-400">Cancel</button>
+        </div>
+    </div>
+
     <script src="js/app.js"></script>
 </body>
 </html>
