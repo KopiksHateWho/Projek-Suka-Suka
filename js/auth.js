@@ -48,13 +48,13 @@ window.updateNavbar = function() {
     if (user) {
         const isAdmin = user.email === 'admin@kingslayer.com';
         authLinks.innerHTML = `
-            ${isAdmin ? `<a href="${pagesPrefix}admin.html" class="nav-link w-full md:w-auto text-center text-primary font-bold">ADMIN</a>` : ''}
-            <a href="${pagesPrefix}dashboard.html" class="nav-link w-full md:w-auto text-center">DASHBOARD</a>
-            <a href="#" class="nav-link w-full md:w-auto text-center" onclick="logout()">LOGOUT</a>
+            ${isAdmin ? `<a href="${pagesPrefix}admin.html" class="nav-link w-full md:w-auto text-center text-primary font-bold" onclick="window.closeMenu()">ADMIN</a>` : ''}
+            <a href="${pagesPrefix}dashboard.html" class="nav-link w-full md:w-auto text-center" onclick="window.closeMenu()">DASHBOARD</a>
+            <a href="#" class="nav-link w-full md:w-auto text-center" onclick="window.logout(); window.closeMenu()">LOGOUT</a>
         `;
     } else {
         authLinks.innerHTML = `
-            <a href="${pagesPrefix}login.html" class="nav-link w-full md:w-auto text-center">LOGIN</a>
+            <a href="${pagesPrefix}login.html" class="nav-link w-full md:w-auto text-center" onclick="window.closeMenu()">LOGIN</a>
         `;
     }
 };
@@ -83,6 +83,20 @@ window.showToast = function(msg) {
     toast.textContent = msg;
     document.body.appendChild(toast);
     setTimeout(() => toast.remove(), 3000);
+};
+
+window.toggleMenu = function() {
+    const links = document.querySelector('.nav-links-container');
+    if (links) {
+        links.classList.toggle('active');
+    }
+};
+
+window.closeMenu = function() {
+    const links = document.querySelector('.nav-links-container');
+    if (links && links.classList.contains('active')) {
+        links.classList.remove('active');
+    }
 };
 
 document.addEventListener('DOMContentLoaded', () => {

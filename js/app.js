@@ -313,7 +313,6 @@ async function initElementSDK() {
   }
 }
 
-palette-accessibility-improvement-15783382336159291716
 function initAccessibility() {
   // Global listener for keyboard interactions on role="button" elements
   document.addEventListener('keydown', (e) => {
@@ -341,11 +340,8 @@ function formatPrice(price) {
   return `Rp${price.toLocaleString('id-ID')}`;
 }
 
-function showToast(message) {
-
 // UI Core
 function showToast(msg) {
- main
   const toast = document.createElement('div');
   toast.className = 'toast';
   toast.textContent = msg;
@@ -569,7 +565,6 @@ function stopLoading() {
   document.getElementById('loadingModal').classList.remove('show');
 }
 
- palette-accessibility-improvement-15783382336159291716
 function filterGameSearch(event) {
   const searchInput = event.target.value.toLowerCase().trim();
   const resultsContainer = document.getElementById('gameSearchResults');
@@ -602,6 +597,7 @@ function filterGameSearch(event) {
   `).join('');
 
   resultsContainer.style.display = 'block';
+}
 
 // Receipt
 function showReceipt(data) {
@@ -612,7 +608,6 @@ function showReceipt(data) {
   document.getElementById('receiptTotal').textContent = data.price;
   window.currentReceipt = data;
   openModal('receiptModal');
- main
 }
 
 function sendToWhatsApp() {
@@ -767,18 +762,6 @@ function requestGame() {
 function scrollToSection(id) {
   const el = document.getElementById(id);
   if (el) el.scrollIntoView({ behavior: 'smooth' });
-}
-
-function toggleMenu() {
-  const links = document.getElementById('navLinks');
-  links.classList.toggle('hidden');
-}
-
-function closeMenu() {
-  const links = document.getElementById('navLinks');
-  if (!links.classList.contains('hidden')) {
-    links.classList.add('hidden');
-  }
 }
 
 // Init
