@@ -3,6 +3,7 @@ let allOrders = [];
 let isSubmitting = false;
 let ownerClickCount = 0;
 let ownerClickTimer = null;
+// NOTE: For a real production app, use a secure backend and environment variables for authentication.
 const ADMIN_PASSWORD = 'Dio213z';
 let currentAdminOrderId = null;
 
@@ -131,14 +132,14 @@ function selectGame(gameType) {
   }, 100);
 }
 
-function selectPackage(game, diamond, price) {
-  const element = event.currentTarget;
+function selectPackage(game, diamond, price, event) {
+  const element = event ? event.currentTarget : null;
 
   document.querySelectorAll('.price-box').forEach(item => {
     item.classList.remove('selected');
   });
 
-  element.classList.add('selected');
+  if (element) element.classList.add('selected');
 
   currentOrder.game = game;
   currentOrder.diamond = diamond;
@@ -395,7 +396,7 @@ function openWhatsApp() {
   window.open(`https://wa.me/${phoneNumber}`, '_blank');
 }
 
-function scrollToSection(sectionId) {
+function scrollToSection(sectionId, event) {
   const element = document.getElementById(sectionId);
   if (element) {
     const navLinks = document.querySelectorAll('.nav-link');
@@ -423,18 +424,15 @@ function filterGameSearch(event) {
   );
 
   if (filteredGames.length === 0) {
-    resultsContainer.innerHTML = '<div style="padding: 12px 15px; color: #d1fae5; font-size: 13px;">❌ Game tidak ditemukan</div>';
+    resultsContainer.innerHTML = '<div class="search-no-results">❌ Game tidak ditemukan</div>';
     resultsContainer.style.display = 'block';
     return;
   }
 
   resultsContainer.innerHTML = filteredGames.map(game => `
-    <div style="padding: 12px 15px; border-bottom: 1px solid rgba(253, 224, 71, 0.2); cursor: pointer; transition: all 0.2s ease; background: transparent;"
-         onmouseover="this.style.background = 'rgba(253, 224, 71, 0.1)'"
-         onmouseout="this.style.background = 'transparent'"
-         onclick="selectGameFromSearch('${game.id}')">
-      <span style="font-size: 18px; margin-right: 8px;">${game.emoji}</span>
-      <span style="color: #fde047; font-weight: 700; font-size: 13px;">${game.name}</span>
+    <div class="search-result-item" onclick="selectGameFromSearch('${game.id}')">
+      <span class="emoji">${game.emoji}</span>
+      <span class="name">${game.name}</span>
     </div>
   `).join('');
 
@@ -555,19 +553,19 @@ function renderAdminOrders() {
 
     return `
       <div class="admin-table-row">
-        <div style="font-weight: 700; color: #fde047;">${order.order_number}</div>
+        <div class="order-num">${order.order_number}</div>
         <div>${order.game}</div>
         <div>${order.nickname}</div>
-        <div style="color: #34d399; font-weight: 700;">${order.price}</div>
+        <div class="price">${order.price}</div>
         <div>${order.whatsapp}</div>
-        <div style="font-size: 12px;">${formattedDate}</div>
+        <div class="date">${formattedDate}</div>
         <div>
           <span class="status-badge ${order.status === 'success' ? 'status-success' : order.status === 'failed' ? 'status-failed' : 'status-pending'}">
             ${statusEmoji[order.status]} ${order.status.toUpperCase()}
           </span>
         </div>
         <div>
-          <button type="button" class="receipt-btn receipt-btn-whatsapp" onclick="viewAdminOrderDetail('${order.__backendId}')" style="padding: 8px 12px; font-size: 12px; margin: 0;">
+          <button type="button" class="receipt-btn" onclick="viewAdminOrderDetail('${order.__backendId}')">
             👁️ LIHAT
           </button>
         </div>
