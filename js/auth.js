@@ -85,6 +85,30 @@ window.showToast = function(msg) {
     setTimeout(() => toast.remove(), 3000);
 };
 
+window.toggleMenu = function() {
+    const links = document.getElementById('navLinks');
+    const toggle = document.querySelector('.mobile-toggle');
+    if (links) {
+        links.classList.toggle('active');
+        if (toggle) {
+            toggle.querySelector('.open-icon').classList.toggle('hidden');
+            toggle.querySelector('.close-icon').classList.toggle('hidden');
+        }
+    }
+};
+
+window.closeMenu = function() {
+    const links = document.getElementById('navLinks');
+    const toggle = document.querySelector('.mobile-toggle');
+    if (links && links.classList.contains('active')) {
+        links.classList.remove('active');
+        if (toggle) {
+            toggle.querySelector('.open-icon').classList.remove('hidden');
+            toggle.querySelector('.close-icon').classList.add('hidden');
+        }
+    }
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     window.updateNavbar();
 });

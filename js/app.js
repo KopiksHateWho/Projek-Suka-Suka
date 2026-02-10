@@ -703,17 +703,7 @@ function scrollToSection(id) {
   if (el) el.scrollIntoView({ behavior: 'smooth' });
 }
 
-function toggleMenu() {
-  const links = document.getElementById('navLinks');
-  links.classList.toggle('hidden');
-}
-
-function closeMenu() {
-  const links = document.getElementById('navLinks');
-  if (!links.classList.contains('hidden')) {
-    links.classList.add('hidden');
-  }
-}
+// Menu logic moved to auth.js for consistency
 
 // Init
 window.onload = () => {
