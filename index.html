@@ -113,6 +113,19 @@
         </footer>
     </div>
 
+    <!-- Sticky Mobile Bar -->
+    <div id="stickyMobileBar" class="sticky-mobile-bar md:hidden">
+        <div class="flex justify-between items-center px-6 h-full">
+            <div class="flex flex-col">
+                <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Total Bayar</span>
+                <span id="stickyTotal" class="text-lg font-black text-green-400">Rp0</span>
+            </div>
+            <button onclick="openModal('packageModal')" class="bg-primary hover:bg-primary-hover text-white px-6 py-2 rounded-xl font-bold text-sm shadow-[0_0_15px_rgba(255,0,212,0.4)]">
+                CHECKOUT
+            </button>
+        </div>
+    </div>
+
     <!-- Modals -->
 
     <!-- Package Selection Modal -->
@@ -180,16 +193,56 @@
         </div>
     </div>
 
+    <!-- Checkout Summary Modal -->
+    <div id="summaryModal" class="modal">
+        <div class="modal-content max-w-md">
+            <button class="close-modal" onclick="closeModal('summaryModal')">&times;</button>
+            <div class="modal-header">
+                <h3 class="modal-title">RINGKASAN PESANAN</h3>
+            </div>
+
+            <div class="space-y-4 mb-8 bg-white/5 p-6 rounded-2xl border border-white/10 glass">
+                <div class="flex justify-between items-center pb-3 border-b border-white/5">
+                    <span class="text-slate-400 text-sm">Game</span>
+                    <span id="summGame" class="font-bold"></span>
+                </div>
+                <div class="flex justify-between items-center pb-3 border-b border-white/5">
+                    <span class="text-slate-400 text-sm">Item</span>
+                    <span id="summItem" class="font-bold text-primary"></span>
+                </div>
+                <div class="flex justify-between items-center pb-3 border-b border-white/5">
+                    <span class="text-slate-400 text-sm">Game ID / User</span>
+                    <span id="summUserId" class="font-bold"></span>
+                </div>
+                <div class="flex justify-between items-center pb-3 border-b border-white/5">
+                    <span class="text-slate-400 text-sm">Pembayaran</span>
+                    <span id="summPayment" class="font-bold"></span>
+                </div>
+                <div class="flex justify-between items-center pt-2">
+                    <span class="text-slate-400 text-sm">Total Tagihan</span>
+                    <span id="summTotal" class="text-2xl font-black text-green-400"></span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <button onclick="closeModal('summaryModal')" class="btn-secondary py-3">BATAL</button>
+                <button onclick="confirmOrder()" class="btn-primary py-3">KONFIRMASI</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Loading Modal -->
     <div id="loadingModal" class="loading-modal">
-        <div class="rocket-container">
-            <div class="rocket-icon">🚀</div>
+        <div class="loading-content">
+            <div class="rocket-track">
+                <div class="rocket-icon-horizontal">🚀</div>
+            </div>
+            <div id="loadingStatus" class="loading-text">MEMPROSES PESANAN...</div>
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+            </div>
+            <div class="progress-percent">0%</div>
         </div>
-        <div class="loading-text">MEMPROSES PESANAN...</div>
-        <div class="progress-container">
-            <div class="progress-bar"></div>
-        </div>
-        <div class="progress-percent">0%</div>
     </div>
 
     <!-- Receipt Modal -->
@@ -219,7 +272,10 @@
                 </div>
 
                 <button onclick="sendToWhatsApp()" class="checkout-btn bg-green-600 mb-4">KONFIRMASI VIA WA</button>
-                <button onclick="closeModal('receiptModal')" class="text-slate-400 font-bold uppercase tracking-widest text-xs">Tutup</button>
+                <div class="grid grid-cols-2 gap-4">
+                    <button onclick="window.location.href='index.html'" class="btn-secondary py-3 text-xs">HOME</button>
+                    <button onclick="closeModal('receiptModal')" class="btn-secondary py-3 text-xs">TUTUP</button>
+                </div>
             </div>
         </div>
     </div>

@@ -339,6 +339,9 @@ function selectGame(gameId) {
   currentOrder.game = gameKey;
   renderPackageSelection(gameKey);
   openModal('packageModal');
+
+  const stickyBar = document.getElementById('stickyMobileBar');
+  if (stickyBar) stickyBar.classList.add('active');
 }
 
 function renderPackageSelection(gameKey) {
@@ -371,10 +374,17 @@ function selectPackage(name, price) {
 
 function updateOrderSummary() {
   const total = currentOrder.unitPrice * currentOrder.quantity;
+  const formattedPrice = `Rp${total.toLocaleString('id-ID')}`;
+
+  // Package Modal Summary
   document.getElementById('summaryGame').textContent = currentOrder.game;
   document.getElementById('summaryPackage').textContent = currentOrder.package;
-  document.getElementById('summaryTotal').textContent = `Rp${total.toLocaleString('id-ID')}`;
+  document.getElementById('summaryTotal').textContent = formattedPrice;
   document.getElementById('qtyDisplay').textContent = currentOrder.quantity;
+
+  // Sticky Mobile Bar
+  const stickyTotal = document.getElementById('stickyTotal');
+  if (stickyTotal) stickyTotal.textContent = formattedPrice;
 }
 
 function adjustQty(amount) {
@@ -404,8 +414,27 @@ async function submitOrder(e) {
 
   if (!gameId || !nickname || !whatsapp) return showToast('❌ Lengkapi data pemain!');
 
+  // Show Summary Modal
+  document.getElementById('summGame').textContent = currentOrder.game;
+  document.getElementById('summItem').textContent = currentOrder.package;
+  document.getElementById('summUserId').textContent = `${nickname} (${gameId})`;
+  document.getElementById('summPayment').textContent = currentOrder.paymentMethod;
+  document.getElementById('summTotal').textContent = document.getElementById('summaryTotal').textContent;
+
+  closeModal('packageModal');
+  openModal('summaryModal');
+}
+
+async function confirmOrder() {
+  if (isSubmitting) return;
   isSubmitting = true;
+
+  closeModal('summaryModal');
   startLoading();
+
+  const gameId = document.getElementById('gameIdInput').value.trim();
+  const nickname = document.getElementById('nicknameInput').value.trim();
+  const whatsapp = document.getElementById('whatsappInput').value.trim();
 
   try {
     const orderNumber = `KS-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
@@ -422,15 +451,24 @@ async function submitOrder(e) {
       order_date: new Date().toISOString()
     };
 
+    // Simulate network delay for the premium loading experience
+    await new Promise(resolve => setTimeout(resolve, 3000));
+
     if (window.dataSdk) {
       const result = await window.dataSdk.create(orderData);
       if (result.isOk) {
         if (window.saveTransaction) window.saveTransaction(orderData);
-        finishLoading(() => showReceipt(orderData));
+        stopLoading();
+        showReceipt(orderData);
       } else {
         stopLoading();
         showToast('❌ Gagal membuat pesanan');
       }
+    } else {
+      // Simulation mode if SDK is not present
+      if (window.saveTransaction) window.saveTransaction(orderData);
+      stopLoading();
+      showReceipt(orderData);
     }
   } catch (err) {
     console.error(err);
@@ -454,34 +492,50 @@ function closeModal(id) {
 function startLoading() {
   const modal = document.getElementById('loadingModal');
   const bar = modal.querySelector('.progress-bar');
-  const rocket = modal.querySelector('.rocket-icon');
+  const rocket = modal.querySelector('.rocket-icon-horizontal');
   const percent = modal.querySelector('.progress-percent');
+  const statusText = document.getElementById('loadingStatus');
+
+  const messages = [
+    "Processing your order...",
+    "Connecting to server...",
+    "Validating game ID...",
+    "Finalizing transaction..."
+  ];
 
   modal.classList.add('show');
   let p = 0;
+  let msgIndex = 0;
+
   const interval = setInterval(() => {
-    p += Math.random() * 5;
+    p += Math.random() * 3;
     if (p >= 100) {
       p = 100;
       clearInterval(interval);
     }
+
     bar.style.width = p + '%';
     percent.textContent = Math.floor(p) + '%';
-    rocket.style.transform = `translateY(-${p * 2}px)`;
-  }, 100);
+
+    // Move rocket across the track
+    if (rocket) {
+      const trackWidth = rocket.parentElement.offsetWidth;
+      rocket.style.left = `calc(${p}% - 30px)`;
+    }
+
+    // Cycle messages
+    if (Math.floor(p) % 25 === 0 && messages[msgIndex]) {
+        statusText.textContent = messages[Math.floor(p / 25)] || messages[messages.length - 1];
+    }
+
+  }, 50);
+
   window.loadingInterval = interval;
 }
 
 function stopLoading() {
   clearInterval(window.loadingInterval);
   document.getElementById('loadingModal').classList.remove('show');
-}
-
-function finishLoading(callback) {
-  setTimeout(() => {
-    stopLoading();
-    callback();
-  }, 500);
 }
 
 // Receipt

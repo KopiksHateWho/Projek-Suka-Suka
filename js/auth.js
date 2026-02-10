@@ -33,22 +33,28 @@ window.registerUser = function(email, password) {
 
 window.logout = function() {
     localStorage.removeItem(AUTH_KEY);
-    window.location.href = 'index.html';
+    const isInPages = window.location.pathname.includes('/pages/');
+    window.location.href = isInPages ? '../index.html' : 'index.html';
 };
 
 window.updateNavbar = function() {
     const authLinks = document.getElementById('auth-links');
     if (!authLinks) return;
 
+    const isInPages = window.location.pathname.includes('/pages/');
+    const pagesPrefix = isInPages ? '' : 'pages/';
+
     const user = window.getCurrentUser();
     if (user) {
+        const isAdmin = user.email === 'admin@kingslayer.com';
         authLinks.innerHTML = `
-            <a href="dashboard.html" class="nav-link w-full md:w-auto text-center">DASHBOARD</a>
+            ${isAdmin ? `<a href="${pagesPrefix}admin.html" class="nav-link w-full md:w-auto text-center text-primary font-bold">ADMIN</a>` : ''}
+            <a href="${pagesPrefix}dashboard.html" class="nav-link w-full md:w-auto text-center">DASHBOARD</a>
             <a href="#" class="nav-link w-full md:w-auto text-center" onclick="logout()">LOGOUT</a>
         `;
     } else {
         authLinks.innerHTML = `
-            <a href="login.html" class="nav-link w-full md:w-auto text-center">LOGIN</a>
+            <a href="${pagesPrefix}login.html" class="nav-link w-full md:w-auto text-center">LOGIN</a>
         `;
     }
 };
@@ -82,3 +88,13 @@ window.showToast = function(msg) {
 document.addEventListener('DOMContentLoaded', () => {
     window.updateNavbar();
 });
+
+// Add default admin for simulation
+(function initAdmin() {
+    const USERS_KEY = 'ks_users';
+    const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
+    if (!users.find(u => u.email === 'admin@kingslayer.com')) {
+        users.push({ email: 'admin@kingslayer.com', password: 'admin' });
+        localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    }
+})();

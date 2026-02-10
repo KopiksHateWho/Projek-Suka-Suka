@@ -1,52 +1,65 @@
-# KingSlayer ⚔️
+# ⚔️ KingSlayer | Premium Gaming Top-Up
 
-KingSlayer is a modern, professional gaming top-up website concept. It provides a sleek and intuitive interface for gamers to purchase in-game currency and services for popular titles like Mobile Legends, Free Fire, PUBG Mobile, and more.
+KingSlayer is a high-end, multi-page frontend gaming top-up website featuring a premium "Purple Galaxy" design system. It provides a seamless experience for users to top up their favorite games with modern glassmorphism UI and smooth animations.
 
-## ✨ UI Theme: Purple Galaxy
+## 🚀 Features
 
-The website features a **Purple Galaxy** gaming theme designed to provide an immersive experience:
-- **Dark Purple Galaxy Gradient:** A deep, atmospheric background that sets the gaming mood.
-- **Animated Star-field:** A lightweight CSS-only particle background for subtle motion.
-- **Glassmorphism:** Modern UI components with frosted-glass effects, blur, and semi-transparent backgrounds.
-- **Neon Glow Effects:** Purple and red accents that highlight key elements and interactive components.
-- **Gaming Typography:** Utilizes the **Orbitron** font for a futuristic, high-tech feel.
-- **Fully Responsive:** Optimized for a seamless experience across desktop, tablets, and mobile devices.
+### User Experience
+- **Premium UI/UX**: Modern glassmorphism design with a purple galaxy theme.
+- **Dynamic Selection**: Real-time game and package selection with instant price updates.
+- **Enhanced Checkout**: multi-step checkout flow with order summary and rocket-themed loading animations.
+- **User System**: Frontend-only authentication (Login/Register) using `localStorage`.
+- **User Dashboard**: Personal profile page displaying transaction history and order status.
+- **Sticky Mobile Bar**: Optimized mobile experience with a persistent checkout bar.
 
-## 📂 Project Structure
+### Admin Features
+- **Admin Dashboard**: Overview of total orders, revenue, and user growth.
+- **Order Management**: Detailed table view of all transactions for administrative monitoring.
+- **Product Management**: Simulated interface for managing game packages and pricing.
 
-The project has been refactored from a monolithic Canva export into a clean, maintainable structure:
+### Technical Highlights
+- **Responsive Design**: Fully optimized for mobile, tablet, and desktop viewports.
+- **Smooth Transitions**: Global page fade-in animations for a premium feel.
+- **SDK Integration**: Integrated with Element and Data SDKs for dynamic configuration and data handling.
+- **No-Backend Architecture**: Purely frontend implementation using `localStorage` for data persistence.
 
-```text
-KingSlayer/
-├── index.html          # Semantic HTML5 structure
-├── css/
-│   └── style.css       # Modular CSS with Galaxy theme & Glassmorphism
-├── js/
-│   └── app.js          # Clean JavaScript logic for UI & data rendering
-├── assets/             # Images, icons, and logo assets
-└── README.md           # Project documentation
-```
+## 📸 Screenshots
+*(Placeholders - Actual screenshots coming soon)*
+- [Home Page]
+- [User Dashboard]
+- [Admin Panel]
+- [Checkout Flow]
 
-## 🚀 How to Run Locally
+## 🛠️ Technologies Used
+- **HTML5 & CSS3**: Structured and styled with custom properties and animations.
+- **Tailwind CSS**: Utility-first CSS framework for rapid UI development.
+- **Vanilla JavaScript**: Core logic and state management.
+- **LocalStorage API**: Client-side data persistence for users and transactions.
+- **Google Fonts**: 'Orbitron' for gaming-style headings and 'Cairo' for readability.
 
-Since this is a frontend-only project, you can run it easily:
+## ⚙️ Installation & Usage
 
-1.  **Clone or Download** the repository.
-2.  Open `index.html` in any modern web browser (Chrome, Firefox, Safari, Edge).
-    - Alternatively, use a local server extension like **Live Server** in VS Code for the best experience.
+1. **Clone the Repository**
+   ```bash
+   git clone [repository-url]
+   ```
+2. **Open the Project**
+   Simply open `index.html` in your web browser, or use a local server:
+   ```bash
+   # Using Python
+   python3 -m http.server 3000
+   ```
+3. **Admin Access**
+   - **Email**: `admin@kingslayer.com`
+   - **Password**: `admin`
+   - Or click the Owner Name in the footer 10 times to trigger the hidden login.
 
-## 🛠️ How to Customize
+## 🗺️ Future Roadmap
+- [ ] Integration with real backend (Node.js/Express).
+- [ ] Automated payment gateway integration (Midtrans/Stripe).
+- [ ] Email notifications for order updates.
+- [ ] Multi-language support.
 
-- **Changing Theme Colors:** Modify the CSS variables in `css/style.css` under the `:root` selector to update the primary colors and glow effects.
-- **Adding New Games:** Update the `GAME_PACKAGES` constant in `js/app.js`. The UI will automatically render new categories and search items.
-- **Updating Content:** Main layout changes can be made in `index.html`, while dynamic price lists are managed in `js/app.js`.
-
-## 💻 Technologies Used
-
-- **HTML5:** Semantic markup for better SEO and accessibility.
-- **CSS3:** Custom animations, Flexbox/Grid layouts, and modern styling techniques.
-- **JavaScript (ES6+):** Dynamic content rendering, search functionality, and UI interactions.
-- **Google Fonts:** Orbitron and Inter for typography.
-
----
-*Created as a refactoring project to transform Canva exports into professional-grade web code.*
+## 👤 Author
+**KingSlayer Team**
+Built with 💜 for gamers.
