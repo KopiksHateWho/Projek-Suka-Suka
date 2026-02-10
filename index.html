@@ -25,6 +25,20 @@
         <!-- Navigation -->
         <nav class="top-nav">
             <div class="nav-content">
+ palette-accessibility-improvement-15783382336159291716
+                <div class="logo-section" onclick="scrollToSection('home')" role="button" tabindex="0">
+                    <span class="logo-icon" role="img" aria-label="KingSlayer Logo">⚔️</span>
+                    <span class="logo-text" id="navStoreName">KingSlayer</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#home" class="nav-link active" onclick="scrollToSection('home')">🏠 HOME</a>
+                    <div class="search-container relative inline-block">
+                        <input type="text" id="gameSearchInput" class="nav-link" placeholder="🔍 Cari game..." onkeyup="filterGameSearch(event)" aria-label="Cari Game">
+                        <div id="gameSearchResults" class="search-results absolute top-full left-0 right-0 bg-slate-900 border border-slate-700 hidden z-50"></div>
+                    </div>
+                    <a href="#" class="nav-link" onclick="openHistory(event)">📋 HISTORY</a>
+                    <a href="#contact" class="nav-link" onclick="scrollToSection('contact')">📞 CONTACT</a>
+
                 <div class="logo-section" onclick="scrollToSection('home')">
                     <span class="text-2xl">⚔️</span>
                     <span class="logo-text" id="navStoreName">KingSlayer</span>
@@ -37,6 +51,7 @@
                     <a href="#" class="nav-link w-full md:w-auto text-center" onclick="requestGame(); closeMenu()">REQUEST GAME</a>
                     <a href="#contact" class="nav-link w-full md:w-auto text-center" onclick="scrollToSection('contact'); closeMenu()">CONTACT</a>
                     <div id="auth-links" class="flex flex-col md:flex-row gap-1 w-full md:w-auto"></div>
+ main
                 </div>
             </div>
         </nav>
@@ -59,6 +74,130 @@
             </div>
         </div>
 
+palette-accessibility-improvement-15783382336159291716
+            <!-- Games Grid -->
+            <section id="topup" class="section-container">
+                <h2 class="section-title text-3xl font-bold mb-12">🎮 TOP UP GAMES</h2>
+                <div class="games-grid">
+                    <div class="game-card" id="mlCard" onclick="selectGame('ml')" role="button" tabindex="0">
+                        <div class="game-icon-container">🗡️</div>
+                        <div class="game-name">MOBILE LEGENDS</div>
+                        <div class="game-subtitle">Diamond • Instant</div>
+                    </div>
+                    <div class="game-card" id="ffCard" onclick="selectGame('ff')" role="button" tabindex="0">
+                        <div class="game-icon-container">🔫</div>
+                        <div class="game-name">FREE FIRE</div>
+                        <div class="game-subtitle">Diamond • Fast</div>
+                    </div>
+                    <div class="game-card" id="pubgCard" onclick="selectGame('pubg')" role="button" tabindex="0">
+                        <div class="game-icon-container">🪖</div>
+                        <div class="game-name">PUBG MOBILE</div>
+                        <div class="game-subtitle">UC • Instant</div>
+                    </div>
+                    <div class="game-card" onclick="window.open('https://direz-store-robloxrobux.my.canva.site/', '_blank')" role="button" tabindex="0">
+                        <div class="game-icon-container">🔳</div>
+                        <div class="game-name">ROBLOX</div>
+                        <div class="game-subtitle">Robux • Instant</div>
+                    </div>
+                    <div class="game-card" onclick="window.open('https://direzstorebydiorezz.my.canva.site/genshin-impact', '_blank')" role="button" tabindex="0">
+                        <div class="game-icon-container">✨</div>
+                        <div class="game-name">GENSHIN IMPACT</div>
+                        <div class="game-subtitle">Genesis Crystal</div>
+                    </div>
+                    <div class="game-card" onclick="window.open('https://direzstorebydiorezz.my.canva.site/telestars', '_blank')" role="button" tabindex="0">
+                        <div class="game-icon-container">✈️</div>
+                        <div class="game-name">TELEGRAM STARS</div>
+                        <div class="game-subtitle">Stars • Instant</div>
+                    </div>
+                    <div class="game-card request-card" onclick="requestGame()" role="button" tabindex="0">
+                        <div class="game-icon-container">🎮</div>
+                        <div class="game-name">REQUEST GAME</div>
+                        <div class="game-subtitle">Contact Admin</div>
+                    </div>
+                </div>
+
+                <!-- Price Panels -->
+                <div class="price-container" id="priceContainer">
+                    <!-- ML Prices -->
+                    <div class="price-panel" id="mlPrices">
+                        <h3 class="price-header text-2xl font-bold mb-6">💎 MOBILE LEGENDS DIAMOND</h3>
+                        <div class="price-category mb-8">
+                            <div class="category-name text-lg font-bold mb-4">👑 WEEKLY DIAMOND PASS</div>
+                            <div class="price-grid">
+                                <div class="price-box" onclick="selectPackage('MOBILE LEGENDS', '💎 Weekly Diamond Pass', 'Rp28.777')" role="button" tabindex="0">
+                                    <div class="diamond-value">Weekly Diamond Pass</div>
+                                    <div class="price-value">Rp28.777</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="price-category">
+                            <div class="category-name text-lg font-bold mb-4">🟢 DIAMOND PACKS</div>
+                            <div class="price-grid">
+                                <div class="price-box" onclick="selectPackage('MOBILE LEGENDS', '💎 5', 'Rp1.800')" role="button" tabindex="0">
+                                    <div class="diamond-value">5 💎</div>
+                                    <div class="price-value">Rp1.800</div>
+                                </div>
+                                <div class="price-box" onclick="selectPackage('MOBILE LEGENDS', '💎 12', 'Rp3.800')" role="button" tabindex="0">
+                                    <div class="diamond-value">12 💎</div>
+                                    <div class="price-value">Rp3.800</div>
+                                </div>
+                                <div class="price-box" onclick="selectPackage('MOBILE LEGENDS', '💎 50', 'Rp14.000')" role="button" tabindex="0">
+                                    <div class="diamond-value">50 💎</div>
+                                    <div class="price-value">Rp14.000</div>
+                                </div>
+                                <div class="price-box" onclick="selectPackage('MOBILE LEGENDS', '💎 100', 'Rp27.200')" role="button" tabindex="0">
+                                    <div class="diamond-value">100 💎</div>
+                                    <div class="price-value">Rp27.200</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FF Prices -->
+                    <div class="price-panel" id="ffPrices">
+                        <h3 class="price-header text-2xl font-bold mb-6">🔥 FREE FIRE DIAMOND</h3>
+                        <div class="price-category">
+                            <div class="category-name text-lg font-bold mb-4">👑 MEMBERSHIP</div>
+                            <div class="price-grid">
+                                <div class="price-box" onclick="selectPackage('FREE FIRE', '🚀 Member Mingguan', 'Rp27.555')" role="button" tabindex="0">
+                                    <div class="diamond-value">Member Mingguan</div>
+                                    <div class="price-value">Rp27.555</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="price-category mt-8">
+                            <div class="category-name text-lg font-bold mb-4">💎 DIAMOND PACKS</div>
+                            <div class="price-grid">
+                                <div class="price-box" onclick="selectPackage('FREE FIRE', '💎 75', 'Rp10.000')" role="button" tabindex="0">
+                                    <div class="diamond-value">75 💎</div>
+                                    <div class="price-value">Rp10.000</div>
+                                </div>
+                                <div class="price-box" onclick="selectPackage('FREE FIRE', '💎 150', 'Rp20.000')" role="button" tabindex="0">
+                                    <div class="diamond-value">150 💎</div>
+                                    <div class="price-value">Rp20.000</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PUBG Prices -->
+                    <div class="price-panel" id="pubgPrices">
+                        <h3 class="price-header text-2xl font-bold mb-6">🎯 PUBG MOBILE UC</h3>
+                        <div class="price-category">
+                            <div class="category-name text-lg font-bold mb-4">🎯 UC PACKS</div>
+                            <div class="price-grid">
+                                <div class="price-box" onclick="selectPackage('PUBG MOBILE', '🎯 60 UC', 'Rp16.200')" role="button" tabindex="0">
+                                    <div class="diamond-value">60 UC</div>
+                                    <div class="price-value">Rp16.200</div>
+                                </div>
+                                <div class="price-box" onclick="selectPackage('PUBG MOBILE', '🎯 325 UC', 'Rp79.500')" role="button" tabindex="0">
+                                    <div class="diamond-value">325 UC</div>
+                                    <div class="price-value">Rp79.500</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
         <!-- Games Grid -->
         <main class="section-container" id="games">
             <h2 class="section-title">PILIH GAME</h2>
@@ -72,35 +211,68 @@
                     <div class="game-icon">🔫</div>
                     <div class="game-name">FREE FIRE</div>
                     <div class="game-subtitle">Diamond • Fast</div>
+main
                 </div>
                 <div class="game-card" onclick="selectGame('pubg')">
                     <div class="game-icon">🪖</div>
                     <div class="game-name">PUBG MOBILE</div>
                     <div class="game-subtitle">UC • Instant</div>
                 </div>
-                <div class="game-card" onclick="selectGame('genshin')">
-                    <div class="game-icon">✨</div>
-                    <div class="game-name">GENSHIN IMPACT</div>
-                    <div class="game-subtitle">Crystals • Fast</div>
+
+                <div class="quantity-selector flex items-center justify-center gap-6 mb-8">
+                    <button type="button" class="qty-btn w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center font-bold hover:bg-purple-500" onclick="decreaseQty()" aria-label="Kurangi Jumlah">−</button>
+                    <div class="qty-display text-3xl font-black text-white w-12 text-center" id="qtyDisplay" aria-live="polite">1</div>
+                    <button type="button" class="qty-btn w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center font-bold hover:bg-purple-500" onclick="increaseQty()" aria-label="Tambah Jumlah">+</button>
                 </div>
-                <div class="game-card" onclick="selectGame('telegram')">
-                    <div class="game-icon">✈️</div>
-                    <div class="game-name">TELEGRAM STARS</div>
-                    <div class="game-subtitle">Stars • Instant</div>
-                </div>
-                <div class="game-card" onclick="selectGame('roblox')">
-                    <div class="game-icon">🔳</div>
-                    <div class="game-name">ROBLOX</div>
-                    <div class="game-subtitle">Robux • External</div>
-                </div>
-            </div>
+
+                <form id="orderForm" onsubmit="submitOrder(event)">
+                    <div class="form-field mb-6">
+                        <label for="gameId" class="field-label block font-bold mb-2">🎮 GAME ID / SERVER</label>
+                        <input type="text" id="gameId" class="field-input" placeholder="e.g., 123456789 (1234)" required>
+                    </div>
+                    <div class="form-field mb-6">
+                        <label for="nickname" class="field-label block font-bold mb-2">👤 NICKNAME</label>
+                        <input type="text" id="nickname" class="field-input" placeholder="e.g., KingSlayer" required>
+                    </div>
+                    <div class="form-field mb-6">
+                        <label for="whatsapp" class="field-label block font-bold mb-2">📱 WHATSAPP NUMBER</label>
+                        <input type="tel" id="whatsapp" class="field-input" placeholder="08123456789" required>
+                    </div>
+                    <div class="form-field mb-8">
+                        <label class="field-label block font-bold mb-4">💳 PAYMENT METHOD</label>
+                        <div class="payment-grid grid grid-cols-2 sm:grid-cols-4 gap-4">
+                            <div class="payment-option p-4 bg-slate-800 rounded-lg border border-slate-700 cursor-pointer hover:border-purple-500 text-center" onclick="selectPaymentMethod('gopay', this)" role="button" tabindex="0">
+                                <div class="text-3xl mb-2">🟢</div>
+                                <div class="text-xs font-bold uppercase">GoPay</div>
+                            </div>
+                            <div class="payment-option p-4 bg-slate-800 rounded-lg border border-slate-700 cursor-pointer hover:border-purple-500 text-center" onclick="selectPaymentMethod('dana', this)" role="button" tabindex="0">
+                                <div class="text-3xl mb-2">🔵</div>
+                                <div class="text-xs font-bold uppercase">Dana</div>
+                            </div>
+                            <div class="payment-option p-4 bg-slate-800 rounded-lg border border-slate-700 cursor-pointer hover:border-purple-500 text-center" onclick="selectPaymentMethod('ovo', this)" role="button" tabindex="0">
+                                <div class="text-3xl mb-2">🟣</div>
+                                <div class="text-xs font-bold uppercase">OVO</div>
+                            </div>
+                            <div class="payment-option p-4 bg-slate-800 rounded-lg border border-slate-700 cursor-pointer hover:border-purple-500 text-center" onclick="selectPaymentMethod('qris', this)" role="button" tabindex="0">
+                                <div class="text-3xl mb-2">📱</div>
+                                <div class="text-xs font-bold uppercase">QRIS</div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="paymentMethod" required>
+                    </div>
+                    <div class="flex flex-col gap-4">
+                        <button type="submit" class="submit-btn py-4 text-lg font-black tracking-widest uppercase" id="submitBtn">🛒 PURCHASE NOW</button>
+                        <button type="button" class="cancel-btn py-2 text-slate-400 hover:text-white transition" onclick="cancelOrder()">CANCEL</button>
+                    </div>
+                </form>
+            </section>
         </main>
 
         <!-- Footer -->
-        <footer id="contact">
-            <p class="footer-message mb-6" id="footerText">Proses Cepat & Amanah</p>
-            <div class="inline-flex items-center gap-4 bg-slate-900/50 p-6 rounded-2xl border border-primary/20 cursor-pointer hover:scale-105 transition-transform" onclick="window.open('https://wa.me/6285646335331')">
-                <div class="text-4xl">💬</div>
+        <footer id="contact" class="footer-section mt-24">
+            <p class="footer-message text-xl font-bold text-purple-400 mb-8" id="footerText">Fast & Secure Transactions</p>
+            <div class="whatsapp-box glass inline-flex items-center gap-4 px-8 py-4 rounded-full cursor-pointer hover:scale-105 transition mb-12" onclick="openWhatsApp()" role="button" tabindex="0">
+                <span class="text-4xl">💬</span>
                 <div class="text-left">
                     <div class="text-xs text-slate-400 uppercase font-bold tracking-widest">WhatsApp Number</div>
                     <div class="text-2xl font-black text-primary" id="whatsappNumber">+62 856-4633-5331</div>

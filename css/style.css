@@ -607,3 +607,20 @@ footer {
   .modal-content { padding: 1.5rem; }
   .main-wrapper { padding-bottom: 80px; } /* Space for sticky bar */
 }
+
+/* Accessibility: Focus Visible Styles */
+.game-card:focus-visible,
+.price-box:focus-visible,
+.payment-option:focus-visible,
+.logo-section:focus-visible,
+.whatsapp-box:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 4px;
+    transform: translateY(-5px);
+    transition: transform 0.3s ease, outline 0.3s ease;
+}
+
+.qty-btn:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
