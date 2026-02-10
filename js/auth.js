@@ -86,16 +86,12 @@ window.showToast = function(msg) {
 };
 
 window.toggleMenu = function() {
-    const links = document.querySelector('.nav-links-container');
-    if (links) {
-        links.classList.toggle('active');
+main
     }
 };
 
 window.closeMenu = function() {
-    const links = document.querySelector('.nav-links-container');
-    if (links && links.classList.contains('active')) {
-        links.classList.remove('active');
+ main
     }
 };
 

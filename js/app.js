@@ -764,6 +764,8 @@ function scrollToSection(id) {
   if (el) el.scrollIntoView({ behavior: 'smooth' });
 }
 
+
+main
 // Init
 window.onload = () => {
   initDataSDK();
