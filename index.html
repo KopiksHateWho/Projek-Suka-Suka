@@ -16,10 +16,9 @@
     <!-- SDKs (Retained for functionality if present) -->
     <script src="/_sdk/element_sdk.js"></script>
     <script src="/_sdk/data_sdk.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="h-full">
-    <div class="main-wrapper min-h-full">
+<body>
+    <div class="main-wrapper">
         <!-- Galaxy Background Elements -->
         <div class="galaxy-bg"></div>
         <div class="stars"></div>
@@ -27,18 +26,23 @@
         <!-- Navigation -->
         <nav class="top-nav">
             <div class="nav-content">
-                <div class="logo-section" onclick="scrollToSection('home')">
+                <div class="logo-section" onclick="scrollToSection('home', event)">
                     <span class="logo-icon">⚔️</span>
                     <span class="logo-text" id="navStoreName">KingSlayer</span>
                 </div>
-                <div class="nav-links">
-                    <a href="#home" class="nav-link active" onclick="scrollToSection('home')">🏠 HOME</a>
-                    <div class="search-container relative inline-block">
+                <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+                <div class="nav-links" id="navLinks">
+                    <a href="#home" class="nav-link active" onclick="scrollToSection('home', event)">🏠 HOME</a>
+                    <div class="search-container">
                         <input type="text" id="gameSearchInput" class="nav-link" placeholder="🔍 Cari game..." onkeyup="filterGameSearch(event)">
-                        <div id="gameSearchResults" class="search-results absolute top-full left-0 right-0 bg-slate-900 border border-slate-700 hidden z-50"></div>
+                        <div id="gameSearchResults" class="search-results"></div>
                     </div>
                     <a href="#" class="nav-link" onclick="openHistory(event)">📋 HISTORY</a>
-                    <a href="#contact" class="nav-link" onclick="scrollToSection('contact')">📞 CONTACT</a>
+                    <a href="#contact" class="nav-link" onclick="scrollToSection('contact', event)">📞 CONTACT</a>
                 </div>
             </div>
         </nav>
@@ -55,8 +59,8 @@
             </header>
 
             <!-- Greeting -->
-            <div class="ramadhan-greeting glass mx-auto max-w-2xl p-6 rounded-2xl text-center my-12">
-                <p class="ramadhan-greeting-text text-xl font-bold text-purple-300">
+            <div class="ramadhan-greeting glass glass-card">
+                <p class="ramadhan-greeting-text">
                     ✨ Welcome to KingSlayer ✨<br>
                     Fast, Secure, and Reliable Gaming Transactions! 🎮
                 </p>
@@ -64,7 +68,7 @@
 
             <!-- Games Grid -->
             <section id="topup" class="section-container">
-                <h2 class="section-title text-3xl font-bold mb-12">🎮 TOP UP GAMES</h2>
+                <h2 class="section-title">🎮 TOP UP GAMES</h2>
                 <div class="games-grid">
                     <div class="game-card" id="mlCard" onclick="selectGame('ml')">
                         <div class="game-icon-container">🗡️</div>
@@ -107,32 +111,32 @@
                 <div class="price-container" id="priceContainer">
                     <!-- ML Prices -->
                     <div class="price-panel" id="mlPrices">
-                        <h3 class="price-header text-2xl font-bold mb-6">💎 MOBILE LEGENDS DIAMOND</h3>
-                        <div class="price-category mb-8">
-                            <div class="category-name text-lg font-bold mb-4">👑 WEEKLY DIAMOND PASS</div>
+                        <h3 class="price-header">💎 MOBILE LEGENDS DIAMOND</h3>
+                        <div class="price-category">
+                            <div class="category-name">👑 WEEKLY DIAMOND PASS</div>
                             <div class="price-grid">
-                                <div class="price-box" onclick="selectPackage('MOBILE LEGENDS', '💎 Weekly Diamond Pass', 'Rp28.777')">
+                                <div class="price-box" onclick="selectPackage('MOBILE LEGENDS', '💎 Weekly Diamond Pass', 'Rp28.777', event)">
                                     <div class="diamond-value">Weekly Diamond Pass</div>
                                     <div class="price-value">Rp28.777</div>
                                 </div>
                             </div>
                         </div>
                         <div class="price-category">
-                            <div class="category-name text-lg font-bold mb-4">🟢 DIAMOND PACKS</div>
+                            <div class="category-name">🟢 DIAMOND PACKS</div>
                             <div class="price-grid">
-                                <div class="price-box" onclick="selectPackage('MOBILE LEGENDS', '💎 5', 'Rp1.800')">
+                                <div class="price-box" onclick="selectPackage('MOBILE LEGENDS', '💎 5', 'Rp1.800', event)">
                                     <div class="diamond-value">5 💎</div>
                                     <div class="price-value">Rp1.800</div>
                                 </div>
-                                <div class="price-box" onclick="selectPackage('MOBILE LEGENDS', '💎 12', 'Rp3.800')">
+                                <div class="price-box" onclick="selectPackage('MOBILE LEGENDS', '💎 12', 'Rp3.800', event)">
                                     <div class="diamond-value">12 💎</div>
                                     <div class="price-value">Rp3.800</div>
                                 </div>
-                                <div class="price-box" onclick="selectPackage('MOBILE LEGENDS', '💎 50', 'Rp14.000')">
+                                <div class="price-box" onclick="selectPackage('MOBILE LEGENDS', '💎 50', 'Rp14.000', event)">
                                     <div class="diamond-value">50 💎</div>
                                     <div class="price-value">Rp14.000</div>
                                 </div>
-                                <div class="price-box" onclick="selectPackage('MOBILE LEGENDS', '💎 100', 'Rp27.200')">
+                                <div class="price-box" onclick="selectPackage('MOBILE LEGENDS', '💎 100', 'Rp27.200', event)">
                                     <div class="diamond-value">100 💎</div>
                                     <div class="price-value">Rp27.200</div>
                                 </div>
@@ -142,24 +146,24 @@
 
                     <!-- FF Prices -->
                     <div class="price-panel" id="ffPrices">
-                        <h3 class="price-header text-2xl font-bold mb-6">🔥 FREE FIRE DIAMOND</h3>
+                        <h3 class="price-header">🔥 FREE FIRE DIAMOND</h3>
                         <div class="price-category">
-                            <div class="category-name text-lg font-bold mb-4">👑 MEMBERSHIP</div>
+                            <div class="category-name">👑 MEMBERSHIP</div>
                             <div class="price-grid">
-                                <div class="price-box" onclick="selectPackage('FREE FIRE', '🚀 Member Mingguan', 'Rp27.555')">
+                                <div class="price-box" onclick="selectPackage('FREE FIRE', '🚀 Member Mingguan', 'Rp27.555', event)">
                                     <div class="diamond-value">Member Mingguan</div>
                                     <div class="price-value">Rp27.555</div>
                                 </div>
                             </div>
                         </div>
-                        <div class="price-category mt-8">
-                            <div class="category-name text-lg font-bold mb-4">💎 DIAMOND PACKS</div>
+                        <div class="price-category">
+                            <div class="category-name">💎 DIAMOND PACKS</div>
                             <div class="price-grid">
-                                <div class="price-box" onclick="selectPackage('FREE FIRE', '💎 75', 'Rp10.000')">
+                                <div class="price-box" onclick="selectPackage('FREE FIRE', '💎 75', 'Rp10.000', event)">
                                     <div class="diamond-value">75 💎</div>
                                     <div class="price-value">Rp10.000</div>
                                 </div>
-                                <div class="price-box" onclick="selectPackage('FREE FIRE', '💎 150', 'Rp20.000')">
+                                <div class="price-box" onclick="selectPackage('FREE FIRE', '💎 150', 'Rp20.000', event)">
                                     <div class="diamond-value">150 💎</div>
                                     <div class="price-value">Rp20.000</div>
                                 </div>
@@ -169,15 +173,15 @@
 
                     <!-- PUBG Prices -->
                     <div class="price-panel" id="pubgPrices">
-                        <h3 class="price-header text-2xl font-bold mb-6">🎯 PUBG MOBILE UC</h3>
+                        <h3 class="price-header">🎯 PUBG MOBILE UC</h3>
                         <div class="price-category">
-                            <div class="category-name text-lg font-bold mb-4">🎯 UC PACKS</div>
+                            <div class="category-name">🎯 UC PACKS</div>
                             <div class="price-grid">
-                                <div class="price-box" onclick="selectPackage('PUBG MOBILE', '🎯 60 UC', 'Rp16.200')">
+                                <div class="price-box" onclick="selectPackage('PUBG MOBILE', '🎯 60 UC', 'Rp16.200', event)">
                                     <div class="diamond-value">60 UC</div>
                                     <div class="price-value">Rp16.200</div>
                                 </div>
-                                <div class="price-box" onclick="selectPackage('PUBG MOBILE', '🎯 325 UC', 'Rp79.500')">
+                                <div class="price-box" onclick="selectPackage('PUBG MOBILE', '🎯 325 UC', 'Rp79.500', event)">
                                     <div class="diamond-value">325 UC</div>
                                     <div class="price-value">Rp79.500</div>
                                 </div>
@@ -189,190 +193,190 @@
 
             <!-- Order Form -->
             <section id="orderSection" class="order-form-section">
-                <h3 class="form-title text-2xl font-bold mb-8">🛒 ORDER FORM</h3>
-                <div class="order-summary-box mb-8 p-6 bg-slate-900 rounded-xl border border-slate-700">
-                    <div class="summary-title text-lg font-bold mb-4 border-b border-slate-700 pb-2">📝 Order Summary</div>
-                    <div class="summary-row flex justify-between mb-2"><span>Game:</span> <span class="summary-highlight font-bold text-purple-400" id="summaryGame">-</span></div>
-                    <div class="summary-row flex justify-between mb-2"><span>Package:</span> <span class="summary-highlight font-bold text-purple-400" id="summaryDiamond">-</span></div>
-                    <div class="summary-row flex justify-between"><span>Total Price:</span> <span class="summary-highlight font-bold text-green-400 text-xl" id="summaryPrice">-</span></div>
+                <h3 class="price-header">🛒 ORDER FORM</h3>
+                <div class="order-summary-box">
+                    <div class="summary-title">📝 Order Summary</div>
+                    <div class="summary-row"><span>Game:</span> <span class="summary-highlight text-purple" id="summaryGame">-</span></div>
+                    <div class="summary-row"><span>Package:</span> <span class="summary-highlight text-purple" id="summaryDiamond">-</span></div>
+                    <div class="summary-row"><span>Total Price:</span> <span class="summary-highlight text-green" id="summaryPrice">-</span></div>
                 </div>
 
-                <div class="quantity-selector flex items-center justify-center gap-6 mb-8">
-                    <button type="button" class="qty-btn w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center font-bold hover:bg-purple-500" onclick="decreaseQty()">−</button>
-                    <div class="qty-display text-3xl font-black text-white w-12 text-center" id="qtyDisplay">1</div>
-                    <button type="button" class="qty-btn w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center font-bold hover:bg-purple-500" onclick="increaseQty()">+</button>
+                <div class="quantity-selector">
+                    <button type="button" class="qty-btn" onclick="decreaseQty()">−</button>
+                    <div class="qty-display" id="qtyDisplay">1</div>
+                    <button type="button" class="qty-btn" onclick="increaseQty()">+</button>
                 </div>
 
                 <form id="orderForm" onsubmit="submitOrder(event)">
-                    <div class="form-field mb-6">
-                        <label for="gameId" class="field-label block font-bold mb-2">🎮 GAME ID / SERVER</label>
+                    <div class="form-field">
+                        <label for="gameId" class="field-label">🎮 GAME ID / SERVER</label>
                         <input type="text" id="gameId" class="field-input" placeholder="e.g., 123456789 (1234)" required>
                     </div>
-                    <div class="form-field mb-6">
-                        <label for="nickname" class="field-label block font-bold mb-2">👤 NICKNAME</label>
+                    <div class="form-field">
+                        <label for="nickname" class="field-label">👤 NICKNAME</label>
                         <input type="text" id="nickname" class="field-input" placeholder="e.g., KingSlayer" required>
                     </div>
-                    <div class="form-field mb-6">
-                        <label for="whatsapp" class="field-label block font-bold mb-2">📱 WHATSAPP NUMBER</label>
+                    <div class="form-field">
+                        <label for="whatsapp" class="field-label">📱 WHATSAPP NUMBER</label>
                         <input type="tel" id="whatsapp" class="field-input" placeholder="08123456789" required>
                     </div>
-                    <div class="form-field mb-8">
-                        <label class="field-label block font-bold mb-4">💳 PAYMENT METHOD</label>
-                        <div class="payment-grid grid grid-cols-2 sm:grid-cols-4 gap-4">
-                            <div class="payment-option p-4 bg-slate-800 rounded-lg border border-slate-700 cursor-pointer hover:border-purple-500 text-center" onclick="selectPaymentMethod('gopay', this)">
-                                <div class="text-3xl mb-2">🟢</div>
-                                <div class="text-xs font-bold uppercase">GoPay</div>
+                    <div class="form-field">
+                        <label class="field-label">💳 PAYMENT METHOD</label>
+                        <div class="payment-grid">
+                            <div class="payment-option" onclick="selectPaymentMethod('gopay', this)">
+                                <div class="icon">🟢</div>
+                                <div class="name">GoPay</div>
                             </div>
-                            <div class="payment-option p-4 bg-slate-800 rounded-lg border border-slate-700 cursor-pointer hover:border-purple-500 text-center" onclick="selectPaymentMethod('dana', this)">
-                                <div class="text-3xl mb-2">🔵</div>
-                                <div class="text-xs font-bold uppercase">Dana</div>
+                            <div class="payment-option" onclick="selectPaymentMethod('dana', this)">
+                                <div class="icon">🔵</div>
+                                <div class="name">Dana</div>
                             </div>
-                            <div class="payment-option p-4 bg-slate-800 rounded-lg border border-slate-700 cursor-pointer hover:border-purple-500 text-center" onclick="selectPaymentMethod('ovo', this)">
-                                <div class="text-3xl mb-2">🟣</div>
-                                <div class="text-xs font-bold uppercase">OVO</div>
+                            <div class="payment-option" onclick="selectPaymentMethod('ovo', this)">
+                                <div class="icon">🟣</div>
+                                <div class="name">OVO</div>
                             </div>
-                            <div class="payment-option p-4 bg-slate-800 rounded-lg border border-slate-700 cursor-pointer hover:border-purple-500 text-center" onclick="selectPaymentMethod('qris', this)">
-                                <div class="text-3xl mb-2">📱</div>
-                                <div class="text-xs font-bold uppercase">QRIS</div>
+                            <div class="payment-option" onclick="selectPaymentMethod('qris', this)">
+                                <div class="icon">📱</div>
+                                <div class="name">QRIS</div>
                             </div>
                         </div>
                         <input type="hidden" id="paymentMethod" required>
                     </div>
-                    <div class="flex flex-col gap-4">
-                        <button type="submit" class="submit-btn py-4 text-lg font-black tracking-widest uppercase" id="submitBtn">🛒 PURCHASE NOW</button>
-                        <button type="button" class="cancel-btn py-2 text-slate-400 hover:text-white transition" onclick="cancelOrder()">CANCEL</button>
+                    <div class="form-field">
+                        <button type="submit" class="submit-btn" id="submitBtn">🛒 PURCHASE NOW</button>
+                        <button type="button" class="cancel-btn" onclick="cancelOrder()">CANCEL</button>
                     </div>
                 </form>
             </section>
         </main>
 
         <!-- Footer -->
-        <footer id="contact" class="footer-section mt-24">
-            <p class="footer-message text-xl font-bold text-purple-400 mb-8" id="footerText">Fast & Secure Transactions</p>
-            <div class="whatsapp-box glass inline-flex items-center gap-4 px-8 py-4 rounded-full cursor-pointer hover:scale-105 transition mb-12" onclick="openWhatsApp()">
-                <span class="text-4xl">💬</span>
+        <footer id="contact" class="footer-section">
+            <p class="ramadhan-greeting-text" id="footerText">Fast & Secure Transactions</p>
+            <div class="whatsapp-box" onclick="openWhatsApp()">
+                <span class="icon">💬</span>
                 <div class="text-left">
-                    <div class="text-xs text-slate-400">Contact Us via WhatsApp</div>
-                    <div class="text-2xl font-black text-green-400" id="whatsappNumber">+62 856-4633-5331</div>
+                    <div class="text-xs">Contact Us via WhatsApp</div>
+                    <div class="text-green summary-highlight" id="whatsappNumber">+62 856-4633-5331</div>
                 </div>
             </div>
-            <div class="owner-info border-t border-slate-800 pt-12">
-                <p class="text-slate-500 mb-2">Thank you for choosing KingSlayer 💖</p>
-                <p class="owner-name text-2xl font-black tracking-tighter text-purple-500 hover:text-purple-400 cursor-pointer" id="ownerName" onclick="handleOwnerClick()">ADMIN KINGSLAYER</p>
+            <div class="owner-info">
+                <p>Thank you for choosing KingSlayer 💖</p>
+                <p class="owner-name" id="ownerName" onclick="handleOwnerClick()">ADMIN KINGSLAYER</p>
             </div>
         </footer>
 
         <!-- Modals -->
         <!-- History Modal -->
         <div id="historyModal" class="modal history-modal">
-            <div class="glass w-full max-w-lg p-8 rounded-3xl border border-purple-500/30">
-                <h2 class="text-2xl font-black mb-6 text-center tracking-wide">📋 PURCHASE HISTORY</h2>
-                <div class="mb-8">
-                    <label class="block text-xs font-bold text-slate-400 mb-2">WHATSAPP NUMBER</label>
-                    <input type="tel" id="searchPhone" class="w-full bg-slate-950/50 border border-slate-700 p-4 rounded-xl mb-4" placeholder="08123456789">
-                    <button type="button" class="w-full bg-purple-600 py-4 rounded-xl font-bold hover:bg-purple-500" onclick="searchOrders()" id="searchBtn">SEARCH ORDERS</button>
+            <div class="glass glass-card" style="max-width: 32rem; width: 100%;">
+                <h2 class="price-header">📋 PURCHASE HISTORY</h2>
+                <div class="form-field">
+                    <label class="field-label">WHATSAPP NUMBER</label>
+                    <input type="tel" id="searchPhone" class="field-input" placeholder="08123456789">
+                    <button type="button" class="submit-btn" style="margin-top: 1rem;" onclick="searchOrders()" id="searchBtn">SEARCH ORDERS</button>
                 </div>
-                <div id="ordersList" class="max-h-[40vh] overflow-y-auto mb-6"></div>
-                <button type="button" class="w-full text-slate-400 py-2" onclick="closeHistory()">CLOSE</button>
+                <div id="ordersList" style="max-height: 40vh; overflow-y: auto; margin-bottom: 1.5rem;"></div>
+                <button type="button" class="cancel-btn" onclick="closeHistory()">CLOSE</button>
             </div>
         </div>
 
         <!-- Receipt Modal -->
         <div id="receiptModal" class="modal receipt-modal">
-            <div class="glass w-full max-w-lg p-8 rounded-3xl border border-green-500/30 text-center">
-                <div class="text-6xl mb-4">✅</div>
-                <h2 class="text-2xl font-black mb-2 tracking-wide text-green-400">ORDER SUCCESS</h2>
-                <p class="text-slate-400 mb-8">Please contact admin for confirmation</p>
+            <div class="glass glass-card" style="max-width: 32rem; width: 100%; text-align: center;">
+                <div style="font-size: 3.75rem; margin-bottom: 1rem;">✅</div>
+                <h2 class="price-header" style="color: #4ade80;">ORDER SUCCESS</h2>
+                <p style="color: #94a3b8; margin-bottom: 2rem;">Please contact admin for confirmation</p>
 
-                <div class="bg-slate-950/50 p-6 rounded-2xl border border-slate-800 mb-8">
-                    <div class="text-xs text-slate-500 mb-1 uppercase font-black">Order Number</div>
-                    <div class="text-xl font-mono text-purple-400" id="receiptOrderNumber">-</div>
-                    <div class="grid grid-cols-2 gap-4 mt-6 text-left border-t border-slate-800 pt-6">
+                <div class="order-summary-box">
+                    <div class="admin-stat-label">Order Number</div>
+                    <div class="admin-stat-value text-purple" id="receiptOrderNumber" style="font-size: 1.25rem;">-</div>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1.5rem; text-align: left; border-top: 1px solid #1e293b; padding-top: 1.5rem;">
                         <div>
-                            <div class="text-[10px] text-slate-500 uppercase font-black">Game</div>
-                            <div class="font-bold" id="receiptGame">-</div>
+                            <div class="admin-stat-label">Game</div>
+                            <div class="summary-highlight" id="receiptGame">-</div>
                         </div>
                         <div>
-                            <div class="text-[10px] text-slate-500 uppercase font-black">Package</div>
-                            <div class="font-bold" id="receiptDiamond">-</div>
+                            <div class="admin-stat-label">Package</div>
+                            <div class="summary-highlight" id="receiptDiamond">-</div>
                         </div>
                         <div>
-                            <div class="text-[10px] text-slate-500 uppercase font-black">ID Game</div>
-                            <div class="font-bold" id="receiptGameId">-</div>
+                            <div class="admin-stat-label">ID Game</div>
+                            <div class="summary-highlight" id="receiptGameId">-</div>
                         </div>
                         <div>
-                            <div class="text-[10px] text-slate-500 uppercase font-black">Nickname</div>
-                            <div class="font-bold" id="receiptNickname">-</div>
+                            <div class="admin-stat-label">Nickname</div>
+                            <div class="summary-highlight" id="receiptNickname">-</div>
                         </div>
                         <div>
-                            <div class="text-[10px] text-slate-500 uppercase font-black">WhatsApp</div>
-                            <div class="font-bold" id="receiptWhatsapp">-</div>
+                            <div class="admin-stat-label">WhatsApp</div>
+                            <div class="summary-highlight" id="receiptWhatsapp">-</div>
                         </div>
                         <div>
-                            <div class="text-[10px] text-slate-500 uppercase font-black">Qty</div>
-                            <div class="font-bold" id="receiptQty">1</div>
+                            <div class="admin-stat-label">Qty</div>
+                            <div class="summary-highlight" id="receiptQty">1</div>
                         </div>
                         <div>
-                            <div class="text-[10px] text-slate-500 uppercase font-black">Payment</div>
-                            <div class="font-bold" id="receiptPayment">-</div>
+                            <div class="admin-stat-label">Payment</div>
+                            <div class="summary-highlight" id="receiptPayment">-</div>
                         </div>
                         <div>
-                            <div class="text-[10px] text-slate-500 uppercase font-black">Total</div>
-                            <div class="font-bold text-green-400" id="receiptTotal">-</div>
+                            <div class="admin-stat-label">Total</div>
+                            <div class="summary-highlight text-green" id="receiptTotal">-</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="flex flex-col gap-3">
-                    <button class="w-full bg-green-600 py-4 rounded-xl font-bold hover:bg-green-500 flex items-center justify-center gap-2" onclick="sendReceiptToWhatsApp()">💬 SEND TO ADMIN</button>
-                    <button class="w-full py-2 text-slate-500" onclick="closeReceipt()">CLOSE</button>
+                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                    <button class="submit-btn" style="background: #16a34a;" onclick="sendReceiptToWhatsApp()">💬 SEND TO ADMIN</button>
+                    <button class="cancel-btn" onclick="closeReceipt()">CLOSE</button>
                 </div>
             </div>
         </div>
 
         <!-- Admin Login Modal -->
         <div id="adminLoginModal" class="modal admin-login-modal">
-            <div class="glass w-full max-w-md p-8 rounded-3xl border border-purple-500/50">
-                <h2 class="text-2xl font-black mb-8 text-center tracking-wide">👨‍💼 ADMIN ACCESS</h2>
+            <div class="glass glass-card" style="max-width: 28rem; width: 100%;">
+                <h2 class="price-header">👨‍💼 ADMIN ACCESS</h2>
                 <form onsubmit="handleAdminLogin(event)">
-                    <div class="mb-6">
-                        <label class="block text-xs font-bold text-slate-400 mb-2 uppercase">Password</label>
-                        <input type="password" id="adminPassword" class="w-full bg-slate-950 border border-slate-700 p-4 rounded-xl text-white" placeholder="••••••••" required>
+                    <div class="form-field">
+                        <label class="admin-stat-label">Password</label>
+                        <input type="password" id="adminPassword" class="field-input" placeholder="••••••••" required>
                     </div>
-                    <button type="submit" class="w-full bg-purple-600 py-4 rounded-xl font-black hover:bg-purple-500" id="adminLoginBtn">UNLOCK PANEL</button>
-                    <button type="button" class="w-full py-4 text-slate-500" onclick="closeAdminLogin()">CANCEL</button>
+                    <button type="submit" class="submit-btn" id="adminLoginBtn">UNLOCK PANEL</button>
+                    <button type="button" class="cancel-btn" onclick="closeAdminLogin()">CANCEL</button>
                 </form>
             </div>
         </div>
 
         <!-- Admin Panel Modal -->
-        <div id="adminPanelModal" class="modal admin-panel-modal !items-start overflow-y-auto">
-            <div class="max-w-6xl mx-auto p-8">
-                <div class="flex justify-between items-center mb-12">
-                    <h2 class="text-3xl font-black tracking-tighter text-white">👨‍💼 ADMIN PANEL</h2>
-                    <button onclick="logoutAdmin()" class="px-6 py-2 bg-red-900/50 text-red-400 border border-red-800 rounded-lg font-bold">LOGOUT</button>
+        <div id="adminPanelModal" class="modal admin-panel-modal" style="align-items: flex-start; overflow-y: auto;">
+            <div style="max-width: 72rem; width: 100%; margin: 0 auto; padding: 2rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
+                    <h2 class="owner-name" style="font-size: 1.875rem;">👨‍💼 ADMIN PANEL</h2>
+                    <button onclick="logoutAdmin()" style="padding: 0.5rem 1.5rem; background: rgba(127, 29, 29, 0.5); color: #f87171; border: 1px solid #7f1d1d; border-radius: 0.5rem; font-weight: 700; cursor: pointer;">LOGOUT</button>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-                    <div class="glass p-6 rounded-2xl border border-slate-800 text-center">
-                        <div class="text-xs text-slate-500 font-bold mb-2 uppercase">Total Orders</div>
-                        <div class="text-4xl font-black text-white" id="adminTotalOrders">0</div>
+                <div class="admin-stat-grid">
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-label">Total Orders</div>
+                        <div class="admin-stat-value" id="adminTotalOrders">0</div>
                     </div>
-                    <div class="glass p-6 rounded-2xl border border-slate-800 text-center">
-                        <div class="text-xs text-slate-500 font-bold mb-2 uppercase">Success</div>
-                        <div class="text-4xl font-black text-green-500" id="adminSuccessOrders">0</div>
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-label">Success</div>
+                        <div class="admin-stat-value" style="color: #22c55e;" id="adminSuccessOrders">0</div>
                     </div>
-                    <div class="glass p-6 rounded-2xl border border-slate-800 text-center">
-                        <div class="text-xs text-slate-500 font-bold mb-2 uppercase">Pending</div>
-                        <div class="text-4xl font-black text-yellow-500" id="adminPendingOrders">0</div>
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-label">Pending</div>
+                        <div class="admin-stat-value" style="color: #eab308;" id="adminPendingOrders">0</div>
                     </div>
-                    <div class="glass p-6 rounded-2xl border border-slate-800 text-center">
-                        <div class="text-xs text-slate-500 font-bold mb-2 uppercase">Revenue</div>
-                        <div class="text-3xl font-black text-purple-400" id="adminTotalRevenue">Rp0</div>
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-label">Revenue</div>
+                        <div class="admin-stat-value text-purple" id="adminTotalRevenue">Rp0</div>
                     </div>
                 </div>
 
-                <div class="glass rounded-3xl border border-slate-800 overflow-hidden">
+                <div class="admin-table-container">
                     <div id="adminOrdersList"></div>
                 </div>
             </div>
@@ -380,55 +384,55 @@
 
         <!-- Admin Order Detail Modal -->
         <div id="adminReceiptModal" class="modal admin-receipt-modal">
-            <div class="glass w-full max-w-2xl p-8 rounded-3xl border border-purple-500/50">
-                <div class="text-center mb-8">
-                    <h2 class="text-2xl font-black mb-1">ORDER DETAILS</h2>
-                    <p id="adminReceiptSubtitle" class="text-xs font-bold text-purple-400 uppercase">PENDING</p>
+            <div class="glass glass-card" style="max-width: 42rem; width: 100%;">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <h2 class="price-header" style="margin-bottom: 0.25rem;">ORDER DETAILS</h2>
+                    <p id="adminReceiptSubtitle" class="admin-stat-label text-purple">PENDING</p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                    <div class="space-y-4">
-                        <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-800">
-                            <div class="text-[10px] text-slate-500 uppercase font-black mb-1">Order Number</div>
-                            <div id="adminReceiptOrderNumber" class="font-mono text-sm text-white font-bold">-</div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div class="order-summary-box" style="margin-bottom: 0; padding: 1rem;">
+                            <div class="admin-stat-label">Order Number</div>
+                            <div id="adminReceiptOrderNumber" style="font-family: monospace; font-size: 0.875rem; font-weight: 700;">-</div>
                         </div>
-                        <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-800">
-                            <div class="text-[10px] text-slate-500 uppercase font-black mb-1">Game & Package</div>
-                            <div class="text-sm text-white"><span id="adminReceiptGame">-</span> - <span id="adminReceiptDiamond">-</span> (<span id="adminReceiptQty">1</span>x)</div>
+                        <div class="order-summary-box" style="margin-bottom: 0; padding: 1rem;">
+                            <div class="admin-stat-label">Game & Package</div>
+                            <div style="font-size: 0.875rem;"><span id="adminReceiptGame">-</span> - <span id="adminReceiptDiamond">-</span> (<span id="adminReceiptQty">1</span>x)</div>
                         </div>
-                        <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-800">
-                            <div class="text-[10px] text-slate-500 uppercase font-black mb-1">Game ID</div>
-                            <div id="adminReceiptGameId" class="text-sm text-white font-bold">-</div>
+                        <div class="order-summary-box" style="margin-bottom: 0; padding: 1rem;">
+                            <div class="admin-stat-label">Game ID</div>
+                            <div id="adminReceiptGameId" style="font-size: 0.875rem; font-weight: 700;">-</div>
                         </div>
                     </div>
-                    <div class="space-y-4">
-                        <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-800">
-                            <div class="text-[10px] text-slate-500 uppercase font-black mb-1">Customer Info</div>
-                            <div class="text-sm text-white"><span id="adminReceiptNickname">-</span> (<span id="adminReceiptWhatsapp">-</span>)</div>
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div class="order-summary-box" style="margin-bottom: 0; padding: 1rem;">
+                            <div class="admin-stat-label">Customer Info</div>
+                            <div style="font-size: 0.875rem;"><span id="adminReceiptNickname">-</span> (<span id="adminReceiptWhatsapp">-</span>)</div>
                         </div>
-                        <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-800">
-                            <div class="text-[10px] text-slate-500 uppercase font-black mb-1">Payment & Date</div>
-                            <div class="text-sm text-white"><span id="adminReceiptPayment">-</span> | <span id="adminReceiptDate">-</span></div>
+                        <div class="order-summary-box" style="margin-bottom: 0; padding: 1rem;">
+                            <div class="admin-stat-label">Payment & Date</div>
+                            <div style="font-size: 0.875rem;"><span id="adminReceiptPayment">-</span> | <span id="adminReceiptDate">-</span></div>
                         </div>
-                        <div class="bg-slate-950/50 p-4 rounded-xl border border-slate-800">
-                            <div class="text-[10px] text-slate-500 uppercase font-black mb-1">Total Amount</div>
-                            <div id="adminReceiptTotal" class="text-lg font-black text-green-400">Rp0</div>
+                        <div class="order-summary-box" style="margin-bottom: 0; padding: 1rem;">
+                            <div class="admin-stat-label">Total Amount</div>
+                            <div id="adminReceiptTotal" class="text-green" style="font-size: 1.125rem; font-weight: 900;">Rp0</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="mb-8 p-4 bg-purple-900/20 rounded-xl border border-purple-800/50">
-                    <label class="block text-[10px] font-black text-purple-400 mb-2 uppercase">Update Status</label>
-                    <select id="adminModalStatusSelect" class="w-full bg-slate-900 border border-slate-700 p-3 rounded-lg text-white font-bold">
+                <div class="order-summary-box" style="margin-bottom: 2rem; background: rgba(191, 0, 255, 0.05); border-color: rgba(191, 0, 255, 0.2);">
+                    <label class="admin-stat-label text-purple">Update Status</label>
+                    <select id="adminModalStatusSelect" style="width: 100%; background: #0f172a; border: 1px solid #334155; padding: 0.75rem; border-radius: 0.5rem; color: #fff; font-weight: 700;">
                         <option value="pending">⏳ PENDING</option>
                         <option value="success">✅ SUCCESS</option>
                         <option value="failed">❌ FAILED</option>
                     </select>
                 </div>
 
-                <div class="flex gap-4">
-                    <button id="saveStatusBtn" onclick="saveAdminReceiptStatus()" class="flex-1 bg-purple-600 py-4 rounded-xl font-black hover:bg-purple-500 transition">SAVE STATUS</button>
-                    <button onclick="closeAdminReceipt()" class="px-8 bg-slate-800 py-4 rounded-xl font-bold hover:bg-slate-700 transition text-slate-400">CLOSE</button>
+                <div style="display: flex; gap: 1rem;">
+                    <button id="saveStatusBtn" onclick="saveAdminReceiptStatus()" class="submit-btn" style="flex: 1;">SAVE STATUS</button>
+                    <button onclick="closeAdminReceipt()" class="cancel-btn" style="flex: 0 0 auto; width: auto; padding: 0 2rem; background: #1e293b; border-radius: 0.75rem;">CLOSE</button>
                 </div>
             </div>
         </div>

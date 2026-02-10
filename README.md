@@ -23,9 +23,9 @@ The platform features a dark, immersive "Purple Galaxy" design:
 The project is reorganized into a clean and scalable structure:
 ```
 KingSlayer/
-├── assets/          # Images, logos, and icons
+├── assets/          # Images, logos, and icons (future use)
 ├── css/
-│   └── style.css    # Modernized gaming theme and layout logic
+│   └── style.css    # Clean, semantic CSS with Galaxy theme
 ├── js/
 │   └── app.js       # Core application logic and SDK integrations
 ├── index.html       # Clean, semantic HTML5 structure
@@ -34,9 +34,8 @@ KingSlayer/
 
 ## 🛠️ Technologies Used
 - **HTML5**: Semantic structure for better SEO and accessibility.
-- **CSS3**: Custom animations, gradients, and glassmorphism.
+- **CSS3**: Custom animations, gradients, variables, and glassmorphism.
 - **JavaScript (ES6+)**: Dynamic UI updates and state management.
-- **Tailwind CSS**: Utility-first styling for rapid layout development.
 - **Google Fonts**: "Orbitron" and "Cairo" for typography.
 
 ## 💻 How to Run Locally
