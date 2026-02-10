@@ -313,6 +313,33 @@ async function initElementSDK() {
   }
 }
 
+function initAccessibility() {
+  // Global listener for keyboard interactions on role="button" elements
+  document.addEventListener('keydown', (e) => {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.getAttribute('role') === 'button') {
+      // Avoid triggering if it's already a native button or link (they handle Enter/Space automatically)
+      if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
+
+      e.preventDefault();
+      e.target.click();
+    }
+  });
+}
+
+(async function init() {
+  await initDataSDK();
+  await initElementSDK();
+  initAccessibility();
+})();
+
+function parsePrice(priceStr) {
+  return parseInt(priceStr.replace(/[^0-9]/g, ''));
+}
+
+function formatPrice(price) {
+  return `Rp${price.toLocaleString('id-ID')}`;
+}
+
 // UI Core
 function showToast(msg) {
   const toast = document.createElement('div');
@@ -538,6 +565,40 @@ function stopLoading() {
   document.getElementById('loadingModal').classList.remove('show');
 }
 
+function filterGameSearch(event) {
+  const searchInput = event.target.value.toLowerCase().trim();
+  const resultsContainer = document.getElementById('gameSearchResults');
+
+  if (!searchInput) {
+    resultsContainer.style.display = 'none';
+    return;
+  }
+
+  const filteredGames = games.filter(game =>
+    game.name.toLowerCase().includes(searchInput)
+  );
+
+  if (filteredGames.length === 0) {
+    resultsContainer.innerHTML = '<div style="padding: 12px 15px; color: #d1fae5; font-size: 13px;">❌ Game tidak ditemukan</div>';
+    resultsContainer.style.display = 'block';
+    return;
+  }
+
+  resultsContainer.innerHTML = filteredGames.map(game => `
+    <div style="padding: 12px 15px; border-bottom: 1px solid rgba(253, 224, 71, 0.2); cursor: pointer; transition: all 0.2s ease; background: transparent;"
+         role="button"
+         tabindex="0"
+         onmouseover="this.style.background = 'rgba(253, 224, 71, 0.1)'"
+         onmouseout="this.style.background = 'transparent'"
+         onclick="selectGameFromSearch('${game.id}')">
+      <span style="font-size: 18px; margin-right: 8px;" role="img" aria-label="${game.name} icon">${game.emoji}</span>
+      <span style="color: #fde047; font-weight: 700; font-size: 13px;">${game.name}</span>
+    </div>
+  `).join('');
+
+  resultsContainer.style.display = 'block';
+}
+
 // Receipt
 function showReceipt(data) {
   closeModal('packageModal');
@@ -703,8 +764,8 @@ function scrollToSection(id) {
   if (el) el.scrollIntoView({ behavior: 'smooth' });
 }
 
-// Menu logic moved to auth.js for consistency
 
+main
 // Init
 window.onload = () => {
   initDataSDK();

@@ -148,7 +148,7 @@ h1, h2, h3, .logo-text, .hero-title, .btn-primary {
   filter: drop-shadow(0 0 5px rgba(191, 0, 255, 0.5));
 }
 
-.nav-links {
+.nav-links, .nav-links-container {
   display: flex;
   gap: 1rem;
   align-items: center;
@@ -643,10 +643,57 @@ footer {
 
 /* Responsive */
 @media (max-width: 768px) {
+  .nav-links-container {
+    position: fixed;
+    top: 0;
+    right: -280px;
+    width: 280px;
+    height: 100vh;
+    background: #07080d;
+    display: flex;
+    flex-direction: column;
+    padding: 100px 2rem 2rem;
+    gap: 1rem;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 1001;
+    border-left: 1px solid var(--glass-border);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .nav-links-container.active {
+    right: 0;
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .nav-link {
+    width: 100%;
+    text-align: center;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
   .hero-section { padding: 10rem 1rem 6rem; }
   .hero-title { font-size: 2.5rem; }
   .games-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
   .game-card { padding: 2rem 1rem; min-height: 240px; }
   .modal-content { padding: 1.5rem; }
   .main-wrapper { padding-bottom: 80px; } /* Space for sticky bar */
+}
+
+/* Accessibility: Focus Visible Styles */
+.game-card:focus-visible,
+.price-box:focus-visible,
+.payment-option:focus-visible,
+.logo-section:focus-visible,
+.whatsapp-box:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 4px;
+    transform: translateY(-5px);
+    transition: transform 0.3s ease, outline 0.3s ease;
+}
+
+.qty-btn:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
 }

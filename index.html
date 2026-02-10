@@ -25,23 +25,12 @@
         <!-- Navigation -->
         <nav class="top-nav">
             <div class="nav-content">
-                <div class="logo-section" onclick="scrollToSection('home')">
-                    <span class="text-2xl">⚔️</span>
+                <div class="logo-section" onclick="scrollToSection('home')" role="button" tabindex="0">
+                    <span class="logo-icon" role="img" aria-label="KingSlayer Logo">⚔️</span>
                     <span class="logo-text" id="navStoreName">KingSlayer</span>
                 </div>
 
-                <button class="mobile-toggle md:hidden" onclick="toggleMenu()">
-                    <span class="open-icon">☰</span>
-                    <span class="close-icon hidden">&times;</span>
-                </button>
-
-                <div id="navLinks" class="nav-links-container">
-                    <a href="#home" class="nav-link active" onclick="closeMenu()">HOME</a>
-                    <a href="#games" class="nav-link" onclick="scrollToSection('games'); closeMenu()">GAMES</a>
-                    <a href="#" class="nav-link" onclick="openHistory(); closeMenu()">HISTORY</a>
-                    <a href="#" class="nav-link" onclick="requestGame(); closeMenu()">REQUEST GAME</a>
-                    <a href="#contact" class="nav-link" onclick="scrollToSection('contact'); closeMenu()">CONTACT</a>
-                    <div id="auth-links" class="auth-links-wrapper"></div>
+main
                 </div>
             </div>
         </nav>
@@ -65,47 +54,112 @@
         </div>
 
         <!-- Games Grid -->
-        <main class="section-container" id="games">
-            <h2 class="section-title">PILIH GAME</h2>
+        <section id="games" class="section-container">
+            <h2 class="section-title text-3xl font-bold mb-12">🎮 PILIH GAME</h2>
             <div class="games-grid">
-                <div class="game-card" onclick="selectGame('ml')">
-                    <div class="game-icon">🗡️</div>
+                <div class="game-card" id="mlCard" onclick="selectGame('ml')" role="button" tabindex="0">
+                    <div class="game-icon-container">🗡️</div>
                     <div class="game-name">MOBILE LEGENDS</div>
                     <div class="game-subtitle">Diamond • Instant</div>
                 </div>
-                <div class="game-card" onclick="selectGame('ff')">
-                    <div class="game-icon">🔫</div>
+                <div class="game-card" id="ffCard" onclick="selectGame('ff')" role="button" tabindex="0">
+                    <div class="game-icon-container">🔫</div>
                     <div class="game-name">FREE FIRE</div>
                     <div class="game-subtitle">Diamond • Fast</div>
                 </div>
-                <div class="game-card" onclick="selectGame('pubg')">
-                    <div class="game-icon">🪖</div>
+                <div class="game-card" id="pubgCard" onclick="selectGame('pubg')" role="button" tabindex="0">
+                    <div class="game-icon-container">🪖</div>
                     <div class="game-name">PUBG MOBILE</div>
                     <div class="game-subtitle">UC • Instant</div>
                 </div>
-                <div class="game-card" onclick="selectGame('genshin')">
-                    <div class="game-icon">✨</div>
-                    <div class="game-name">GENSHIN IMPACT</div>
-                    <div class="game-subtitle">Crystals • Fast</div>
+                <div class="game-card" onclick="window.open('https://direz-store-robloxrobux.my.canva.site/', '_blank')" role="button" tabindex="0">
+                    <div class="game-icon-container">🔳</div>
+                    <div class="game-name">ROBLOX</div>
+                    <div class="game-subtitle">Robux • Instant</div>
                 </div>
-                <div class="game-card" onclick="selectGame('telegram')">
-                    <div class="game-icon">✈️</div>
+                <div class="game-card" onclick="window.open('https://direzstorebydiorezz.my.canva.site/genshin-impact', '_blank')" role="button" tabindex="0">
+                    <div class="game-icon-container">✨</div>
+                    <div class="game-name">GENSHIN IMPACT</div>
+                    <div class="game-subtitle">Genesis Crystal</div>
+                </div>
+                <div class="game-card" onclick="window.open('https://direzstorebydiorezz.my.canva.site/telestars', '_blank')" role="button" tabindex="0">
+                    <div class="game-icon-container">✈️</div>
                     <div class="game-name">TELEGRAM STARS</div>
                     <div class="game-subtitle">Stars • Instant</div>
                 </div>
-                <div class="game-card" onclick="selectGame('roblox')">
-                    <div class="game-icon">🔳</div>
-                    <div class="game-name">ROBLOX</div>
-                    <div class="game-subtitle">Robux • External</div>
+                <div class="game-card request-card" onclick="requestGame()" role="button" tabindex="0">
+                    <div class="game-icon-container">🎮</div>
+                    <div class="game-name">REQUEST GAME</div>
+                    <div class="game-subtitle">Contact Admin</div>
                 </div>
             </div>
-        </main>
+
+            <!-- Price Panels (Legacy/Reference) -->
+            <div class="price-container hidden" id="priceContainer">
+                <!-- ML Prices -->
+                <div class="price-panel" id="mlPrices">
+                    <h3 class="price-header text-2xl font-bold mb-6">💎 MOBILE LEGENDS DIAMOND</h3>
+                    <div class="price-category mb-8">
+                        <div class="category-name text-lg font-bold mb-4">👑 WEEKLY DIAMOND PASS</div>
+                        <div class="price-grid">
+                            <div class="price-box" onclick="selectPackage('MOBILE LEGENDS', '💎 Weekly Diamond Pass', 'Rp28.777')" role="button" tabindex="0">
+                                <div class="diamond-value">Weekly Diamond Pass</div>
+                                <div class="price-value">Rp28.777</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- FF Prices -->
+                <div class="price-panel" id="ffPrices">
+                    <h3 class="price-header text-2xl font-bold mb-6">🔥 FREE FIRE DIAMOND</h3>
+                    <div class="price-category">
+                        <div class="category-name text-lg font-bold mb-4">👑 MEMBERSHIP</div>
+                        <div class="price-grid">
+                            <div class="price-box" onclick="selectPackage('FREE FIRE', '🚀 Member Mingguan', 'Rp27.555')" role="button" tabindex="0">
+                                <div class="diamond-value">Member Mingguan</div>
+                                <div class="price-value">Rp27.555</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="price-category mt-8">
+                        <div class="category-name text-lg font-bold mb-4">💎 DIAMOND PACKS</div>
+                        <div class="price-grid">
+                            <div class="price-box" onclick="selectPackage('FREE FIRE', '💎 75', 'Rp10.000')" role="button" tabindex="0">
+                                <div class="diamond-value">75 💎</div>
+                                <div class="price-value">Rp10.000</div>
+                            </div>
+                            <div class="price-box" onclick="selectPackage('FREE FIRE', '💎 150', 'Rp20.000')" role="button" tabindex="0">
+                                <div class="diamond-value">150 💎</div>
+                                <div class="price-value">Rp20.000</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- PUBG Prices -->
+                <div class="price-panel" id="pubgPrices">
+                    <h3 class="price-header text-2xl font-bold mb-6">🎯 PUBG MOBILE UC</h3>
+                    <div class="price-category">
+                        <div class="category-name text-lg font-bold mb-4">🎯 UC PACKS</div>
+                        <div class="price-grid">
+                            <div class="price-box" onclick="selectPackage('PUBG MOBILE', '🎯 60 UC', 'Rp16.200')" role="button" tabindex="0">
+                                <div class="diamond-value">60 UC</div>
+                                <div class="price-value">Rp16.200</div>
+                            </div>
+                            <div class="price-box" onclick="selectPackage('PUBG MOBILE', '🎯 325 UC', 'Rp79.500')" role="button" tabindex="0">
+                                <div class="diamond-value">325 UC</div>
+                                <div class="price-value">Rp79.500</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <!-- Footer -->
-        <footer id="contact">
-            <p class="footer-message mb-6" id="footerText">Proses Cepat & Amanah</p>
-            <div class="inline-flex items-center gap-4 bg-slate-900/50 p-6 rounded-2xl border border-primary/20 cursor-pointer hover:scale-105 transition-transform" onclick="window.open('https://wa.me/6285646335331')">
-                <div class="text-4xl">💬</div>
+        <footer id="contact" class="footer-section mt-24">
+            <p class="footer-message text-xl font-bold text-purple-400 mb-8" id="footerText">Fast & Secure Transactions</p>
+            <div class="whatsapp-box glass inline-flex items-center gap-4 px-8 py-4 rounded-full cursor-pointer hover:scale-105 transition mb-12" onclick="openWhatsApp()" role="button" tabindex="0">
+                <span class="text-4xl">💬</span>
                 <div class="text-left">
                     <div class="text-xs text-slate-400 uppercase font-bold tracking-widest">WhatsApp Number</div>
                     <div class="text-2xl font-black text-primary" id="whatsappNumber">+62 856-4633-5331</div>
@@ -160,7 +214,7 @@
                 </div>
             </div>
 
-            <form onsubmit="submitOrder(event)">
+            <form id="orderForm" onsubmit="submitOrder(event)">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                     <div class="form-field">
                         <label class="field-label">ID Game</label>
@@ -187,7 +241,7 @@
                     </div>
                 </div>
 
-                <div class="flex items-center justify-center gap-6 mb-8">
+                <div id="quantity-selector" class="flex items-center justify-center gap-6 mb-8">
                     <button type="button" class="btn-mini text-2xl px-4" onclick="adjustQty(-1)">−</button>
                     <div class="text-4xl font-black text-primary" id="qtyDisplay">1</div>
                     <button type="button" class="btn-mini text-2xl px-4" onclick="adjustQty(1)">+</button>
