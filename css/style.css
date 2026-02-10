@@ -20,9 +20,8 @@
 }
 
 html, body {
-  height: 100%;
+  min-height: 100%;
   width: 100%;
-  overflow-x: hidden;
   scroll-behavior: smooth;
 }
 
@@ -42,7 +41,7 @@ h1, h2, h3, .logo-text, .hero-title, .btn-primary {
   position: relative;
   z-index: 1;
   background: var(--bg-gradient);
-  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 .galaxy-bg {
@@ -274,6 +273,8 @@ h1, h2, h3, .logo-text, .hero-title, .btn-primary {
   padding: 2.5rem;
   width: 100%;
   max-width: 500px;
+  max-height: 90dvh;
+  overflow-y: auto;
   position: relative;
   animation: modalIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -529,9 +530,10 @@ footer {
 
 /* Responsive */
 @media (max-width: 768px) {
-  .hero-section { padding: 10rem 1rem 6rem; }
+  .hero-section { padding: 8rem 1rem 4rem; }
   .hero-title { font-size: 2.5rem; }
   .games-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
   .game-card { padding: 2rem 1rem; min-height: 240px; }
   .modal-content { padding: 1.5rem; }
+  footer { padding-bottom: 6rem; } /* Safe area for mobile browsers */
 }
