@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | KingSlayer</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Styles -->
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div class="main-wrapper flex flex-col min-h-screen">
+        <div class="galaxy-bg"></div>
+
+        <!-- Navigation -->
+        <nav class="top-nav">
+            <div class="nav-content">
+                <div class="logo-section" onclick="window.location.href='../index.html'">
+                    <span class="text-2xl">⚔️</span>
+                    <span class="logo-text">KingSlayer</span>
+                </div>
+                <button class="md:hidden text-2xl" onclick="toggleMenu()">☰</button>
+                <div id="navLinks" class="hidden md:flex gap-1 items-center absolute md:relative top-[80px] md:top-0 left-0 w-full md:w-auto bg-[#07080d] md:bg-transparent border-b md:border-none border-white/10 p-4 md:p-0 flex-col md:flex-row transition-all duration-300">
+                    <a href="../index.html" class="nav-link w-full md:w-auto text-center">HOME</a>
+                    <div id="auth-links" class="flex flex-col md:flex-row gap-1 w-full md:w-auto"></div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Dashboard Content -->
+        <main class="section-container mt-20">
+            <div class="flex flex-col md:flex-row gap-8">
+                <!-- Profile Section -->
+                <div class="md:w-1/3">
+                    <div class="game-card !cursor-default !items-start !text-left">
+                        <div class="text-4xl mb-4">👤</div>
+                        <h2 class="text-2xl font-black mb-1">WELCOME BACK!</h2>
+                        <p id="userEmail" class="text-primary font-bold mb-6 truncate w-full"></p>
+                        <button onclick="window.logout()" class="btn-mini w-full">LOGOUT</button>
+                    </div>
+                </div>
+
+                <!-- History Section -->
+                <div class="md:w-2/3">
+                    <div class="bg-black/40 p-8 rounded-[30px] border border-white/10">
+                        <h3 class="modal-title mb-6">TRANSACTION HISTORY</h3>
+                        <div id="dashboardHistory" class="space-y-4">
+                            <!-- Transactions -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script>
+        function toggleMenu() {
+            const links = document.getElementById('navLinks');
+            links.classList.toggle('hidden');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = window.getCurrentUser();
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            document.getElementById('userEmail').textContent = user.email;
+            renderHistory();
+        });
+
+        function renderHistory() {
+            const transactions = window.getUserTransactions();
+            const container = document.getElementById('dashboardHistory');
+
+            if (transactions.length === 0) {
+                container.innerHTML = '<div class="text-center py-12 text-slate-500">No transactions yet. Start topping up!</div>';
+                return;
+            }
+
+            container.innerHTML = transactions.reverse().map(t => `
+                <div class="order-item-history">
+                    <div class="flex justify-between mb-2">
+                        <span class="font-bold text-primary">${t.order_number}</span>
+                        <span class="status-badge ${t.status || 'success'}">${(t.status || 'SUCCESS').toUpperCase()}</span>
+                    </div>
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <div class="text-sm text-slate-400">${t.game} - ${t.diamond}</div>
+                            <div class="text-xs text-slate-500 mt-1">${new Date(t.order_date).toLocaleString('id-ID')}</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-lg font-black text-green-400">${t.price}</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html>
