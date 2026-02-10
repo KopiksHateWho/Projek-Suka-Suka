@@ -88,7 +88,29 @@ async function initElementSDK() {
 (async function init() {
   await initDataSDK();
   await initElementSDK();
+  initMobileMenu();
 })();
+
+function initMobileMenu() {
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+
+  if (menuToggle && navLinks) {
+    menuToggle.addEventListener('click', () => {
+      menuToggle.classList.toggle('active');
+      navLinks.classList.toggle('active');
+    });
+
+    // Close menu when nav links are clicked
+    const links = navLinks.querySelectorAll('.nav-link');
+    links.forEach(link => {
+      link.addEventListener('click', () => {
+        menuToggle.classList.remove('active');
+        navLinks.classList.remove('active');
+      });
+    });
+  }
+}
 
 function parsePrice(priceStr) {
   return parseInt(priceStr.replace(/[^0-9]/g, ''));
@@ -442,6 +464,12 @@ function filterGameSearch(event) {
 function selectGameFromSearch(gameId) {
   document.getElementById('gameSearchInput').value = '';
   document.getElementById('gameSearchResults').style.display = 'none';
+
+  // Close mobile menu if open
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  if (menuToggle) menuToggle.classList.remove('active');
+  if (navLinks) navLinks.classList.remove('active');
 
   selectGame(gameId);
 }

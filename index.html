@@ -30,7 +30,12 @@
                     <span class="logo-icon">⚔️</span>
                     <span class="logo-text" id="navStoreName">KingSlayer</span>
                 </div>
-                <div class="nav-links">
+                <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+                <div class="nav-links" id="navLinks">
                     <a href="#home" class="nav-link active" onclick="scrollToSection('home', event)">🏠 HOME</a>
                     <div class="search-container">
                         <input type="text" id="gameSearchInput" class="nav-link" placeholder="🔍 Cari game..." onkeyup="filterGameSearch(event)">
