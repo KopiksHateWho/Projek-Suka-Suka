@@ -425,6 +425,7 @@ async function submitOrder(e) {
     if (window.dataSdk) {
       const result = await window.dataSdk.create(orderData);
       if (result.isOk) {
+        if (window.saveTransaction) window.saveTransaction(orderData);
         finishLoading(() => showReceipt(orderData));
       } else {
         stopLoading();
