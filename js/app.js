@@ -346,7 +346,6 @@ function selectPackage(name, price, maybePrice) {
   });
 
   updateOrderSummary();
- fix-navigation-regression-6011862331441458824
   const stickyBar = document.getElementById('stickyMobileBar');
   if (stickyBar) stickyBar.classList.add('active');
 
@@ -359,7 +358,6 @@ function selectPackage(name, price, maybePrice) {
       }
       openModal('packageModal');
   }
- main
 }
 
 function updateOrderSummary() {

@@ -93,7 +93,6 @@ window.toggleMenu = function() {
 };
 
 window.closeMenu = function() {
-fix-navigation-regression-6011862331441458824
     const links = document.querySelector('.nav-links-container');
     if (links && links.classList.contains('active')) {
         links.classList.remove('active');
@@ -107,7 +106,6 @@ window.requestGame = function() {
     const whatsappDisplay = document.getElementById('whatsappNumber');
     const num = whatsappDisplay ? whatsappDisplay.textContent.replace(/\D/g, '') : '62882007655617';
     window.open(`https://wa.me/${num}?text=${encodeURIComponent('Halo, saya ingin request game yang belum ada!')}`, '_blank');
- main
 };
 
 window.openWhatsApp = function() {
