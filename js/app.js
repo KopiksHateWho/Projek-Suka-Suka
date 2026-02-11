@@ -33,7 +33,10 @@ const defaultConfig = {
 const dataHandler = {
   onDataChanged(data) {
     if (!data) return;
-    allOrders = data.filter(item => item.order_number);
+    allOrders = data.filter(item => item.order_number).map(o => ({
+      ...o,
+      numericPrice: parsePrice(o.price || '0')
+    }));
   }
 };
 
@@ -96,7 +99,7 @@ function initAccessibility() {
 })();
 
 function parsePrice(priceStr) {
-  return parseInt(priceStr.replace(/[^0-9]/g, ''));
+  return parseInt(priceStr.replace(/[^0-9]/g, '') || 0);
 }
 
 function formatPrice(price) {
@@ -123,9 +126,6 @@ function selectGame(gameId) {
   currentOrder.game = game.name;
   renderPackageSelection(game.name);
   openModal('packageModal');
-
-  const stickyBar = document.getElementById('stickyMobileBar');
-  if (stickyBar) stickyBar.classList.add('active');
 }
 
 function renderPackageSelection(gameName) {
@@ -182,7 +182,7 @@ function selectPackage(name, price, maybePrice) {
 
   currentOrder.package = finalPackage;
   currentOrder.price = finalPrice;
-  currentOrder.unitPrice = parseInt(finalPrice.replace(/[^0-9]/g, ''));
+  currentOrder.unitPrice = parsePrice(finalPrice);
   currentOrder.quantity = 1;
 
   document.querySelectorAll('.price-box-mini, .price-box').forEach(el => {
@@ -192,6 +192,8 @@ function selectPackage(name, price, maybePrice) {
   });
 
   updateOrderSummary();
+  const stickyBar = document.getElementById('stickyMobileBar');
+  if (stickyBar) stickyBar.classList.add('active');
 
   // If clicking from the static price grid, also open the modal if not already open
   if (!document.getElementById('packageModal').classList.contains('show')) {
@@ -314,10 +316,22 @@ async function confirmOrder() {
 // Modal System
 function openModal(id) {
   document.getElementById(id).classList.add('show');
+  // Prevent body scroll when modal open
+  document.body.style.overflow = 'hidden';
 }
 
 function closeModal(id) {
   document.getElementById(id).classList.remove('show');
+  document.body.style.overflow = '';
+
+  // Hide sticky bar if closing receipt or cancelling package selection
+  if (id === 'receiptModal' || (id === 'packageModal' && !isSubmitting)) {
+    // Only hide if we're not just moving to the summary modal
+    const stickyBar = document.getElementById('stickyMobileBar');
+    if (stickyBar && !document.getElementById('summaryModal').classList.contains('show')) {
+      stickyBar.classList.remove('active');
+    }
+  }
 }
 
 // Loading Rocket
@@ -488,7 +502,11 @@ function showAdminPanel() {
 function updateAdminStats() {
   const total = allOrders.length;
   const success = allOrders.filter(o => o.status === 'success').length;
-  const revenue = allOrders.reduce((acc, o) => acc + parseInt(o.price.replace(/[^0-9]/g, '') || 0), 0);
+ performance-price-parsing-optimization-5794663105393118942
+  const revenue = allOrders.reduce((acc, o) => acc + (o.numericPrice || 0), 0);
+
+  const revenue = allOrders.reduce((acc, o) => acc + (parsePrice(o.price) || 0), 0);
+ main
 
   document.getElementById('adminStatTotal').textContent = total;
   document.getElementById('adminStatSuccess').textContent = success;
@@ -553,18 +571,20 @@ async function saveAdminStatus() {
 // Search & Misc
 function filterGames() {
   const q = document.getElementById('gameSearch').value.toLowerCase();
-  let count = 0;
   document.querySelectorAll('.game-card').forEach(card => {
     const name = card.querySelector('.game-name').textContent.toLowerCase();
-    const isMatch = name.includes(q);
-    card.style.display = isMatch ? 'flex' : 'none';
-    if (isMatch) count++;
+    card.style.display = name.includes(q) ? 'flex' : 'none';
   });
+}
 
-  const noResults = document.getElementById('noGamesFound');
-  if (noResults) {
-    noResults.classList.toggle('hidden', count > 0);
-  }
+function openWhatsApp() {
+  const num = document.getElementById('whatsappNumber').textContent.replace(/\D/g, '');
+  window.open(`https://wa.me/${num}`, '_blank');
+}
+
+function requestGame() {
+  const num = document.getElementById('whatsappNumber').textContent.replace(/\D/g, '');
+  window.open(`https://wa.me/${num}?text=${encodeURIComponent('Halo, saya ingin request game yang belum ada!')}`, '_blank');
 }
 
 function scrollToSection(id) {

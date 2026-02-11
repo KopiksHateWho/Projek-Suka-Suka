@@ -86,11 +86,18 @@ window.showToast = function(msg) {
 };
 
 window.toggleMenu = function() {
-    const nav = document.querySelector('.nav-links-container');
-    if (nav) nav.classList.toggle('active');
+    const links = document.querySelector('.nav-links-container');
+    if (links) {
+        links.classList.toggle('active');
+    }
 };
 
 window.closeMenu = function() {
+    const links = document.querySelector('.nav-links-container');
+    if (links && links.classList.contains('active')) {
+        links.classList.remove('active');
+    }
+
     const nav = document.querySelector('.nav-links-container');
     if (nav) nav.classList.remove('active');
 };
