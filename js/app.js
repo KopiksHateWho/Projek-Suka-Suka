@@ -222,7 +222,10 @@ const defaultConfig = {
 const dataHandler = {
   onDataChanged(data) {
     if (!data) return;
-    allOrders = data.filter(item => item.order_number);
+    allOrders = data.filter(item => item.order_number).map(o => ({
+      ...o,
+      numericPrice: parsePrice(o.price || '0')
+    }));
   }
 };
 
@@ -283,7 +286,7 @@ function initAccessibility() {
 })();
 
 function parsePrice(priceStr) {
-  return parseInt(priceStr.replace(/[^0-9]/g, ''));
+  return parseInt(priceStr.replace(/[^0-9]/g, '') || 0);
 }
 
 function formatPrice(price) {
@@ -656,7 +659,11 @@ function showAdminPanel() {
 function updateAdminStats() {
   const total = allOrders.length;
   const success = allOrders.filter(o => o.status === 'success').length;
+ performance-price-parsing-optimization-5794663105393118942
+  const revenue = allOrders.reduce((acc, o) => acc + (o.numericPrice || 0), 0);
+
   const revenue = allOrders.reduce((acc, o) => acc + (parsePrice(o.price) || 0), 0);
+ main
 
   document.getElementById('adminStatTotal').textContent = total;
   document.getElementById('adminStatSuccess').textContent = success;
