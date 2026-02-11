@@ -46,7 +46,7 @@ window.updateNavbar = function() {
 
     const user = window.getCurrentUser();
     if (user) {
-        const isAdmin = user.email === 'admin@kingslayer.com';
+        const isAdmin = user.email === 'King@gmail.com';
         authLinks.innerHTML = `
             ${isAdmin ? `<a href="${pagesPrefix}admin.html" class="nav-link w-full md:w-auto text-center text-primary font-bold" onclick="window.closeMenu()">ADMIN</a>` : ''}
             <a href="${pagesPrefix}dashboard.html" class="nav-link w-full md:w-auto text-center" onclick="window.closeMenu()">DASHBOARD</a>
@@ -86,6 +86,7 @@ window.showToast = function(msg) {
 };
 
 window.toggleMenu = function() {
+test/add-auth-current-user-8683990730850327150
     const links = document.querySelector('.nav-links-container');
     const overlay = document.querySelector('.nav-overlay');
 
@@ -108,17 +109,26 @@ window.closeMenu = function() {
     if (links) links.classList.remove('active');
     if (overlay) overlay.classList.remove('active');
     document.body.style.overflow = '';
+
+    const nav = document.querySelector('.nav-links-container');
+    if (nav) nav.classList.toggle('active');
+};
+
+window.closeMenu = function() {
+    const nav = document.querySelector('.nav-links-container');
+    if (nav) nav.classList.remove('active');
+main
 };
 
 window.requestGame = function() {
-    const whatsappDisplay = document.getElementById('whatsappNumber');
-    const num = whatsappDisplay ? whatsappDisplay.textContent.replace(/\D/g, '') : '62882007655617';
+    const settings = window.Storage ? Storage.getSettings() : { whatsapp_number: '62882007655617' };
+    const num = settings.whatsapp_number.replace(/\D/g, '');
     window.open(`https://wa.me/${num}?text=${encodeURIComponent('Halo, saya ingin request game yang belum ada!')}`, '_blank');
 };
 
 window.openWhatsApp = function() {
-    const whatsappDisplay = document.getElementById('whatsappNumber');
-    const num = whatsappDisplay ? whatsappDisplay.textContent.replace(/\D/g, '') : '62882007655617';
+    const settings = window.Storage ? Storage.getSettings() : { whatsapp_number: '62882007655617' };
+    const num = settings.whatsapp_number.replace(/\D/g, '');
     window.open(`https://wa.me/${num}`, '_blank');
 };
 
@@ -130,8 +140,8 @@ document.addEventListener('DOMContentLoaded', () => {
 (function initAdmin() {
     const USERS_KEY = 'ks_users';
     const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
-    if (!users.find(u => u.email === 'admin@kingslayer.com')) {
-        users.push({ email: 'admin@kingslayer.com', password: 'admin' });
+    if (!users.find(u => u.email === 'King@gmail.com')) {
+        users.push({ email: 'King@gmail.com', password: 'Slayer123' });
         localStorage.setItem(USERS_KEY, JSON.stringify(users));
     }
 })();
