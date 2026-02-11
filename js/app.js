@@ -748,15 +748,18 @@ async function saveAdminStatus() {
 // Search & Misc
 function filterGames() {
   const q = document.getElementById('gameSearch').value.toLowerCase();
+  let count = 0;
   document.querySelectorAll('.game-card').forEach(card => {
     const name = card.querySelector('.game-name').textContent.toLowerCase();
-    card.style.display = name.includes(q) ? 'flex' : 'none';
+    const isMatch = name.includes(q);
+    card.style.display = isMatch ? 'flex' : 'none';
+    if (isMatch) count++;
   });
-}
 
-function requestGame() {
-  const num = document.getElementById('whatsappNumber').textContent.replace(/\D/g, '');
-  window.open(`https://wa.me/${num}?text=${encodeURIComponent('Halo, saya ingin request game yang belum ada!')}`, '_blank');
+  const noResults = document.getElementById('noGamesFound');
+  if (noResults) {
+    noResults.classList.toggle('hidden', count > 0);
+  }
 }
 
 function scrollToSection(id) {
