@@ -86,6 +86,30 @@ window.showToast = function(msg) {
 };
 
 window.toggleMenu = function() {
+test/add-auth-current-user-8683990730850327150
+    const links = document.querySelector('.nav-links-container');
+    const overlay = document.querySelector('.nav-overlay');
+
+    if (links) {
+        links.classList.toggle('active');
+        const isActive = links.classList.contains('active');
+
+        document.body.style.overflow = isActive ? 'hidden' : '';
+        if (overlay) {
+            if (isActive) overlay.classList.add('active');
+            else overlay.classList.remove('active');
+        }
+    }
+};
+
+window.closeMenu = function() {
+    const links = document.querySelector('.nav-links-container');
+    const overlay = document.querySelector('.nav-overlay');
+
+    if (links) links.classList.remove('active');
+    if (overlay) overlay.classList.remove('active');
+    document.body.style.overflow = '';
+
     const nav = document.querySelector('.nav-links-container');
     if (nav) nav.classList.toggle('active');
 };
@@ -93,6 +117,7 @@ window.toggleMenu = function() {
 window.closeMenu = function() {
     const nav = document.querySelector('.nav-links-container');
     if (nav) nav.classList.remove('active');
+main
 };
 
 window.requestGame = function() {
