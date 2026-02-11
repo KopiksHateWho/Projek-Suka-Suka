@@ -46,7 +46,7 @@ window.updateNavbar = function() {
 
     const user = window.getCurrentUser();
     if (user) {
-        const isAdmin = user.email === 'admin@kingslayer.com';
+        const isAdmin = user.email === 'King@gmail.com';
         authLinks.innerHTML = `
             ${isAdmin ? `<a href="${pagesPrefix}admin.html" class="nav-link w-full md:w-auto text-center text-primary font-bold" onclick="window.closeMenu()">ADMIN</a>` : ''}
             <a href="${pagesPrefix}dashboard.html" class="nav-link w-full md:w-auto text-center" onclick="window.closeMenu()">DASHBOARD</a>
@@ -86,18 +86,11 @@ window.showToast = function(msg) {
 };
 
 window.toggleMenu = function() {
-    const links = document.querySelector('.nav-links-container');
-    if (links) {
-        links.classList.toggle('active');
-    }
+    const nav = document.querySelector('.nav-links-container');
+    if (nav) nav.classList.toggle('active');
 };
 
 window.closeMenu = function() {
-    const links = document.querySelector('.nav-links-container');
-    if (links && links.classList.contains('active')) {
-        links.classList.remove('active');
-    }
-
     const nav = document.querySelector('.nav-links-container');
     if (nav) nav.classList.remove('active');
 };
@@ -122,8 +115,8 @@ document.addEventListener('DOMContentLoaded', () => {
 (function initAdmin() {
     const USERS_KEY = 'ks_users';
     const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
-    if (!users.find(u => u.email === 'admin@kingslayer.com')) {
-        users.push({ email: 'admin@kingslayer.com', password: 'admin' });
+    if (!users.find(u => u.email === 'King@gmail.com')) {
+        users.push({ email: 'King@gmail.com', password: 'Slayer123' });
         localStorage.setItem(USERS_KEY, JSON.stringify(users));
     }
 })();

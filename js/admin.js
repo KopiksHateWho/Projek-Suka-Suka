@@ -27,13 +27,19 @@ const Admin = {
                 e.preventDefault();
                 const user = document.getElementById('adminUser').value;
                 const pass = document.getElementById('adminPass').value;
+                const errorEl = document.getElementById('loginError');
 
-                if (user === 'admin' && pass === 'admin123') {
+                if (user === 'King@gmail.com' && pass === 'Slayer123') {
                     sessionStorage.setItem('ks_admin_logged', 'true');
+                    if (errorEl) errorEl.classList.add('hidden');
                     this.checkAuth();
                     this.renderDashboard();
                 } else {
-                    alert('Invalid credentials');
+                    if (errorEl) {
+                        errorEl.classList.remove('hidden');
+                    } else {
+                        alert('Invalid email or password');
+                    }
                 }
             });
         }
