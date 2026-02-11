@@ -3,220 +3,322 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel | KingSlayer</title>
+    <title>Admin Dashboard | KingSlayer</title>
+
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+
     <!-- Styles -->
     <link rel="stylesheet" href="../css/style.css">
     <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
+        :root {
+            --sidebar-width: 260px;
+        }
+
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(191, 0, 255, 0.2);
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 2rem;
+            min-width: 0;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            color: var(--text-muted);
+            font-weight: 700;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .sidebar-link:hover, .sidebar-link.active {
+            color: #fff;
+            background: rgba(191, 0, 255, 0.1);
+            border-left: 4px solid var(--primary);
+        }
+
         .admin-card {
             background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            border: 1px border-white/10;
-            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 20px;
-            transition: all 0.3s ease;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
         }
-        .admin-card:hover {
-            border-color: var(--primary-color);
-            background: rgba(255, 255, 255, 0.05);
-            transform: translateY(-5px);
-        }
-        .admin-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0 0.5rem;
-        }
-        .admin-table th {
-            text-align: left;
-            padding: 1rem;
-            color: #94a3b8;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-        .admin-table td {
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.02);
-        }
-        .admin-table tr td:first-child { border-radius: 12px 0 0 12px; }
-        .admin-table tr td:last-child { border-radius: 0 12px 12px 0; }
 
-        .tab-btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: 12px;
+        .login-overlay {
+            position: fixed;
+            inset: 0;
+            background: #07080d;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid var(--primary);
+            border-radius: 30px;
+            padding: 3rem 2rem;
+            box-shadow: 0 0 50px rgba(191, 0, 255, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+        }
+
+        .hidden { display: none !important; }
+
+        .btn-status {
+            font-size: 10px;
+            padding: 4px 8px;
+            border-radius: 4px;
             font-weight: bold;
-            transition: all 0.3s;
-            color: #94a3b8;
+            text-transform: uppercase;
         }
-        .tab-btn.active {
-            background: var(--primary-color);
-            color: white;
-            box-shadow: 0 0 20px rgba(255, 0, 212, 0.3);
-        }
+        .btn-status.pending { background: #eab30822; color: #eab308; }
+        .btn-status.processing { background: #3b82f622; color: #3b82f6; }
+        .btn-status.success { background: #22c55e22; color: #22c55e; }
     </style>
 </head>
 <body>
-    <div class="main-wrapper flex flex-col min-h-screen">
+    <!-- Login Screen -->
+    <div id="loginOverlay" class="login-overlay">
+        <div class="login-card">
+            <div class="text-center mb-8">
+                <div class="text-5xl mb-4">⚔️</div>
+                <h2 class="text-2xl font-black text-white">ADMIN ACCESS</h2>
+                <p class="text-slate-400 text-sm">KingSlayer Control Panel</p>
+            </div>
+            <form id="adminLoginForm">
+                <div class="form-field">
+                    <label class="field-label">Username</label>
+                    <input type="text" id="adminUser" class="field-input" placeholder="admin" required>
+                </div>
+                <div class="form-field mb-8">
+                    <label class="field-label">Password</label>
+                    <input type="password" id="adminPass" class="field-input" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="checkout-btn">LOGIN</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="main-wrapper admin-layout">
         <div class="galaxy-bg"></div>
 
-        <!-- Navigation -->
-        <nav class="top-nav">
-            <div class="nav-content">
-                <div class="logo-section" onclick="window.location.href='../index.html'" role="button" tabindex="0">
-                    <span class="logo-icon" role="img" aria-label="KingSlayer Logo">⚔️</span>
-                    <span class="logo-text">Admin Panel</span>
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="p-8">
+                <div class="logo-section mb-12">
+                    <span class="logo-icon">⚔️</span>
+                    <span class="logo-text">KING ADMIN</span>
                 </div>
-                <div class="nav-links-container">
-                    <div class="nav-links">
-                        <a href="../index.html#home" class="nav-link" onclick="window.closeMenu()">Home</a>
-                        <a href="../index.html#games" class="nav-link" onclick="window.closeMenu()">Top Up</a>
-                        <a href="#" class="nav-link" onclick="window.requestGame(); window.closeMenu()">Request Game</a>
-                        <a href="../index.html#contact" class="nav-link" onclick="window.closeMenu()">Contact</a>
-                        <div id="auth-links" class="auth-links-wrapper"></div>
+
+                <nav class="space-y-2">
+                    <div class="sidebar-link active" onclick="showSection('dashboard', this)">
+                        <span>📊</span> Dashboard
+                    </div>
+                    <div class="sidebar-link" onclick="showSection('orders', this)">
+                        <span>📦</span> Orders
+                    </div>
+                    <div class="sidebar-link" onclick="showSection('games', this)">
+                        <span>🎮</span> Game List
+                    </div>
+                    <div class="sidebar-link" onclick="showSection('requests', this)">
+                        <span>📥</span> Requests
+                    </div>
+                    <div class="sidebar-link" onclick="showSection('settings', this)">
+                        <span>⚙️</span> Settings
+                    </div>
+                </nav>
+
+                <div class="absolute bottom-8 left-8 right-8">
+                    <button onclick="adminLogout()" class="w-full py-3 bg-red-500/10 text-red-500 rounded-xl font-bold hover:bg-red-500/20 transition">
+                        LOGOUT
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="flex justify-between items-center mb-12">
+                <div>
+                    <h2 id="sectionTitle" class="text-3xl font-black text-white">DASHBOARD</h2>
+                    <p class="text-slate-400" id="sectionSubtitle">Overview of your store performance</p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button class="md:hidden text-white text-2xl" onclick="toggleSidebar()">☰</button>
+                    <div class="admin-card py-2 px-4 flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center font-bold">A</div>
+                        <span class="text-sm font-bold">Admin</span>
                     </div>
                 </div>
-                <button class="mobile-toggle md:hidden" onclick="window.toggleMenu()" aria-label="Toggle Menu">☰</button>
-            </div>
-        </nav>
+            </header>
 
-        <!-- Admin Content -->
-        <main class="section-container mt-20">
-            <!-- Stats Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                <div class="admin-card">
-                    <div class="text-slate-400 text-xs font-bold uppercase tracking-widest mb-2">Total Orders</div>
-                    <div id="statTotalOrders" class="text-4xl font-black text-white">0</div>
-                    <div class="text-green-400 text-xs mt-2">↑ 12% from last month</div>
-                </div>
-                <div class="admin-card">
-                    <div class="text-slate-400 text-xs font-bold uppercase tracking-widest mb-2">Total Revenue</div>
-                    <div id="statTotalRevenue" class="text-4xl font-black text-primary">Rp0</div>
-                    <div class="text-green-400 text-xs mt-2">↑ 8% from last month</div>
-                </div>
-                <div class="admin-card">
-                    <div class="text-slate-400 text-xs font-bold uppercase tracking-widest mb-2">Total Users</div>
-                    <div id="statTotalUsers" class="text-4xl font-black text-white">0</div>
-                    <div class="text-slate-400 text-xs mt-2">Active now: 42</div>
-                </div>
-            </div>
-
-            <!-- Tabs -->
-            <div class="flex gap-4 mb-8">
-                <button onclick="showTab('orders')" id="tabOrders" class="tab-btn active">ORDERS</button>
-                <button onclick="showTab('products')" id="tabProducts" class="tab-btn">PRODUCTS</button>
-            </div>
-
-            <!-- Orders Table -->
-            <div id="sectionOrders" class="bg-black/40 p-6 rounded-[30px] border border-white/10 overflow-x-auto">
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>Order ID</th>
-                            <th>Game</th>
-                            <th>User</th>
-                            <th>Amount</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="adminOrdersTable">
-                        <!-- Dynamic Rows -->
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Products Management -->
-            <div id="sectionProducts" class="hidden">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="admin-card !flex flex-col items-center justify-center border-dashed border-2 hover:border-primary cursor-pointer" onclick="addProduct()">
-                        <div class="text-4xl mb-2">+</div>
-                        <div class="font-bold">ADD NEW PRODUCT</div>
-                    </div>
-                    <!-- Dummy Products -->
+            <!-- Dashboard Section -->
+            <section id="content-dashboard" class="admin-section">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
                     <div class="admin-card">
-                        <div class="flex justify-between mb-4">
-                            <span class="text-xs font-bold text-primary">MOBILE LEGENDS</span>
-                            <span class="text-xs text-green-400">Active</span>
-                        </div>
-                        <h4 class="font-black mb-1">Weekly Diamond Pass</h4>
-                        <p class="text-sm text-slate-400 mb-4">Rp28.777</p>
-                        <div class="flex gap-2">
-                            <button class="btn-mini flex-1">EDIT</button>
-                            <button class="btn-mini flex-1 !bg-red-500/20 hover:!bg-red-500/40">HIDE</button>
-                        </div>
+                        <p class="text-slate-400 text-xs font-bold mb-1 uppercase">Total Orders</p>
+                        <h3 id="statTotalOrders" class="text-4xl font-black text-white">0</h3>
                     </div>
                     <div class="admin-card">
-                        <div class="flex justify-between mb-4">
-                            <span class="text-xs font-bold text-primary">FREE FIRE</span>
-                            <span class="text-xs text-green-400">Active</span>
-                        </div>
-                        <h4 class="font-black mb-1">720 Diamonds</h4>
-                        <p class="text-sm text-slate-400 mb-4">Rp100.000</p>
-                        <div class="flex gap-2">
-                            <button class="btn-mini flex-1">EDIT</button>
-                            <button class="btn-mini flex-1 !bg-red-500/20 hover:!bg-red-500/40">HIDE</button>
-                        </div>
+                        <p class="text-slate-400 text-xs font-bold mb-1 uppercase">Total Revenue</p>
+                        <h3 id="statRevenue" class="text-4xl font-black text-green-400">Rp0</h3>
+                    </div>
+                    <div class="admin-card">
+                        <p class="text-slate-400 text-xs font-bold mb-1 uppercase">Active Games</p>
+                        <h3 id="statTotalGames" class="text-4xl font-black text-primary">0</h3>
                     </div>
                 </div>
-            </div>
+
+                <div class="admin-card">
+                    <h4 class="font-bold mb-6">RECENT ACTIVITY</h4>
+                    <div id="recentActivity" class="space-y-4">
+                        <!-- Dynamic -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Orders Section -->
+            <section id="content-orders" class="admin-section hidden">
+                <div class="admin-card overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="text-slate-400 text-xs uppercase border-b border-white/5">
+                                <th class="pb-4 font-bold">Order ID</th>
+                                <th class="pb-4 font-bold">Game</th>
+                                <th class="pb-4 font-bold">User</th>
+                                <th class="pb-4 font-bold">Amount</th>
+                                <th class="pb-4 font-bold">Status</th>
+                                <th class="pb-4 font-bold">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTableBody" class="text-sm">
+                            <!-- Dynamic rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Games Section -->
+            <section id="content-games" class="admin-section hidden">
+                <div class="flex justify-end mb-6">
+                    <button onclick="openAddGameModal()" class="btn-primary px-6 py-2">+ ADD GAME</button>
+                </div>
+                <div id="gamesAdminList" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Dynamic -->
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="content-settings" class="admin-section hidden">
+                <div class="max-w-xl">
+                    <div class="admin-card">
+                        <form id="settingsForm" onsubmit="saveSettings(event)">
+                            <div class="form-field">
+                                <label class="field-label">Store Name</label>
+                                <input type="text" id="settingStoreName" class="field-input">
+                            </div>
+                            <div class="form-field">
+                                <label class="field-label">WhatsApp Number</label>
+                                <input type="text" id="settingWA" class="field-input">
+                            </div>
+                            <div class="form-field mb-8">
+                                <label class="field-label">Footer Tagline</label>
+                                <input type="text" id="settingTagline" class="field-input">
+                            </div>
+                            <button type="submit" class="checkout-btn">SAVE SETTINGS</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Requests Section -->
+            <section id="content-requests" class="admin-section hidden">
+                <div class="admin-card">
+                    <div id="requestsList" class="space-y-4">
+                        <!-- Dynamic -->
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
 
-    <script src="../js/auth.js"></script>
-    <script>
-        function showTab(tab) {
-            document.getElementById('sectionOrders').classList.toggle('hidden', tab !== 'orders');
-            document.getElementById('sectionProducts').classList.toggle('hidden', tab !== 'products');
-            document.getElementById('tabOrders').classList.toggle('active', tab === 'orders');
-            document.getElementById('tabProducts').classList.toggle('active', tab === 'products');
-        }
+    <!-- Add/Edit Game Modal -->
+    <div id="gameModal" class="modal">
+        <div class="modal-content max-w-xl">
+            <h3 class="modal-title mb-8" id="gameModalTitle">ADD NEW GAME</h3>
+            <form id="gameForm">
+                <input type="hidden" id="editGameId">
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div class="form-field">
+                        <label class="field-label">Game ID (slug)</label>
+                        <input type="text" id="gameIdInput" class="field-input" placeholder="ml" required>
+                    </div>
+                    <div class="form-field">
+                        <label class="field-label">Game Name</label>
+                        <input type="text" id="gameNameInput" class="field-input" placeholder="Mobile Legends" required>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div class="form-field">
+                        <label class="field-label">Icon Emoji</label>
+                        <input type="text" id="gameIconInput" class="field-input" placeholder="⚔️" required>
+                    </div>
+                    <div class="form-field">
+                        <label class="field-label">Subtitle</label>
+                        <input type="text" id="gameSubtitleInput" class="field-input" placeholder="Diamond • Instant" required>
+                    </div>
+                </div>
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const user = window.getCurrentUser();
-            // Simple admin check: if email is admin@kingslayer.com or no user but for demo purposes let it be accessible
-            // In a real app we would redirect if not admin
+                <div class="mb-6">
+                    <label class="field-label">Packages (JSON Format)</label>
+                    <textarea id="gamePackagesInput" class="field-input h-32 font-mono text-xs" placeholder='[{"name":"5 Diamonds","price":"Rp1.800"}]'></textarea>
+                </div>
 
-            renderStats();
-            renderOrders();
-        });
+                <div class="grid grid-cols-2 gap-4">
+                    <button type="button" onclick="closeModal('gameModal')" class="btn-secondary py-3">CANCEL</button>
+                    <button type="submit" class="checkout-btn mt-0">SAVE GAME</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-        function renderStats() {
-            const transactions = JSON.parse(localStorage.getItem('ks_transactions') || '[]');
-            const users = JSON.parse(localStorage.getItem('ks_users') || '[]');
-
-            document.getElementById('statTotalOrders').textContent = transactions.length;
-            document.getElementById('statTotalUsers').textContent = users.length;
-
-            const revenue = transactions.reduce((acc, t) => acc + parseInt(t.price.replace(/[^0-9]/g, '') || 0), 0);
-            document.getElementById('statTotalRevenue').textContent = `Rp${revenue.toLocaleString('id-ID')}`;
-        }
-
-        function renderOrders() {
-            const transactions = JSON.parse(localStorage.getItem('ks_transactions') || '[]');
-            const container = document.getElementById('adminOrdersTable');
-
-            if (transactions.length === 0) {
-                container.innerHTML = '<tr><td colspan="6" class="text-center py-12 text-slate-500">No orders found.</td></tr>';
-                return;
-            }
-
-            container.innerHTML = transactions.reverse().map(t => `
-                <tr>
-                    <td class="font-mono text-xs text-primary">${t.order_number}</td>
-                    <td><div class="text-sm font-bold">${t.game}</div><div class="text-[10px] text-slate-500">${t.diamond}</div></td>
-                    <td><div class="text-sm">${t.nickname}</div><div class="text-[10px] text-slate-500">${t.userEmail}</div></td>
-                    <td class="text-green-400 font-bold">${t.price}</td>
-                    <td><span class="status-badge ${t.status || 'success'}">${(t.status || 'SUCCESS').toUpperCase()}</span></td>
-                    <td><button class="btn-mini" onclick="window.showToast('Details coming soon')">VIEW</button></td>
-                </tr>
-            `).join('');
-        }
-
-        function addProduct() {
-            window.showToast('📦 Product management UI is simulated');
-        }
-    </script>
+    <script src="../js/storage.js"></script>
+    <script src="../js/admin.js"></script>
 </body>
 </html>
