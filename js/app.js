@@ -339,7 +339,7 @@ function selectPackage(name, price, maybePrice) {
 
   currentOrder.package = finalPackage;
   currentOrder.price = finalPrice;
-  currentOrder.unitPrice = parseInt(finalPrice.replace(/[^0-9]/g, ''));
+  currentOrder.unitPrice = parsePrice(finalPrice);
   currentOrder.quantity = 1;
 
   document.querySelectorAll('.price-box-mini, .price-box').forEach(el => {
@@ -659,7 +659,11 @@ function showAdminPanel() {
 function updateAdminStats() {
   const total = allOrders.length;
   const success = allOrders.filter(o => o.status === 'success').length;
+ performance-price-parsing-optimization-5794663105393118942
   const revenue = allOrders.reduce((acc, o) => acc + (o.numericPrice || 0), 0);
+
+  const revenue = allOrders.reduce((acc, o) => acc + (parsePrice(o.price) || 0), 0);
+ main
 
   document.getElementById('adminStatTotal').textContent = total;
   document.getElementById('adminStatSuccess').textContent = success;
