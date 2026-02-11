@@ -313,9 +313,6 @@ function selectGame(gameId) {
   currentOrder.game = gameKey;
   renderPackageSelection(gameKey);
   openModal('packageModal');
-
-  const stickyBar = document.getElementById('stickyMobileBar');
-  if (stickyBar) stickyBar.classList.add('active');
 }
 
 function renderPackageSelection(gameKey) {
@@ -349,6 +346,9 @@ function selectPackage(name, price, maybePrice) {
   });
 
   updateOrderSummary();
+ fix-navigation-regression-6011862331441458824
+  const stickyBar = document.getElementById('stickyMobileBar');
+  if (stickyBar) stickyBar.classList.add('active');
 
   // If clicking from the static price grid, also open the modal if not already open
   if (!document.getElementById('packageModal').classList.contains('show')) {
@@ -359,6 +359,7 @@ function selectPackage(name, price, maybePrice) {
       }
       openModal('packageModal');
   }
+ main
 }
 
 function updateOrderSummary() {
@@ -471,10 +472,22 @@ async function confirmOrder() {
 // Modal System
 function openModal(id) {
   document.getElementById(id).classList.add('show');
+  // Prevent body scroll when modal open
+  document.body.style.overflow = 'hidden';
 }
 
 function closeModal(id) {
   document.getElementById(id).classList.remove('show');
+  document.body.style.overflow = '';
+
+  // Hide sticky bar if closing receipt or cancelling package selection
+  if (id === 'receiptModal' || (id === 'packageModal' && !isSubmitting)) {
+    // Only hide if we're not just moving to the summary modal
+    const stickyBar = document.getElementById('stickyMobileBar');
+    if (stickyBar && !document.getElementById('summaryModal').classList.contains('show')) {
+      stickyBar.classList.remove('active');
+    }
+  }
 }
 
 // Loading Rocket
@@ -710,18 +723,20 @@ async function saveAdminStatus() {
 // Search & Misc
 function filterGames() {
   const q = document.getElementById('gameSearch').value.toLowerCase();
-  let count = 0;
   document.querySelectorAll('.game-card').forEach(card => {
     const name = card.querySelector('.game-name').textContent.toLowerCase();
-    const isMatch = name.includes(q);
-    card.style.display = isMatch ? 'flex' : 'none';
-    if (isMatch) count++;
+    card.style.display = name.includes(q) ? 'flex' : 'none';
   });
+}
 
-  const noResults = document.getElementById('noGamesFound');
-  if (noResults) {
-    noResults.classList.toggle('hidden', count > 0);
-  }
+function openWhatsApp() {
+  const num = document.getElementById('whatsappNumber').textContent.replace(/\D/g, '');
+  window.open(`https://wa.me/${num}`, '_blank');
+}
+
+function requestGame() {
+  const num = document.getElementById('whatsappNumber').textContent.replace(/\D/g, '');
+  window.open(`https://wa.me/${num}?text=${encodeURIComponent('Halo, saya ingin request game yang belum ada!')}`, '_blank');
 }
 
 function scrollToSection(id) {
