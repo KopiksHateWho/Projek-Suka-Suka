@@ -327,23 +327,39 @@ function renderPackageSelection(gameKey) {
   `).join('');
 }
 
-function selectPackage(name, price) {
-  if (price === 'HABIS') return showToast('❌ Stok sedang kosong');
+function selectPackage(name, price, maybePrice) {
+  // Handle both 2-arg (pkg, price) and 3-arg (game, pkg, price) calls
+  const finalPackage = maybePrice ? price : name;
+  const finalPrice = maybePrice ? maybePrice : price;
 
-  currentOrder.package = name;
-  currentOrder.price = price;
-  currentOrder.unitPrice = parseInt(price.replace(/[^0-9]/g, ''));
+  if (finalPrice === 'HABIS') return showToast('❌ Stok sedang kosong');
+
+  currentOrder.package = finalPackage;
+  currentOrder.price = finalPrice;
+  currentOrder.unitPrice = parseInt(finalPrice.replace(/[^0-9]/g, ''));
   currentOrder.quantity = 1;
 
-  document.querySelectorAll('.price-box-mini').forEach(el => {
-    if (el.querySelector('.mini-diamond').textContent === name) el.classList.add('selected');
+  document.querySelectorAll('.price-box-mini, .price-box').forEach(el => {
+    const pkgText = el.querySelector('.mini-diamond, .diamond-value')?.textContent || '';
+    if (pkgText === finalPackage) el.classList.add('selected');
     else el.classList.remove('selected');
   });
 
   updateOrderSummary();
-
+ fix-navigation-regression-6011862331441458824
   const stickyBar = document.getElementById('stickyMobileBar');
   if (stickyBar) stickyBar.classList.add('active');
+
+  // If clicking from the static price grid, also open the modal if not already open
+  if (!document.getElementById('packageModal').classList.contains('show')) {
+      const gameName = maybePrice ? name : '';
+      if (gameName) {
+          currentOrder.game = gameName;
+          renderPackageSelection(gameName);
+      }
+      openModal('packageModal');
+  }
+ main
 }
 
 function updateOrderSummary() {
