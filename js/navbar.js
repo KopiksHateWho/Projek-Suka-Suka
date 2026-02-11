@@ -49,13 +49,19 @@ const Navbar = {
     },
 
     lockScroll() {
+        this.scrollPosition = window.pageYOffset;
         document.body.style.overflow = 'hidden';
-        document.body.style.height = '100vh';
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${this.scrollPosition}px`;
+        document.body.style.width = '100%';
     },
 
     unlockScroll() {
         document.body.style.overflow = '';
-        document.body.style.height = '';
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        window.scrollTo(0, this.scrollPosition);
     },
 
     setupScrollBehavior() {
