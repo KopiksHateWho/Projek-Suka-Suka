@@ -29,9 +29,16 @@
                     <span class="logo-icon" role="img" aria-label="KingSlayer Logo">⚔️</span>
                     <span class="logo-text" id="navStoreName">KingSlayer</span>
                 </div>
-
-main
+                <div class="nav-links-container">
+                    <div class="nav-links">
+                        <a href="#home" class="nav-link" onclick="window.closeMenu()">Home</a>
+                        <a href="#games" class="nav-link" onclick="window.closeMenu()">Top Up</a>
+                        <a href="#" class="nav-link" onclick="window.requestGame(); window.closeMenu()">Request Game</a>
+                        <a href="#contact" class="nav-link" onclick="window.closeMenu()">Contact</a>
+                        <div id="auth-links" class="auth-links-wrapper"></div>
+                    </div>
                 </div>
+                <button class="mobile-toggle md:hidden" onclick="window.toggleMenu()" aria-label="Toggle Menu">☰</button>
             </div>
         </nav>
 
@@ -49,7 +56,7 @@ main
         <!-- Search Bar -->
         <div class="section-container pb-0">
             <div class="max-w-md mx-auto relative">
-                <input type="text" id="gameSearch" class="field-input text-center" placeholder="🔍 Cari game favoritmu..." onkeyup="filterGames()">
+                <input type="text" id="gameSearch" class="field-input text-center" placeholder="🔍 Cari game favoritmu..." onkeyup="filterGames()" aria-label="Cari game favorit">
             </div>
         </div>
 
@@ -87,11 +94,13 @@ main
                     <div class="game-name">TELEGRAM STARS</div>
                     <div class="game-subtitle">Stars • Instant</div>
                 </div>
-                <div class="game-card request-card" onclick="requestGame()" role="button" tabindex="0">
-                    <div class="game-icon-container">🎮</div>
-                    <div class="game-name">REQUEST GAME</div>
-                    <div class="game-subtitle">Contact Admin</div>
-                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div id="noGamesFound" class="text-center py-12 hidden">
+                <div class="text-5xl mb-4">🔍</div>
+                <h3 class="text-xl font-bold text-slate-400">Game tidak ditemukan</h3>
+                <p class="text-slate-500 mt-2">Coba kata kunci lain atau request game di menu atas!</p>
             </div>
 
             <!-- Price Panels (Legacy/Reference) -->
@@ -190,7 +199,7 @@ main
     <!-- Package Selection Modal -->
     <div id="packageModal" class="modal">
         <div class="modal-content max-w-2xl">
-            <button class="close-modal" onclick="closeModal('packageModal')">&times;</button>
+            <button class="close-modal" onclick="closeModal('packageModal')" aria-label="Close modal">&times;</button>
             <div class="modal-header">
                 <h3 class="modal-title">PILIH PAKET</h3>
             </div>
@@ -255,7 +264,7 @@ main
     <!-- Checkout Summary Modal -->
     <div id="summaryModal" class="modal">
         <div class="modal-content max-w-md">
-            <button class="close-modal" onclick="closeModal('summaryModal')">&times;</button>
+            <button class="close-modal" onclick="closeModal('summaryModal')" aria-label="Close modal">&times;</button>
             <div class="modal-header">
                 <h3 class="modal-title">RINGKASAN PESANAN</h3>
             </div>
@@ -342,7 +351,7 @@ main
     <!-- History Modal -->
     <div id="historyModal" class="modal">
         <div class="modal-content">
-            <button class="close-modal" onclick="closeModal('historyModal')">&times;</button>
+            <button class="close-modal" onclick="closeModal('historyModal')" aria-label="Close modal">&times;</button>
             <h3 class="modal-title mb-6">RIWAYAT PESANAN</h3>
             <div class="flex gap-2 mb-6">
                 <input type="tel" id="historyPhone" class="field-input" placeholder="Nomor WhatsApp...">
