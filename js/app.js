@@ -222,7 +222,10 @@ const defaultConfig = {
 const dataHandler = {
   onDataChanged(data) {
     if (!data) return;
-    allOrders = data.filter(item => item.order_number);
+    allOrders = data.filter(item => item.order_number).map(o => ({
+      ...o,
+      numericPrice: parsePrice(o.price || '0')
+    }));
   }
 };
 
@@ -283,7 +286,7 @@ function initAccessibility() {
 })();
 
 function parsePrice(priceStr) {
-  return parseInt(priceStr.replace(/[^0-9]/g, ''));
+  return parseInt(priceStr.replace(/[^0-9]/g, '') || 0);
 }
 
 function formatPrice(price) {
@@ -346,7 +349,6 @@ function selectPackage(name, price, maybePrice) {
   });
 
   updateOrderSummary();
- fix-navigation-regression-6011862331441458824
   const stickyBar = document.getElementById('stickyMobileBar');
   if (stickyBar) stickyBar.classList.add('active');
 
@@ -359,7 +361,6 @@ function selectPackage(name, price, maybePrice) {
       }
       openModal('packageModal');
   }
- main
 }
 
 function updateOrderSummary() {
@@ -658,7 +659,7 @@ function showAdminPanel() {
 function updateAdminStats() {
   const total = allOrders.length;
   const success = allOrders.filter(o => o.status === 'success').length;
-  const revenue = allOrders.reduce((acc, o) => acc + parseInt(o.price.replace(/[^0-9]/g, '') || 0), 0);
+  const revenue = allOrders.reduce((acc, o) => acc + (o.numericPrice || 0), 0);
 
   document.getElementById('adminStatTotal').textContent = total;
   document.getElementById('adminStatSuccess').textContent = success;
