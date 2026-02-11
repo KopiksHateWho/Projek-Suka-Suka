@@ -97,8 +97,14 @@ window.closeMenu = function() {
 
 window.requestGame = function() {
     const whatsappDisplay = document.getElementById('whatsappNumber');
-    const num = whatsappDisplay ? whatsappDisplay.textContent.replace(/\D/g, '') : '6285646335331';
+    const num = whatsappDisplay ? whatsappDisplay.textContent.replace(/\D/g, '') : '62882007655617';
     window.open(`https://wa.me/${num}?text=${encodeURIComponent('Halo, saya ingin request game yang belum ada!')}`, '_blank');
+};
+
+window.openWhatsApp = function() {
+    const whatsappDisplay = document.getElementById('whatsappNumber');
+    const num = whatsappDisplay ? whatsappDisplay.textContent.replace(/\D/g, '') : '62882007655617';
+    window.open(`https://wa.me/${num}`, '_blank');
 };
 
 document.addEventListener('DOMContentLoaded', () => {
