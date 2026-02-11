@@ -50,7 +50,6 @@ h1, h2, h3, .logo-text, .hero-title, .btn-primary {
 /* Static Galaxy Background */
 .main-wrapper {
   position: relative;
-  z-index: 1;
   background: var(--bg-gradient);
   min-height: 100vh;
 }
@@ -96,25 +95,28 @@ h1, h2, h3, .logo-text, .hero-title, .btn-primary {
   .nav-links-container {
     position: fixed;
     top: 0;
-    right: -100%;
-    width: 80%;
+    right: 0;
+    width: 75%;
     height: 100vh;
-    background: #07080d;
+    background: linear-gradient(180deg, #0f172a 0%, #07080d 100%);
     display: flex;
     flex-direction: column;
     padding: 120px 2rem 2rem;
     gap: 1.5rem;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    z-index: 1100;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateX(100%);
+    z-index: 999;
     border-left: 1px solid var(--glass-border);
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     overflow-y: auto;
-    box-shadow: -20px 0 50px rgba(0, 0, 0, 0.8);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+    opacity: 1;
+    visibility: visible;
   }
 
   .nav-links-container.active {
-    right: 0;
+    transform: translateX(0);
   }
 
   .auth-links-wrapper {
@@ -649,11 +651,11 @@ footer {
 .nav-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(4px);
   opacity: 0;
   visibility: hidden;
-  z-index: 1050;
+  z-index: 998;
   transition: all 0.3s ease;
 }
 

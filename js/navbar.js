@@ -18,7 +18,7 @@ const Navbar = {
             backdrop.className = 'nav-backdrop';
             document.body.appendChild(backdrop);
         }
-        backdrop.addEventListener('click', () => this.closeMenu());
+        backdrop.addEventListener('click', () => window.closeMenu());
         this.backdrop = backdrop;
     },
 
@@ -49,19 +49,11 @@ const Navbar = {
     },
 
     lockScroll() {
-        this.scrollPosition = window.pageYOffset;
         document.body.style.overflow = 'hidden';
-        document.body.style.position = 'fixed';
-        document.body.style.top = `-${this.scrollPosition}px`;
-        document.body.style.width = '100%';
     },
 
     unlockScroll() {
         document.body.style.overflow = '';
-        document.body.style.position = '';
-        document.body.style.top = '';
-        document.body.style.width = '';
-        window.scrollTo(0, this.scrollPosition);
     },
 
     setupScrollBehavior() {
