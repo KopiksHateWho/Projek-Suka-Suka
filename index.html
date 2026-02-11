@@ -29,16 +29,17 @@
                     <span class="logo-icon" role="img" aria-label="KingSlayer Logo">⚔️</span>
                     <span class="logo-text" id="navStoreName">KingSlayer</span>
                 </div>
-                <div class="nav-links-container">
-                    <div class="nav-links">
-                        <a href="#home" class="nav-link" onclick="window.closeMenu()">Home</a>
-                        <a href="#games" class="nav-link" onclick="window.closeMenu()">Top Up</a>
-                        <a href="#" class="nav-link" onclick="window.requestGame(); window.closeMenu()">Request Game</a>
-                        <a href="#contact" class="nav-link" onclick="window.closeMenu()">Contact</a>
-                        <div id="auth-links" class="auth-links-wrapper"></div>
-                    </div>
+
+                <button class="md:hidden text-2xl" onclick="window.toggleMenu()" aria-label="Toggle Menu">☰</button>
+
+                <div id="navLinks" class="nav-links-container">
+                    <a href="#home" class="nav-link active" onclick="scrollToSection('home'); window.closeMenu()">🏠 HOME</a>
+                    <a href="#games" class="nav-link" onclick="scrollToSection('games'); window.closeMenu()">🎮 GAMES</a>
+                    <a href="#" class="nav-link" onclick="openHistory(); window.closeMenu()">📋 HISTORY</a>
+                    <a href="#" class="nav-link" onclick="requestGame(); window.closeMenu()">💡 REQUEST GAME</a>
+                    <a href="#contact" class="nav-link" onclick="scrollToSection('contact'); window.closeMenu()">📞 CONTACT</a>
+                    <div id="auth-links" class="flex flex-col md:flex-row gap-1 w-full md:w-auto"></div>
                 </div>
-                <button class="mobile-toggle md:hidden" onclick="window.toggleMenu()" aria-label="Toggle Menu">☰</button>
             </div>
         </nav>
 
@@ -54,10 +55,8 @@
         </header>
 
         <!-- Search Bar -->
-        <div class="section-container pb-0">
-            <div class="max-w-md mx-auto relative">
-                <input type="text" id="gameSearch" class="field-input text-center" placeholder="🔍 Cari game favoritmu..." onkeyup="filterGames()" aria-label="Cari game favorit">
-            </div>
+        <div class="max-w-md mx-auto px-8 relative -mt-8 mb-12">
+            <input type="text" id="gameSearch" class="field-input text-center" placeholder="🔍 Cari game favoritmu..." onkeyup="filterGames()">
         </div>
 
         <!-- Games Grid -->
@@ -79,31 +78,6 @@
                     <div class="game-name">PUBG MOBILE</div>
                     <div class="game-subtitle">UC • Instant</div>
                 </div>
-                <div class="game-card" onclick="window.open('https://direz-store-robloxrobux.my.canva.site/', '_blank')" role="button" tabindex="0">
-                    <div class="game-icon-container">🔳</div>
-                    <div class="game-name">ROBLOX</div>
-                    <div class="game-subtitle">Robux • Instant</div>
-                </div>
-                <div class="game-card" onclick="window.open('https://direzstorebydiorezz.my.canva.site/genshin-impact', '_blank')" role="button" tabindex="0">
-                    <div class="game-icon-container">✨</div>
-                    <div class="game-name">GENSHIN IMPACT</div>
-                    <div class="game-subtitle">Genesis Crystal</div>
-                </div>
-                <div class="game-card" onclick="window.open('https://direzstorebydiorezz.my.canva.site/telestars', '_blank')" role="button" tabindex="0">
-                    <div class="game-icon-container">✈️</div>
-                    <div class="game-name">TELEGRAM STARS</div>
-                    <div class="game-subtitle">Stars • Instant</div>
-                </div>
-fix-navigation-regression-6011862331441458824
-di
-            </div>
-
-            <!-- Empty State -->
-            <div id="noGamesFound" class="text-center py-12 hidden">
-                <div class="text-5xl mb-4">🔍</div>
-                <h3 class="text-xl font-bold text-slate-400">Game tidak ditemukan</h3>
-                <p class="text-slate-500 mt-2">Coba kata kunci lain atau request game di menu atas!</p>
- main
             </div>
 
             <!-- Price Panels (Legacy/Reference) -->
@@ -185,13 +159,13 @@ di
         </section>
 
         <!-- Footer -->
-        <footer id="contact" class="footer-section mt-24">
+        <footer id="contact" class="footer-section mt-12">
             <p class="footer-message text-xl font-bold text-purple-400 mb-8" id="footerText">Fast & Secure Transactions</p>
             <div class="whatsapp-box glass inline-flex items-center gap-4 px-8 py-4 rounded-full cursor-pointer hover:scale-105 transition mb-12" onclick="openWhatsApp()" role="button" tabindex="0">
                 <span class="text-4xl">💬</span>
                 <div class="text-left">
                     <div class="text-xs text-slate-400 uppercase font-bold tracking-widest">WhatsApp Number</div>
-                    <div class="text-2xl font-black text-primary" id="whatsappNumber">+62 856-4633-5331</div>
+                    <div class="text-2xl font-black text-primary" id="whatsappNumber">+62 882-0076-55617</div>
                 </div>
             </div>
             <div class="mt-12 opacity-50">
@@ -219,7 +193,7 @@ di
     <!-- Package Selection Modal -->
     <div id="packageModal" class="modal">
         <div class="modal-content max-w-2xl">
-            <button class="close-modal" onclick="closeModal('packageModal')" aria-label="Close modal">&times;</button>
+            <button class="close-modal" onclick="closeModal('packageModal')">&times;</button>
             <div class="modal-header">
                 <h3 class="modal-title">PILIH PAKET</h3>
             </div>
@@ -284,7 +258,7 @@ di
     <!-- Checkout Summary Modal -->
     <div id="summaryModal" class="modal">
         <div class="modal-content max-w-md">
-            <button class="close-modal" onclick="closeModal('summaryModal')" aria-label="Close modal">&times;</button>
+            <button class="close-modal" onclick="closeModal('summaryModal')">&times;</button>
             <div class="modal-header">
                 <h3 class="modal-title">RINGKASAN PESANAN</h3>
             </div>
@@ -371,7 +345,7 @@ di
     <!-- History Modal -->
     <div id="historyModal" class="modal">
         <div class="modal-content">
-            <button class="close-modal" onclick="closeModal('historyModal')" aria-label="Close modal">&times;</button>
+            <button class="close-modal" onclick="closeModal('historyModal')">&times;</button>
             <h3 class="modal-title mb-6">RIWAYAT PESANAN</h3>
             <div class="flex gap-2 mb-6">
                 <input type="tel" id="historyPhone" class="field-input" placeholder="Nomor WhatsApp...">
