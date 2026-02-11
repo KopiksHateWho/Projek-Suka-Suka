@@ -192,56 +192,6 @@ const GAME_PACKAGES = {
     { "name": "🎯 660 UC Voucher", "price": "Rp158.000" },
     { "name": "🎯 1800 UC Voucher", "price": "Rp394.000" },
     { "name": "🎯 3850 UC Voucher", "price": "Rp782.000" }
-  ],
-  "GENSHIN IMPACT": [
-    { "name": "💎 30 Crystal", "price": "Rp9.900" },
-    { "name": "💎 60 Crystal", "price": "Rp19.800" }
-  ],
-  "TELEGRAM STARS": [
-    { "name": "⭐ 50 Stars", "price": "Rp17.292" },
-    { "name": "⭐ 75 Stars", "price": "Rp24.342" },
-    { "name": "⭐ 100 Stars", "price": "Rp31.492" },
-    { "name": "⭐ 125 Stars", "price": "Rp38.542" },
-    { "name": "⭐ 150 Stars", "price": "Rp45.692" },
-    { "name": "⭐ 175 Stars", "price": "Rp55.692" },
-    { "name": "⭐ 200 Stars", "price": "Rp59.992" },
-    { "name": "⭐ 250 Stars", "price": "Rp74.192" },
-    { "name": "⭐ 300 Stars", "price": "Rp86.992" },
-    { "name": " 350 Stars", "price": "Rp104.692" },
-    { "name": "⭐ 400 Stars", "price": "Rp118.692" },
-    { "name": "⭐ 450 Stars", "price": "Rp132.992" },
-    { "name": "⭐ 500 Stars", "price": "Rp147.192" },
-    { "name": "⭐ 550 Stars", "price": "Rp161.392" },
-    { "name": "⭐ 600 Stars", "price": "Rp175.692" },
-    { "name": "⭐ 650 Stars", "price": "Rp189.992" },
-    { "name": "⭐ 700 Stars", "price": "Rp204.092" },
-    { "name": "⭐ 750 Stars", "price": "Rp218.392" },
-    { "name": "⭐ 800 Stars", "price": "Rp232.592" },
-    { "name": "⭐ 850 Stars", "price": "Rp246.792" },
-    { "name": " 900 Stars", "price": "Rp260.992" },
-    { "name": "⭐ 950 Stars", "price": "Rp275.092" },
-    { "name": "⭐ 1000 Stars", "price": "Rp289.692" },
-    { "name": "⭐ 1100 Stars", "price": "Rp320.992" },
-    { "name": "⭐ 1200 Stars", "price": "Rp349.492" },
-    { "name": "⭐ 1500 Stars", "price": "Rp434.892" },
-    { "name": "⭐ 1700 Stars", "price": "Rp486.492" },
-    { "name": "⭐ 1800 Stars", "price": "Rp514.592" },
-    { "name": " 2000 Stars", "price": "Rp570.992" },
-    { "name": "⭐ 2500 Stars", "price": "Rp710.192" },
-    { "name": "⭐ 3000 Stars", "price": "Rp850.692" },
-    { "name": "⭐ 3500 Stars", "price": "Rp995.970" },
-    { "name": "⭐ 4000 Stars", "price": "Rp1.136.540" },
-    { "name": "⭐ 4500 Stars", "price": "Rp1.277.100" },
-    { "name": "⭐ 5000 Stars", "price": "Rp1.417.670" },
-    { "name": "⭐ 5500 Stars", "price": "Rp1.558.240" },
-    { "name": "⭐ 6000 Stars", "price": "Rp1.698.800" },
-    { "name": "⭐ 6500 Stars", "price": "Rp1.839.370" },
-    { "name": "⭐ 7000 Stars", "price": "Rp1.979.940" },
-    { "name": "⭐ 8000 Stars", "price": "Rp2.269.070" },
-    { "name": "⭐ 9000 Stars", "price": "Rp2.550.200" },
-    { "name": "⭐ 10000 Stars", "price": "Rp2.831.340" },
-    { "name": "⭐ 12000 Stars", "price": "Rp3.393.600" },
-    { "name": "⭐ 15000 Stars", "price": "Rp4.237.000" }
   ]
 };
 
@@ -265,7 +215,7 @@ const defaultConfig = {
   store_name: 'KingSlayer',
   tagline: 'Top Up Game Premium & Terpercaya',
   footer_text: 'Proses Cepat & Amanah',
-  whatsapp_number: '+62 856-4633-5331'
+  whatsapp_number: '+62 882-0076-55617'
 };
 
 // SDK Handlers
@@ -353,13 +303,10 @@ function selectGame(gameId) {
   const mapping = {
     'ml': 'MOBILE LEGENDS',
     'ff': 'FREE FIRE',
-    'pubg': 'PUBG MOBILE',
-    'genshin': 'GENSHIN IMPACT',
-    'telegram': 'TELEGRAM STARS'
+    'pubg': 'PUBG MOBILE'
   };
   const gameKey = mapping[gameId.toLowerCase()];
   if (!gameKey) {
-    if (gameId === 'roblox') return window.open('https://direz-store-robloxrobux.my.canva.site/', '_blank');
     return showToast('🎮 Hubungi admin untuk game ini');
   }
 
@@ -383,20 +330,35 @@ function renderPackageSelection(gameKey) {
   `).join('');
 }
 
-function selectPackage(name, price) {
-  if (price === 'HABIS') return showToast('❌ Stok sedang kosong');
+function selectPackage(name, price, maybePrice) {
+  // Handle both 2-arg (pkg, price) and 3-arg (game, pkg, price) calls
+  const finalPackage = maybePrice ? price : name;
+  const finalPrice = maybePrice ? maybePrice : price;
 
-  currentOrder.package = name;
-  currentOrder.price = price;
-  currentOrder.unitPrice = parseInt(price.replace(/[^0-9]/g, ''));
+  if (finalPrice === 'HABIS') return showToast('❌ Stok sedang kosong');
+
+  currentOrder.package = finalPackage;
+  currentOrder.price = finalPrice;
+  currentOrder.unitPrice = parseInt(finalPrice.replace(/[^0-9]/g, ''));
   currentOrder.quantity = 1;
 
-  document.querySelectorAll('.price-box-mini').forEach(el => {
-    if (el.querySelector('.mini-diamond').textContent === name) el.classList.add('selected');
+  document.querySelectorAll('.price-box-mini, .price-box').forEach(el => {
+    const pkgText = el.querySelector('.mini-diamond, .diamond-value')?.textContent || '';
+    if (pkgText === finalPackage) el.classList.add('selected');
     else el.classList.remove('selected');
   });
 
   updateOrderSummary();
+
+  // If clicking from the static price grid, also open the modal if not already open
+  if (!document.getElementById('packageModal').classList.contains('show')) {
+      const gameName = maybePrice ? name : '';
+      if (gameName) {
+          currentOrder.game = gameName;
+          renderPackageSelection(gameName);
+      }
+      openModal('packageModal');
+  }
 }
 
 function updateOrderSummary() {
