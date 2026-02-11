@@ -86,13 +86,19 @@ window.showToast = function(msg) {
 };
 
 window.toggleMenu = function() {
-main
-    }
+    const nav = document.querySelector('.nav-links-container');
+    if (nav) nav.classList.toggle('active');
 };
 
 window.closeMenu = function() {
- main
-    }
+    const nav = document.querySelector('.nav-links-container');
+    if (nav) nav.classList.remove('active');
+};
+
+window.requestGame = function() {
+    const whatsappDisplay = document.getElementById('whatsappNumber');
+    const num = whatsappDisplay ? whatsappDisplay.textContent.replace(/\D/g, '') : '6285646335331';
+    window.open(`https://wa.me/${num}?text=${encodeURIComponent('Halo, saya ingin request game yang belum ada!')}`, '_blank');
 };
 
 document.addEventListener('DOMContentLoaded', () => {
