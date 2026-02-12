@@ -86,7 +86,6 @@ window.showToast = function(msg) {
 };
 
 window.toggleMenu = function() {
-test/add-auth-current-user-8683990730850327150
     const links = document.querySelector('.nav-links-container');
     const overlay = document.querySelector('.nav-overlay');
 
@@ -109,15 +108,6 @@ window.closeMenu = function() {
     if (links) links.classList.remove('active');
     if (overlay) overlay.classList.remove('active');
     document.body.style.overflow = '';
-
-    const nav = document.querySelector('.nav-links-container');
-    if (nav) nav.classList.toggle('active');
-};
-
-window.closeMenu = function() {
-    const nav = document.querySelector('.nav-links-container');
-    if (nav) nav.classList.remove('active');
-main
 };
 
 window.requestGame = function() {

@@ -23,7 +23,7 @@
         <div class="galaxy-bg"></div>
 
         <!-- Mobile Nav Overlay -->
-        <div class="nav-overlay" onclick="window.closeMenu()"></div>
+        <div id="nav-backdrop" class="nav-backdrop nav-overlay" onclick="window.closeMenu()"></div>
 
         <!-- Navigation -->
         <nav class="top-nav">
@@ -58,8 +58,9 @@
 
         <!-- Search Bar -->
         <div class="section-container pb-0">
-            <div class="max-w-md mx-auto relative">
-                <input type="text" id="gameSearch" class="field-input text-center" placeholder="🔍 Cari game favoritmu..." onkeyup="filterGames()" aria-label="Cari game favorit">
+            <div class="max-w-md mx-auto relative group">
+                <input type="text" id="gameSearch" class="field-input text-center pr-10" placeholder="🔍 Cari game favoritmu..." onkeyup="filterGames()" aria-label="Cari game favorit">
+                <button id="clearSearch" class="hidden absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-2xl transition-all" onclick="clearSearch()" aria-label="Bersihkan pencarian" title="Bersihkan pencarian">&times;</button>
             </div>
         </div>
 
@@ -86,9 +87,13 @@
 
             <!-- Empty State -->
             <div id="noGamesFound" class="text-center py-12 hidden">
-                <div class="text-5xl mb-4">🔍</div>
+                <div class="text-5xl mb-4 animate-bounce">🔍</div>
                 <h3 class="text-xl font-bold text-slate-400">Game tidak ditemukan</h3>
-                <p class="text-slate-500 mt-2">Coba kata kunci lain atau request game di menu atas!</p>
+                <p class="text-slate-500 mt-2 mb-8">Coba kata kunci lain atau request game baru!</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <button onclick="clearSearch()" class="btn-secondary px-8 py-3 w-full sm:w-auto">HAPUS PENCARIAN</button>
+                    <button onclick="window.requestGame()" class="btn-primary px-8 py-3 w-full sm:w-auto">REQUEST GAME</button>
+                </div>
             </div>
 
             <!-- Price Panels (Legacy/Reference) -->

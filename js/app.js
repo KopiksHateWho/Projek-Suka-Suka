@@ -561,8 +561,14 @@ async function saveAdminStatus() {
 
 // Search & Misc
 function filterGames() {
-  const q = document.getElementById('gameSearch').value.toLowerCase();
+  const input = document.getElementById('gameSearch');
+  const q = input.value.toLowerCase();
   let count = 0;
+
+  // Toggle clear button
+  const clearBtn = document.getElementById('clearSearch');
+  if (clearBtn) clearBtn.classList.toggle('hidden', !q);
+
   document.querySelectorAll('.game-card').forEach(card => {
     const name = card.querySelector('.game-name').textContent.toLowerCase();
     const isMatch = name.includes(q);
@@ -574,6 +580,15 @@ function filterGames() {
   if (noResults) {
     noResults.classList.toggle('hidden', count > 0);
   }
+}
+
+function clearSearch() {
+    const input = document.getElementById('gameSearch');
+    if (input) {
+        input.value = '';
+        filterGames();
+        input.focus();
+    }
 }
 
 function scrollToSection(id) {
