@@ -13,6 +13,7 @@
     <!-- SDKs -->
     <script src="/_sdk/element_sdk.js"></script>
     <script src="/_sdk/data_sdk.js"></script>
+    <script src="js/storage.js"></script>
 
     <!-- Styles -->
     <link rel="stylesheet" href="css/style.css">
@@ -32,16 +33,17 @@
                     <span class="logo-icon" role="img" aria-label="KingSlayer Logo">⚔️</span>
                     <span class="logo-text" id="navStoreName">KingSlayer</span>
                 </div>
-                <div class="nav-links-container">
-                    <div class="nav-links">
-                        <a href="#home" class="nav-link" onclick="window.closeMenu()">Home</a>
-                        <a href="#games" class="nav-link" onclick="window.closeMenu()">Top Up</a>
-                        <a href="#" class="nav-link" onclick="window.requestGame(); window.closeMenu()">Request Game</a>
-                        <a href="#contact" class="nav-link" onclick="window.closeMenu()">Contact</a>
-                        <div id="auth-links" class="auth-links-wrapper"></div>
-                    </div>
+
+                <button class="md:hidden text-2xl" onclick="window.toggleMenu()" aria-label="Toggle Menu">☰</button>
+
+                <div id="navLinks" class="nav-links-container">
+                    <a href="#home" class="nav-link active" onclick="scrollToSection('home'); window.closeMenu()">🏠 HOME</a>
+                    <a href="#games" class="nav-link" onclick="scrollToSection('games'); window.closeMenu()">🎮 GAMES</a>
+                    <a href="#" class="nav-link" onclick="openHistory(); window.closeMenu()">📋 HISTORY</a>
+                    <a href="#" class="nav-link" onclick="openRequestGameModal(); window.closeMenu()">💡 REQUEST GAME</a>
+                    <a href="#contact" class="nav-link" onclick="scrollToSection('contact'); window.closeMenu()">📞 CONTACT</a>
+                    <div id="auth-links" class="flex flex-col md:flex-row gap-1 w-full md:w-auto"></div>
                 </div>
-                <button class="mobile-toggle md:hidden" onclick="window.toggleMenu()" aria-label="Toggle Menu">☰</button>
             </div>
         </nav>
 
@@ -57,31 +59,15 @@
         </header>
 
         <!-- Search Bar -->
-        <div class="section-container pb-0">
-            <div class="max-w-md mx-auto relative">
-                <input type="text" id="gameSearch" class="field-input text-center" placeholder="🔍 Cari game favoritmu..." onkeyup="filterGames()" aria-label="Cari game favorit">
-            </div>
+        <div class="max-w-md mx-auto px-8 relative -mt-8 mb-12">
+            <input type="text" id="gameSearch" class="field-input text-center" placeholder="🔍 Cari game favoritmu..." onkeyup="filterGames()">
         </div>
 
         <!-- Games Grid -->
         <section id="games" class="section-container">
             <h2 class="section-title text-3xl font-bold mb-12">🎮 PILIH GAME</h2>
-            <div class="games-grid">
-                <div class="game-card" id="mlCard" onclick="selectGame('ml')" role="button" tabindex="0">
-                    <div class="game-icon-container">🗡️</div>
-                    <div class="game-name">MOBILE LEGENDS</div>
-                    <div class="game-subtitle">Diamond • Instant</div>
-                </div>
-                <div class="game-card" id="ffCard" onclick="selectGame('ff')" role="button" tabindex="0">
-                    <div class="game-icon-container">🔫</div>
-                    <div class="game-name">FREE FIRE</div>
-                    <div class="game-subtitle">Diamond • Fast</div>
-                </div>
-                <div class="game-card" id="pubgCard" onclick="selectGame('pubg')" role="button" tabindex="0">
-                    <div class="game-icon-container">🪖</div>
-                    <div class="game-name">PUBG MOBILE</div>
-                    <div class="game-subtitle">UC • Instant</div>
-                </div>
+            <div class="games-grid" id="gamesGrid">
+                <!-- Dynamic Content -->
             </div>
 
             <!-- Empty State -->
@@ -170,7 +156,7 @@
         </section>
 
         <!-- Footer -->
-        <footer id="contact" class="footer-section mt-24">
+        <footer id="contact" class="footer-section mt-12">
             <p class="footer-message text-xl font-bold text-purple-400 mb-8" id="footerText">Fast & Secure Transactions</p>
             <div class="whatsapp-box glass inline-flex items-center gap-4 px-8 py-4 rounded-full cursor-pointer hover:scale-105 transition mb-12" onclick="openWhatsApp()" role="button" tabindex="0">
                 <span class="text-4xl">💬</span>
@@ -204,7 +190,7 @@
     <!-- Package Selection Modal -->
     <div id="packageModal" class="modal">
         <div class="modal-content max-w-2xl">
-            <button class="close-modal" onclick="closeModal('packageModal')" aria-label="Close modal">&times;</button>
+            <button class="close-modal" onclick="closeModal('packageModal')">&times;</button>
             <div class="modal-header">
                 <h3 class="modal-title">PILIH PAKET</h3>
             </div>
@@ -269,7 +255,7 @@
     <!-- Checkout Summary Modal -->
     <div id="summaryModal" class="modal">
         <div class="modal-content max-w-md">
-            <button class="close-modal" onclick="closeModal('summaryModal')" aria-label="Close modal">&times;</button>
+            <button class="close-modal" onclick="closeModal('summaryModal')">&times;</button>
             <div class="modal-header">
                 <h3 class="modal-title">RINGKASAN PESANAN</h3>
             </div>
@@ -301,6 +287,35 @@
                 <button onclick="closeModal('summaryModal')" class="btn-secondary py-3">BATAL</button>
                 <button onclick="confirmOrder()" class="btn-primary py-3">KONFIRMASI</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Request Game Modal -->
+    <div id="requestGameModal" class="modal">
+        <div class="modal-content max-w-md">
+            <button class="close-modal" onclick="closeModal('requestGameModal')">&times;</button>
+            <h3 class="modal-title mb-6">REQUEST GAME</h3>
+            <p class="text-sm text-slate-400 mb-6">Game belum tersedia? Request di sini agar segera kami tambahkan!</p>
+
+            <form onsubmit="submitGameRequest(event)">
+                <div class="form-field">
+                    <label class="field-label">Nama Game</label>
+                    <input type="text" id="reqGameName" class="field-input" placeholder="Contoh: Genshin Impact" required>
+                </div>
+                <div class="form-field">
+                    <label class="field-label">Platform</label>
+                    <select id="reqPlatform" class="field-input">
+                        <option value="Mobile">Mobile (Android/iOS)</option>
+                        <option value="PC">PC / Desktop</option>
+                        <option value="Console">Console (PS/Xbox/Switch)</option>
+                    </select>
+                </div>
+                <div class="form-field mb-6">
+                    <label class="field-label">Catatan (Optional)</label>
+                    <textarea id="reqNotes" class="field-input h-24" placeholder="Info tambahan..."></textarea>
+                </div>
+                <button type="submit" class="checkout-btn">KIRIM REQUEST</button>
+            </form>
         </div>
     </div>
 
@@ -356,7 +371,7 @@
     <!-- History Modal -->
     <div id="historyModal" class="modal">
         <div class="modal-content">
-            <button class="close-modal" onclick="closeModal('historyModal')" aria-label="Close modal">&times;</button>
+            <button class="close-modal" onclick="closeModal('historyModal')">&times;</button>
             <h3 class="modal-title mb-6">RIWAYAT PESANAN</h3>
             <div class="flex gap-2 mb-6">
                 <input type="tel" id="historyPhone" class="field-input" placeholder="Nomor WhatsApp...">
@@ -416,9 +431,7 @@
         </div>
     </div>
 
-    <script src="js/storage.js"></script>
     <script src="js/auth.js"></script>
-    <script src="js/navbar.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>
