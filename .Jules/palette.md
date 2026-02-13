@@ -11,4 +11,8 @@
 **Learning:** Preventing UX "dead-ends" by providing clear actions (like "Clear Search" or "Request Item") in empty states significantly improves user retention and satisfaction. Additionally, a "Clear" button in search inputs is a small but high-impact convenience that users expect.
 **Action:** When implementing search or filters, always include a visual clear button and an actionable empty state. Ensure that clearing search also resets any related UI states (like "No results" messages).
 
+## 2026-02-13 - Accessible Async States & Modal Polish
+**Learning:** Asynchronous operations like checkout simulations are prime candidates for accessibility improvements. Using `aria-live="polite"` on status messages and `role="progressbar"` with dynamic `aria-valuenow` allows screen reader users to understand background progress that is otherwise purely visual.
+**Action:** Always wrap loading animations in a `role="dialog"` or `role="alert"` with descriptive labels. Link the visual progress bar to ARIA attributes and ensure status text updates are announced.
+
 main
