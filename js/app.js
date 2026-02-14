@@ -327,7 +327,7 @@ function renderPackageSelection(gameKey) {
   const packages = GAME_PACKAGES[gameKey];
 
   container.innerHTML = packages.map(pkg => `
-    <div class="price-box-mini" onclick="selectPackage('${pkg.name}', '${pkg.price}')">
+    <div class="price-box-mini" onclick="selectPackage('${pkg.name}', '${pkg.price}')" role="button" tabindex="0">
       <div class="mini-diamond">${pkg.name}</div>
       <div class="mini-price">${pkg.price}</div>
     </div>
@@ -353,7 +353,6 @@ function selectPackage(name, price, maybePrice) {
   });
 
   updateOrderSummary();
- fix-navigation-regression-6011862331441458824
   const stickyBar = document.getElementById('stickyMobileBar');
   if (stickyBar) stickyBar.classList.add('active');
 
@@ -366,7 +365,6 @@ function selectPackage(name, price, maybePrice) {
       }
       openModal('packageModal');
   }
- main
 }
 
 function updateOrderSummary() {
@@ -699,7 +697,7 @@ async function viewAdminDetail(id) {
     <p>💳 <b>Pay:</b> ${o.payment_method}</p>
     <p>💰 <b>Total:</b> ${o.price}</p>
     <div class="mt-4">
-      <label class="block text-xs mb-1">STATUS</label>
+      <label for="adminStatusUpdate" class="block text-xs mb-1">STATUS</label>
       <select id="adminStatusUpdate" class="field-input py-2">
         <option value="pending" ${o.status === 'pending' ? 'selected' : ''}>PENDING</option>
         <option value="success" ${o.status === 'success' ? 'selected' : ''}>SUCCESS</option>
@@ -758,23 +756,17 @@ function renderGames() {
 }
 
 function filterGames() {
- palette/search-enhancement-and-cleanup-4472390093947769525
   const input = document.getElementById('gameSearch');
+  if (!input) return;
   const q = input.value.toLowerCase();
-  let count = 0;
+  let found = false;
 
   // Toggle clear button
   const clearBtn = document.getElementById('clearSearch');
   if (clearBtn) clearBtn.classList.toggle('hidden', !q);
 
-  document.querySelectorAll('.game-card').forEach(card => {
-
-  const q = document.getElementById('gameSearch').value.toLowerCase();
   const cards = document.querySelectorAll('.game-card');
-  let found = false;
-
   cards.forEach(card => {
- main
     const name = card.querySelector('.game-name').textContent.toLowerCase();
     if (name.includes(q)) {
       card.style.display = 'flex';
@@ -790,7 +782,6 @@ function filterGames() {
   }
 }
 
-palette/search-enhancement-and-cleanup-4472390093947769525
 function clearSearch() {
     const input = document.getElementById('gameSearch');
     if (input) {
@@ -798,6 +789,7 @@ function clearSearch() {
         filterGames();
         input.focus();
     }
+}
 
 // Request Game Logic
 function openRequestGameModal() {
@@ -829,7 +821,6 @@ function openWhatsApp() {
 function requestGame() {
   const num = document.getElementById('whatsappNumber').textContent.replace(/\D/g, '');
   window.open(`https://wa.me/${num}?text=${encodeURIComponent('Halo, saya ingin request game yang belum ada!')}`, '_blank');
- main
 }
 
 function scrollToSection(id) {
