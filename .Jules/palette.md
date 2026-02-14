@@ -11,4 +11,8 @@
 **Learning:** Preventing UX "dead-ends" by providing clear actions (like "Clear Search" or "Request Item") in empty states significantly improves user retention and satisfaction. Additionally, a "Clear" button in search inputs is a small but high-impact convenience that users expect.
 **Action:** When implementing search or filters, always include a visual clear button and an actionable empty state. Ensure that clearing search also resets any related UI states (like "No results" messages).
 
+## 2024-05-18 - Accessibility Refactoring & Code Hygiene
+**Learning:** In projects where dynamic content and modal-based flows are used heavily, accessibility attributes (ARIA roles, labels, and for-links) are easily overlooked but crucial for keyboard and screen-reader usability. Additionally, "ghost" strings from failed merges or edits can degrade the UI and should be proactively scrubbed during UX polish.
+**Action:** When auditing a page for UX, perform a scan for missing label-input links and icon-only buttons without aria-labels. Always check for and remove any visible debug or conflict markers in the template.
+
 main
