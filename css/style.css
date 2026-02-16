@@ -371,11 +371,20 @@ h1, h2, h3, .logo-text, .hero-title, .btn-primary {
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .payment-btn.selected {
   border-color: var(--primary);
   background: rgba(191, 0, 255, 0.1);
+}
+
+.payment-btn.selected::after {
+  content: '✓';
+  font-weight: 900;
+  color: var(--primary);
 }
 
 .checkout-btn {
@@ -582,14 +591,27 @@ footer {
   pointer-events: auto;
   opacity: 1;
   visibility: visible;
- palette/search-enhancement-and-cleanup-4472390093947769525
-
   border-top: 1px solid rgba(191, 0, 255, 0.2);
   z-index: 500;
   box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
   transition: all 0.3s ease-in-out;
+}
 
- main
+/* Navbar Backdrop */
+.nav-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  visibility: hidden;
+  z-index: 998;
+  transition: all 0.3s ease;
+}
+
+.nav-backdrop.active {
+  opacity: 1;
+  visibility: visible;
 }
 
 .btn-secondary {
@@ -661,35 +683,8 @@ footer {
     box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
   }
 
- palette/search-enhancement-and-cleanup-4472390093947769525
-.sticky-mobile-bar.active {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  transform: translateY(0);
-}
-
-/* Navbar Backdrop */
-.nav-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(4px);
-  opacity: 0;
-  visibility: hidden;
-  z-index: 998;
-  transition: all 0.3s ease;
-}
-
-.nav-backdrop.active {
-  opacity: 1;
-  visibility: visible;
-}
-
 /* Responsive */
 @media (max-width: 768px) {
-
- main
   .nav-link {
     width: 100%;
     text-align: center;
@@ -708,7 +703,7 @@ footer {
 /* Accessibility: Focus Visible Styles */
 .game-card:focus-visible,
 .price-box:focus-visible,
-.payment-option:focus-visible,
+.payment-btn:focus-visible,
 .logo-section:focus-visible,
 .whatsapp-box:focus-visible {
     outline: 3px solid var(--primary);
