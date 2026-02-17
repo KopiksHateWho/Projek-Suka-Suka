@@ -263,23 +263,9 @@ async function initElementSDK() {
   }
 }
 
-function initAccessibility() {
-  // Global listener for keyboard interactions on role="button" elements
-  document.addEventListener('keydown', (e) => {
-    if ((e.key === 'Enter' || e.key === ' ') && e.target.getAttribute('role') === 'button') {
-      // Avoid triggering if it's already a native button or link (they handle Enter/Space automatically)
-      if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
-
-      e.preventDefault();
-      e.target.click();
-    }
-  });
-}
-
 (async function init() {
   await initDataSDK();
   await initElementSDK();
-  initAccessibility();
 })();
 
 function parsePrice(priceStr) {
@@ -327,7 +313,7 @@ function renderPackageSelection(gameKey) {
   const packages = GAME_PACKAGES[gameKey];
 
   container.innerHTML = packages.map(pkg => `
-    <div class="price-box-mini" onclick="selectPackage('${pkg.name}', '${pkg.price}')">
+    <div class="price-box-mini" onclick="selectPackage('${pkg.name}', '${pkg.price}')" role="button" tabindex="0">
       <div class="mini-diamond">${pkg.name}</div>
       <div class="mini-price">${pkg.price}</div>
     </div>
@@ -353,12 +339,13 @@ function selectPackage(name, price, maybePrice) {
   });
 
   updateOrderSummary();
- fix-navigation-regression-6011862331441458824
+
   const stickyBar = document.getElementById('stickyMobileBar');
   if (stickyBar) stickyBar.classList.add('active');
 
   // If clicking from the static price grid, also open the modal if not already open
-  if (!document.getElementById('packageModal').classList.contains('show')) {
+  const packageModal = document.getElementById('packageModal');
+  if (packageModal && !packageModal.classList.contains('show')) {
       const gameName = maybePrice ? name : '';
       if (gameName) {
           currentOrder.game = gameName;
@@ -366,7 +353,6 @@ function selectPackage(name, price, maybePrice) {
       }
       openModal('packageModal');
   }
- main
 }
 
 function updateOrderSummary() {
@@ -758,23 +744,15 @@ function renderGames() {
 }
 
 function filterGames() {
- palette/search-enhancement-and-cleanup-4472390093947769525
   const input = document.getElementById('gameSearch');
   const q = input.value.toLowerCase();
-  let count = 0;
+  let found = false;
 
   // Toggle clear button
   const clearBtn = document.getElementById('clearSearch');
   if (clearBtn) clearBtn.classList.toggle('hidden', !q);
 
   document.querySelectorAll('.game-card').forEach(card => {
-
-  const q = document.getElementById('gameSearch').value.toLowerCase();
-  const cards = document.querySelectorAll('.game-card');
-  let found = false;
-
-  cards.forEach(card => {
- main
     const name = card.querySelector('.game-name').textContent.toLowerCase();
     if (name.includes(q)) {
       card.style.display = 'flex';
@@ -786,39 +764,39 @@ function filterGames() {
 
   const emptyState = document.getElementById('noGamesFound');
   if (emptyState) {
-      emptyState.classList.toggle('hidden', found);
+    emptyState.classList.toggle('hidden', found);
   }
 }
 
-palette/search-enhancement-and-cleanup-4472390093947769525
 function clearSearch() {
-    const input = document.getElementById('gameSearch');
-    if (input) {
-        input.value = '';
-        filterGames();
-        input.focus();
-    }
+  const input = document.getElementById('gameSearch');
+  if (input) {
+    input.value = '';
+    filterGames();
+    input.focus();
+  }
+}
 
 // Request Game Logic
 function openRequestGameModal() {
-    openModal('requestGameModal');
+  openModal('requestGameModal');
 }
 
 function submitGameRequest(e) {
-    e.preventDefault();
-    const name = document.getElementById('reqGameName').value;
-    const platform = document.getElementById('reqPlatform').value;
-    const notes = document.getElementById('reqNotes').value;
+  e.preventDefault();
+  const name = document.getElementById('reqGameName').value;
+  const platform = document.getElementById('reqPlatform').value;
+  const notes = document.getElementById('reqNotes').value;
 
-    Storage.saveRequest({
-        game: name,
-        platform: platform,
-        notes: notes
-    });
+  Storage.saveRequest({
+    game: name,
+    platform: platform,
+    notes: notes
+  });
 
-    showToast('✅ Request terkirim! Terima kasih.');
-    closeModal('requestGameModal');
-    e.target.reset();
+  showToast('✅ Request terkirim! Terima kasih.');
+  closeModal('requestGameModal');
+  e.target.reset();
 }
 
 function openWhatsApp() {
@@ -829,7 +807,6 @@ function openWhatsApp() {
 function requestGame() {
   const num = document.getElementById('whatsappNumber').textContent.replace(/\D/g, '');
   window.open(`https://wa.me/${num}?text=${encodeURIComponent('Halo, saya ingin request game yang belum ada!')}`, '_blank');
- main
 }
 
 function scrollToSection(id) {
