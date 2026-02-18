@@ -327,7 +327,7 @@ function renderPackageSelection(gameKey) {
   const packages = GAME_PACKAGES[gameKey];
 
   container.innerHTML = packages.map(pkg => `
-    <div class="price-box-mini" onclick="selectPackage('${pkg.name}', '${pkg.price}')">
+    <div class="price-box-mini" onclick="selectPackage('${pkg.name}', '${pkg.price}')" role="button" tabindex="0">
       <div class="mini-diamond">${pkg.name}</div>
       <div class="mini-price">${pkg.price}</div>
     </div>
@@ -366,7 +366,6 @@ function selectPackage(name, price, maybePrice) {
       }
       openModal('packageModal');
   }
- main
 }
 
 function updateOrderSummary() {
@@ -547,39 +546,6 @@ function stopLoading() {
   document.getElementById('loadingModal').classList.remove('show');
 }
 
-function filterGameSearch(event) {
-  const searchInput = event.target.value.toLowerCase().trim();
-  const resultsContainer = document.getElementById('gameSearchResults');
-
-  if (!searchInput) {
-    resultsContainer.style.display = 'none';
-    return;
-  }
-
-  const filteredGames = games.filter(game =>
-    game.name.toLowerCase().includes(searchInput)
-  );
-
-  if (filteredGames.length === 0) {
-    resultsContainer.innerHTML = '<div style="padding: 12px 15px; color: #d1fae5; font-size: 13px;">❌ Game tidak ditemukan</div>';
-    resultsContainer.style.display = 'block';
-    return;
-  }
-
-  resultsContainer.innerHTML = filteredGames.map(game => `
-    <div style="padding: 12px 15px; border-bottom: 1px solid rgba(253, 224, 71, 0.2); cursor: pointer; transition: all 0.2s ease; background: transparent;"
-         role="button"
-         tabindex="0"
-         onmouseover="this.style.background = 'rgba(253, 224, 71, 0.1)'"
-         onmouseout="this.style.background = 'transparent'"
-         onclick="selectGameFromSearch('${game.id}')">
-      <span style="font-size: 18px; margin-right: 8px;" role="img" aria-label="${game.name} icon">${game.emoji}</span>
-      <span style="color: #fde047; font-weight: 700; font-size: 13px;">${game.name}</span>
-    </div>
-  `).join('');
-
-  resultsContainer.style.display = 'block';
-}
 
 // Receipt
 function showReceipt(data) {
@@ -758,23 +724,15 @@ function renderGames() {
 }
 
 function filterGames() {
- palette/search-enhancement-and-cleanup-4472390093947769525
   const input = document.getElementById('gameSearch');
-  const q = input.value.toLowerCase();
-  let count = 0;
+  const q = input.value.toLowerCase().trim();
+  let found = false;
 
   // Toggle clear button
   const clearBtn = document.getElementById('clearSearch');
   if (clearBtn) clearBtn.classList.toggle('hidden', !q);
 
   document.querySelectorAll('.game-card').forEach(card => {
-
-  const q = document.getElementById('gameSearch').value.toLowerCase();
-  const cards = document.querySelectorAll('.game-card');
-  let found = false;
-
-  cards.forEach(card => {
- main
     const name = card.querySelector('.game-name').textContent.toLowerCase();
     if (name.includes(q)) {
       card.style.display = 'flex';
@@ -786,11 +744,10 @@ function filterGames() {
 
   const emptyState = document.getElementById('noGamesFound');
   if (emptyState) {
-      emptyState.classList.toggle('hidden', found);
+    emptyState.classList.toggle('hidden', found);
   }
 }
 
-palette/search-enhancement-and-cleanup-4472390093947769525
 function clearSearch() {
     const input = document.getElementById('gameSearch');
     if (input) {
@@ -798,6 +755,7 @@ function clearSearch() {
         filterGames();
         input.focus();
     }
+}
 
 // Request Game Logic
 function openRequestGameModal() {
@@ -829,7 +787,6 @@ function openWhatsApp() {
 function requestGame() {
   const num = document.getElementById('whatsappNumber').textContent.replace(/\D/g, '');
   window.open(`https://wa.me/${num}?text=${encodeURIComponent('Halo, saya ingin request game yang belum ada!')}`, '_blank');
- main
 }
 
 function scrollToSection(id) {
