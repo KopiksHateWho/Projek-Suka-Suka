@@ -59,16 +59,11 @@
         </header>
 
         <!-- Search Bar -->
- palette/search-enhancement-and-cleanup-4472390093947769525
         <div class="section-container pb-0">
             <div class="max-w-md mx-auto relative group">
                 <input type="text" id="gameSearch" class="field-input text-center pr-10" placeholder="🔍 Cari game favoritmu..." onkeyup="filterGames()" aria-label="Cari game favorit">
                 <button id="clearSearch" class="hidden absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-2xl transition-all" onclick="clearSearch()" aria-label="Bersihkan pencarian" title="Bersihkan pencarian">&times;</button>
             </div>
-
-        <div class="max-w-md mx-auto px-8 relative -mt-8 mb-12">
-            <input type="text" id="gameSearch" class="field-input text-center" placeholder="🔍 Cari game favoritmu..." onkeyup="filterGames()">
- main
         </div>
 
         <!-- Games Grid -->
@@ -174,7 +169,10 @@
                 <span class="text-4xl">💬</span>
                 <div class="text-left">
                     <div class="text-xs text-slate-400 uppercase font-bold tracking-widest">WhatsApp Number</div>
-                    <div class="text-2xl font-black text-primary" id="whatsappNumber">+62 882-0076-55617</div>
+                    <div class="flex items-center gap-3">
+                        <div class="text-2xl font-black text-primary" id="whatsappNumber">+62 882-0076-55617</div>
+                        <button onclick="event.stopPropagation(); window.copyToClipboard(document.getElementById('whatsappNumber').textContent, 'Nomor WhatsApp')" class="text-slate-400 hover:text-white transition-all transform hover:scale-125" aria-label="Salin Nomor WhatsApp" title="Salin Nomor WhatsApp">📋</button>
+                    </div>
                 </div>
             </div>
             <div class="mt-12 opacity-50">
@@ -202,7 +200,7 @@
     <!-- Package Selection Modal -->
     <div id="packageModal" class="modal">
         <div class="modal-content max-w-2xl">
-            <button class="close-modal" onclick="closeModal('packageModal')">&times;</button>
+            <button class="close-modal" onclick="closeModal('packageModal')" aria-label="Tutup Modal">&times;</button>
             <div class="modal-header">
                 <h3 class="modal-title">PILIH PAKET</h3>
             </div>
@@ -267,7 +265,7 @@
     <!-- Checkout Summary Modal -->
     <div id="summaryModal" class="modal">
         <div class="modal-content max-w-md">
-            <button class="close-modal" onclick="closeModal('summaryModal')">&times;</button>
+            <button class="close-modal" onclick="closeModal('summaryModal')" aria-label="Tutup Modal">&times;</button>
             <div class="modal-header">
                 <h3 class="modal-title">RINGKASAN PESANAN</h3>
             </div>
@@ -305,7 +303,7 @@
     <!-- Request Game Modal -->
     <div id="requestGameModal" class="modal">
         <div class="modal-content max-w-md">
-            <button class="close-modal" onclick="closeModal('requestGameModal')">&times;</button>
+            <button class="close-modal" onclick="closeModal('requestGameModal')" aria-label="Tutup Modal">&times;</button>
             <h3 class="modal-title mb-6">REQUEST GAME</h3>
             <p class="text-sm text-slate-400 mb-6">Game belum tersedia? Request di sini agar segera kami tambahkan!</p>
 
@@ -353,9 +351,12 @@
                 <h3 class="text-2xl font-black mb-6">PESANAN TERKIRIM!</h3>
 
                 <div class="bg-black/40 p-6 rounded-2xl border border-green-500/30 text-left space-y-3 mb-8">
-                    <div class="flex justify-between">
+                    <div class="flex justify-between items-center">
                         <span class="text-slate-400">Order No:</span>
-                        <span id="receiptOrderNum" class="font-mono text-xs"></span>
+                        <div class="flex items-center gap-2">
+                            <span id="receiptOrderNum" class="font-mono text-xs"></span>
+                            <button onclick="window.copyToClipboard(document.getElementById('receiptOrderNum').textContent, 'Order ID')" class="text-slate-400 hover:text-primary transition-all transform hover:scale-125" aria-label="Salin Order ID" title="Salin Order ID">📋</button>
+                        </div>
                     </div>
                     <div class="flex justify-between">
                         <span class="text-slate-400">Game:</span>
@@ -383,7 +384,7 @@
     <!-- History Modal -->
     <div id="historyModal" class="modal">
         <div class="modal-content">
-            <button class="close-modal" onclick="closeModal('historyModal')">&times;</button>
+            <button class="close-modal" onclick="closeModal('historyModal')" aria-label="Tutup Modal">&times;</button>
             <h3 class="modal-title mb-6">RIWAYAT PESANAN</h3>
             <div class="flex gap-2 mb-6">
                 <input type="tel" id="historyPhone" class="field-input" placeholder="Nomor WhatsApp...">
