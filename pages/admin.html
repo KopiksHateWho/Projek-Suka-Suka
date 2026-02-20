@@ -155,7 +155,7 @@
             <!-- Game Edit/Add Modal -->
             <div id="gameModal" class="modal">
                 <div class="modal-content max-w-md">
-                    <button class="absolute top-4 right-4 text-slate-400 hover:text-white" onclick="closeGameModal()">&times;</button>
+                    <button class="absolute top-4 right-4 text-slate-400 hover:text-white" onclick="closeGameModal()" aria-label="Tutup Modal">&times;</button>
                     <h3 class="modal-title mb-6" id="gameModalTitle">ADD NEW GAME</h3>
                     <form id="gameForm" onsubmit="handleGameSubmit(event)">
                         <input type="hidden" id="gameId">

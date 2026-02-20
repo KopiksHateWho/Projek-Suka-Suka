@@ -290,6 +290,28 @@ function formatPrice(price) {
   return `Rp${price.toLocaleString('id-ID')}`;
 }
 
+window.copyToClipboard = function(text) {
+  if (!navigator.clipboard) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+      document.execCommand('copy');
+      showToast('📋 Berhasil disalin!');
+    } catch (err) {
+      console.error('Fallback copy failed', err);
+    }
+    document.body.removeChild(textArea);
+    return;
+  }
+  navigator.clipboard.writeText(text).then(() => {
+    showToast('📋 Berhasil disalin!');
+  }, (err) => {
+    console.error('Async copy failed', err);
+  });
+};
+
 // UI Core
 function showToast(msg) {
   const toast = document.createElement('div');
@@ -353,7 +375,6 @@ function selectPackage(name, price, maybePrice) {
   });
 
   updateOrderSummary();
- fix-navigation-regression-6011862331441458824
   const stickyBar = document.getElementById('stickyMobileBar');
   if (stickyBar) stickyBar.classList.add('active');
 
@@ -366,7 +387,6 @@ function selectPackage(name, price, maybePrice) {
       }
       openModal('packageModal');
   }
- main
 }
 
 function updateOrderSummary() {
@@ -758,23 +778,16 @@ function renderGames() {
 }
 
 function filterGames() {
- palette/search-enhancement-and-cleanup-4472390093947769525
   const input = document.getElementById('gameSearch');
+  if (!input) return;
   const q = input.value.toLowerCase();
-  let count = 0;
+  let found = false;
 
   // Toggle clear button
   const clearBtn = document.getElementById('clearSearch');
   if (clearBtn) clearBtn.classList.toggle('hidden', !q);
 
   document.querySelectorAll('.game-card').forEach(card => {
-
-  const q = document.getElementById('gameSearch').value.toLowerCase();
-  const cards = document.querySelectorAll('.game-card');
-  let found = false;
-
-  cards.forEach(card => {
- main
     const name = card.querySelector('.game-name').textContent.toLowerCase();
     if (name.includes(q)) {
       card.style.display = 'flex';
@@ -790,7 +803,6 @@ function filterGames() {
   }
 }
 
-palette/search-enhancement-and-cleanup-4472390093947769525
 function clearSearch() {
     const input = document.getElementById('gameSearch');
     if (input) {
@@ -798,6 +810,7 @@ function clearSearch() {
         filterGames();
         input.focus();
     }
+}
 
 // Request Game Logic
 function openRequestGameModal() {
@@ -829,7 +842,6 @@ function openWhatsApp() {
 function requestGame() {
   const num = document.getElementById('whatsappNumber').textContent.replace(/\D/g, '');
   window.open(`https://wa.me/${num}?text=${encodeURIComponent('Halo, saya ingin request game yang belum ada!')}`, '_blank');
- main
 }
 
 function scrollToSection(id) {
