@@ -61,7 +61,8 @@
         <!-- Search Bar -->
         <div class="section-container pb-0">
             <div class="max-w-md mx-auto relative group">
-                <input type="text" id="gameSearch" class="field-input text-center pr-10" placeholder="🔍 Cari game favoritmu..." onkeyup="filterGames()" aria-label="Cari game favorit">
+                <input type="text" id="gameSearch" class="field-input text-center pr-10 peer" placeholder="🔍 Cari game favoritmu..." onkeyup="filterGames()" aria-label="Cari game favorit">
+                <span class="absolute right-12 top-1/2 -translate-y-1/2 text-slate-500 text-[10px] font-mono border border-slate-800 px-1.5 py-0.5 rounded pointer-events-none transition-opacity peer-focus:opacity-0 peer-placeholder-shown:opacity-100 opacity-0 hidden sm:block">/</span>
                 <button id="clearSearch" class="hidden absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-2xl transition-all" onclick="clearSearch()" aria-label="Bersihkan pencarian" title="Bersihkan pencarian">&times;</button>
             </div>
         </div>
@@ -80,7 +81,7 @@
                 <p class="text-slate-500 mt-2 mb-8">Coba kata kunci lain atau request game baru!</p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
                     <button onclick="clearSearch()" class="btn-secondary px-8 py-3 w-full sm:w-auto">HAPUS PENCARIAN</button>
-                    <button onclick="window.requestGame()" class="btn-primary px-8 py-3 w-full sm:w-auto">REQUEST GAME</button>
+                    <button onclick="openRequestGameModal()" class="btn-primary px-8 py-3 w-full sm:w-auto">REQUEST GAME</button>
                 </div>
             </div>
 
@@ -241,10 +242,10 @@
                 <div class="form-field mb-8">
                     <label class="field-label mb-3">Metode Pembayaran</label>
                     <div class="payment-select">
-                        <div class="payment-btn" onclick="selectPaymentMethod('DANA', this)">DANA</div>
-                        <div class="payment-btn" onclick="selectPaymentMethod('GOPAY', this)">GOPAY</div>
-                        <div class="payment-btn" onclick="selectPaymentMethod('OVO', this)">OVO</div>
-                        <div class="payment-btn" onclick="selectPaymentMethod('QRIS', this)">QRIS</div>
+                        <div class="payment-btn" onclick="selectPaymentMethod('DANA', this)" role="button" tabindex="0">DANA</div>
+                        <div class="payment-btn" onclick="selectPaymentMethod('GOPAY', this)" role="button" tabindex="0">GOPAY</div>
+                        <div class="payment-btn" onclick="selectPaymentMethod('OVO', this)" role="button" tabindex="0">OVO</div>
+                        <div class="payment-btn" onclick="selectPaymentMethod('QRIS', this)" role="button" tabindex="0">QRIS</div>
                     </div>
                 </div>
 
