@@ -14,3 +14,7 @@
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+
+## 2026-02-22 - Shortcut Discoverability & Focus Hints
+**Learning:** Keyboard shortcuts like '/' for search are powerful but invisible. Using CSS 'peer' selectors in Tailwind allows for creating "smart hints" that appear only when the input is empty and blurred, providing discoverability without cluttering the UI during active use.
+**Action:** When adding keyboard shortcuts, provide a subtle visual hint (like '[/]') near the target element. Use CSS logic (e.g., peer-focus:opacity-0) to manage visibility automatically and ensure the hint doesn't overlap with user input.
