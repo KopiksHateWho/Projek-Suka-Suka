@@ -273,6 +273,15 @@ function initAccessibility() {
       e.preventDefault();
       e.target.click();
     }
+
+    // Global '/' search shortcut
+    if (e.key === '/' && !['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName) && !e.target.isContentEditable) {
+      const searchInput = document.getElementById('gameSearch');
+      if (searchInput) {
+        e.preventDefault();
+        searchInput.focus();
+      }
+    }
   });
 }
 
