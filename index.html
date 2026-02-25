@@ -61,7 +61,8 @@
         <!-- Search Bar -->
         <div class="section-container pb-0">
             <div class="max-w-md mx-auto relative group">
-                <input type="text" id="gameSearch" class="field-input text-center pr-10" placeholder="🔍 Cari game favoritmu..." onkeyup="filterGames()" aria-label="Cari game favorit">
+                <input type="text" id="gameSearch" class="peer field-input text-center pr-10" placeholder="🔍 Cari game favoritmu..." onkeyup="filterGames()" aria-label="Cari game favorit">
+                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 text-xs font-mono pointer-events-none peer-focus:hidden peer-[:not(:placeholder-shown)]:hidden hidden md:block" aria-hidden="true">[/]</span>
                 <button id="clearSearch" class="hidden absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-2xl transition-all" onclick="clearSearch()" aria-label="Bersihkan pencarian" title="Bersihkan pencarian">&times;</button>
             </div>
         </div>
@@ -80,7 +81,7 @@
                 <p class="text-slate-500 mt-2 mb-8">Coba kata kunci lain atau request game baru!</p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
                     <button onclick="clearSearch()" class="btn-secondary px-8 py-3 w-full sm:w-auto">HAPUS PENCARIAN</button>
-                    <button onclick="window.requestGame()" class="btn-primary px-8 py-3 w-full sm:w-auto">REQUEST GAME</button>
+                    <button onclick="openRequestGameModal()" class="btn-primary px-8 py-3 w-full sm:w-auto">REQUEST GAME</button>
                 </div>
             </div>
 

@@ -111,17 +111,18 @@ window.closeMenu = function() {
 };
 
 window.openRequestGameModal = function() {
-    // This function is implemented in js/app.js where modal logic resides,
-    // but we can proxy it or let app.js handle the global definition.
-    // However, since auth.js loads before app.js, we should ensure it doesn't conflict.
-    // If app.js defines it, we can remove this or make it a safe fallback.
-    // Best practice: Let app.js handle UI interaction logic like modals.
-    // We'll remove this conflicting definition and rely on app.js.
-    // If we need it here for some reason (e.g. auth-links injection), we should delegate.
-    if (window.openModal) {
-        window.openModal('requestGameModal');
+    const modal = document.getElementById('requestGameModal');
+    if (modal) {
+        if (window.openModal) {
+            window.openModal('requestGameModal');
+        } else {
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
     } else {
-        console.warn('Modal system not ready');
+        const whatsappDisplay = document.getElementById('whatsappNumber');
+        const num = whatsappDisplay ? whatsappDisplay.textContent.replace(/\D/g, '') : '62882007655617';
+        window.open(`https://wa.me/${num}?text=${encodeURIComponent('Halo, saya ingin request game yang belum ada!')}`, '_blank');
     }
 };
 

@@ -14,3 +14,7 @@
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+
+## 2026-03-05 - Keyboard Shortcut Discoverability & Context Retention
+**Learning:** Adding keyboard shortcuts (like '/') for core functions like search significantly improves efficiency for power users, but they must be discoverable via subtle visual hints (e.g., `[/]`). Furthermore, ensuring that contextual actions (like "Request Game") within search results stay within the app's internal flows (modals) rather than redirecting externally preserves the user's focus and state.
+**Action:** When adding shortcuts, always include a visual hint that hides on focus/entry. Audit actionable buttons in secondary UI states to ensure they use internal app routes/modals whenever possible to maintain a cohesive user experience.
