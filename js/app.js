@@ -264,14 +264,23 @@ async function initElementSDK() {
 }
 
 function initAccessibility() {
-  // Global listener for keyboard interactions on role="button" elements
+  // Global listener for keyboard interactions
   document.addEventListener('keydown', (e) => {
+    // 1. Accessibility for role="button"
     if ((e.key === 'Enter' || e.key === ' ') && e.target.getAttribute('role') === 'button') {
-      // Avoid triggering if it's already a native button or link (they handle Enter/Space automatically)
       if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
-
       e.preventDefault();
       e.target.click();
+    }
+
+    // 2. Search shortcut (/)
+    if (e.key === '/' && !['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName) && !document.activeElement.isContentEditable) {
+      e.preventDefault();
+      const searchInput = document.getElementById('gameSearch');
+      if (searchInput) {
+        searchInput.focus();
+        searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     }
   });
 }
@@ -467,13 +476,13 @@ async function confirmOrder() {
 }
 
 // Modal System
-function openModal(id) {
+window.openModal = function(id) {
   document.getElementById(id).classList.add('show');
   // Prevent body scroll when modal open
   document.body.style.overflow = 'hidden';
-}
+};
 
-function closeModal(id) {
+window.closeModal = function(id) {
   document.getElementById(id).classList.remove('show');
   document.body.style.overflow = '';
 
@@ -782,10 +791,6 @@ function clearSearch() {
 }
 
 // Request Game Logic
-function openRequestGameModal() {
-    openModal('requestGameModal');
-}
-
 function submitGameRequest(e) {
     e.preventDefault();
     const name = document.getElementById('reqGameName').value;
@@ -808,10 +813,6 @@ function openWhatsApp() {
   window.open(`https://wa.me/${num}`, '_blank');
 }
 
-function requestGame() {
-  const num = document.getElementById('whatsappNumber').textContent.replace(/\D/g, '');
-  window.open(`https://wa.me/${num}?text=${encodeURIComponent('Halo, saya ingin request game yang belum ada!')}`, '_blank');
-}
 
 function scrollToSection(id) {
   const el = document.getElementById(id);
