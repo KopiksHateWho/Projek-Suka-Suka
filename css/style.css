@@ -692,6 +692,8 @@ footer {
 /* Accessibility: Focus Visible Styles */
 .game-card:focus-visible,
 .price-box:focus-visible,
+.price-box-mini:focus-visible,
+.payment-btn:focus-visible,
 .payment-option:focus-visible,
 .logo-section:focus-visible,
 .whatsapp-box:focus-visible {
