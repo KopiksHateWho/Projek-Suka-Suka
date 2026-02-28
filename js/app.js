@@ -273,6 +273,21 @@ function initAccessibility() {
       e.preventDefault();
       e.target.click();
     }
+
+    // Search Shortcut (/)
+    if (e.key === '/') {
+      const activeEl = document.activeElement;
+      const isTyping = ['INPUT', 'TEXTAREA', 'SELECT'].includes(activeEl.tagName) || activeEl.isContentEditable;
+
+      if (!isTyping) {
+        e.preventDefault();
+        const searchInput = document.getElementById('gameSearch');
+        if (searchInput) {
+          searchInput.focus();
+          searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+    }
   });
 }
 
