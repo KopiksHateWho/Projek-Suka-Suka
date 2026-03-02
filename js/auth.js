@@ -131,6 +131,21 @@ window.openWhatsApp = function() {
     window.open(`https://wa.me/${num}`, '_blank');
 };
 
+window.togglePasswordVisibility = function(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+
+    if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '🙈';
+        btn.setAttribute('aria-label', 'Sembunyikan password');
+    } else {
+        input.type = 'password';
+        btn.textContent = '👁️';
+        btn.setAttribute('aria-label', 'Tampilkan password');
+    }
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     window.updateNavbar();
 });
