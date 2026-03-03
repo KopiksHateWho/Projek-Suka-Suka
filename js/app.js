@@ -264,16 +264,36 @@ async function initElementSDK() {
 }
 
 function initAccessibility() {
-  // Global listener for keyboard interactions on role="button" elements
+  // Global listener for keyboard interactions
   document.addEventListener('keydown', (e) => {
-    if ((e.key === 'Enter' || e.key === ' ') && e.target.getAttribute('role') === 'button') {
-      // Avoid triggering if it's already a native button or link (they handle Enter/Space automatically)
-      if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
+    // Search focus shortcut (/)
+    if (e.key === '/' && !['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName) && !document.activeElement.isContentEditable) {
+      const searchInput = document.getElementById('gameSearch');
+      if (searchInput) {
+        e.preventDefault();
+        searchInput.focus();
+        scrollToSection('home');
+      }
+    }
 
+    // Role="button" Enter/Space support
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.getAttribute('role') === 'button') {
+      if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
       e.preventDefault();
       e.target.click();
     }
   });
+
+  // Search input Escape to clear
+  const searchInput = document.getElementById('gameSearch');
+  if (searchInput) {
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        clearSearch();
+        searchInput.blur();
+      }
+    });
+  }
 }
 
 (async function init() {

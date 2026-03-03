@@ -61,7 +61,8 @@
         <!-- Search Bar -->
         <div class="section-container pb-0">
             <div class="max-w-md mx-auto relative group">
-                <input type="text" id="gameSearch" class="field-input text-center pr-10" placeholder="🔍 Cari game favoritmu..." onkeyup="filterGames()" aria-label="Cari game favorit">
+                <input type="text" id="gameSearch" class="field-input text-center pr-10 peer" placeholder="🔍 Cari game favoritmu..." onkeyup="filterGames()" aria-label="Cari game favorit" aria-keyshortcuts="/">
+                <span class="absolute right-12 top-1/2 -translate-y-1/2 text-[10px] text-slate-500 font-mono border border-slate-700 px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 peer-focus:opacity-0 peer-[:not(:placeholder-shown)]:opacity-0 transition-opacity pointer-events-none">[/]</span>
                 <button id="clearSearch" class="hidden absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-2xl transition-all" onclick="clearSearch()" aria-label="Bersihkan pencarian" title="Bersihkan pencarian">&times;</button>
             </div>
         </div>
