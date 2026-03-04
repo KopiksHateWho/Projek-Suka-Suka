@@ -14,3 +14,7 @@
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+
+## 2026-03-04 - Shortcut Discoverability via Auto-Hiding Hints
+**Learning:** Keyboard shortcuts like '/' for search are powerful but often undiscovered. Providing a subtle visual hint (e.g., `[/]`) that automatically hides via CSS `peer` modifiers when the input is focused or non-empty provides perfect discoverability without permanent UI clutter.
+**Action:** For global shortcuts, implement a visual hint using CSS `peer-focus` and `peer-[:not(:placeholder-shown)]` to ensure it only appears when relevant and does not overlap with user-typed content.
