@@ -14,3 +14,7 @@
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+
+## 2026-02-23 - Micro-UX: Password Visibility & Site-wide A11y
+**Learning:** Adding a password visibility toggle is a high-value, low-effort micro-UX improvement that significantly reduces authentication friction. In a multi-page vanilla JS project, centralizing accessibility initialization (like `initAccessibility`) in a global script ensures consistent keyboard support without duplication.
+**Action:** When working with forms, always consider if password visibility toggles are appropriate. For accessibility, ensure all custom interactive elements (`role="button"`) are initialized via a global script that runs on all pages.

@@ -61,6 +61,9 @@
     <div class="main-wrapper flex flex-col min-h-screen">
         <div class="galaxy-bg"></div>
 
+        <!-- Mobile Nav Overlay -->
+        <div id="nav-backdrop" class="nav-backdrop nav-overlay" onclick="window.closeMenu()"></div>
+
         <!-- Navigation -->
         <nav class="top-nav">
             <div class="nav-content">
@@ -68,14 +71,16 @@
                     <span class="logo-icon" role="img" aria-label="KingSlayer Logo">⚔️</span>
                     <span class="logo-text">Admin Panel</span>
                 </div>
-                <div class="nav-links-container">
-                    <div class="nav-links">
-                        <a href="../index.html#home" class="nav-link" onclick="window.closeMenu()">Home</a>
-                        <a href="../index.html#games" class="nav-link" onclick="window.closeMenu()">Top Up</a>
-                        <a href="#" class="nav-link" onclick="window.requestGame(); window.closeMenu()">Request Game</a>
-                        <a href="../index.html#contact" class="nav-link" onclick="window.closeMenu()">Contact</a>
-                        <div id="auth-links" class="auth-links-wrapper"></div>
-                    </div>
+
+                <button class="md:hidden text-2xl" onclick="window.toggleMenu()" aria-label="Toggle Menu">☰</button>
+
+                <div id="navLinks" class="nav-links-container">
+                    <a href="../index.html#home" class="nav-link" onclick="window.closeMenu()">🏠 HOME</a>
+                    <a href="../index.html#games" class="nav-link" onclick="window.closeMenu()">🎮 GAMES</a>
+                    <a href="../index.html" class="nav-link" onclick="window.closeMenu()">📋 HISTORY</a>
+                    <a href="../index.html" class="nav-link" onclick="window.closeMenu()">💡 REQUEST GAME</a>
+                    <a href="../index.html#contact" class="nav-link" onclick="window.closeMenu()">📞 CONTACT</a>
+                    <div id="auth-links" class="flex flex-col md:flex-row gap-1 w-full md:w-auto"></div>
                 </div>
             </div>
         </nav>
