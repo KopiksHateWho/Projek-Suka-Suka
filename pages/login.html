@@ -21,7 +21,6 @@
                     <span class="logo-icon" role="img" aria-label="KingSlayer Logo">⚔️</span>
                     <span class="logo-text">KingSlayer</span>
                 </div>
-fix-navigation-regression-6011862331441458824
 
                 <button class="md:hidden text-2xl" onclick="window.toggleMenu()" aria-label="Toggle Menu">☰</button>
 
@@ -32,16 +31,6 @@ fix-navigation-regression-6011862331441458824
                     <a href="../index.html" class="nav-link" onclick="window.closeMenu()">💡 REQUEST GAME</a>
                     <a href="../index.html#contact" class="nav-link" onclick="window.closeMenu()">📞 CONTACT</a>
                     <div id="auth-links" class="flex flex-col md:flex-row gap-1 w-full md:w-auto"></div>
-
-                <div class="nav-links-container">
-                    <div class="nav-links">
-                        <a href="../index.html#home" class="nav-link" onclick="window.closeMenu()">Home</a>
-                        <a href="../index.html#games" class="nav-link" onclick="window.closeMenu()">Top Up</a>
-                        <a href="#" class="nav-link" onclick="window.requestGame(); window.closeMenu()">Request Game</a>
-                        <a href="../index.html#contact" class="nav-link" onclick="window.closeMenu()">Contact</a>
-                        <div id="auth-links" class="auth-links-wrapper"></div>
-                    </div>
- main
                 </div>
             </div>
         </nav>
@@ -60,7 +49,15 @@ fix-navigation-regression-6011862331441458824
                     </div>
                     <div class="form-field mb-8">
                         <label class="field-label">Password</label>
-                        <input type="password" id="password" class="field-input" placeholder="••••••••" required>
+                        <div class="relative">
+                            <input type="password" id="password" class="field-input w-full pr-12" placeholder="••••••••" required>
+                            <button type="button"
+                                    class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-full p-1"
+                                    onclick="window.togglePasswordVisibility('password', this)"
+                                    aria-label="Show password">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                            </button>
+                        </div>
                     </div>
 
                     <button type="submit" class="checkout-btn">LOGIN</button>
@@ -79,7 +76,15 @@ fix-navigation-regression-6011862331441458824
                     </div>
                     <div class="form-field mb-8">
                         <label class="field-label">Password</label>
-                        <input type="password" id="regPassword" class="field-input" placeholder="••••••••" required>
+                        <div class="relative">
+                            <input type="password" id="regPassword" class="field-input w-full pr-12" placeholder="••••••••" required>
+                            <button type="button"
+                                    class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-full p-1"
+                                    onclick="window.togglePasswordVisibility('regPassword', this)"
+                                    aria-label="Show password">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                            </button>
+                        </div>
                     </div>
 
                     <button type="submit" class="checkout-btn">REGISTER</button>

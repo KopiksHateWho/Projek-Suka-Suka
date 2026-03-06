@@ -398,7 +398,15 @@
         <div class="modal-content max-w-sm">
             <h3 class="modal-title mb-6">ADMIN LOGIN</h3>
             <form onsubmit="handleAdminLogin(event)">
-                <input type="password" id="adminPassInput" class="field-input mb-6" placeholder="Password...">
+                <div class="relative mb-6">
+                    <input type="password" id="adminPassInput" class="field-input w-full pr-12" placeholder="Password..." required>
+                    <button type="button"
+                            class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-full p-1"
+                            onclick="window.togglePasswordVisibility('adminPassInput', this)"
+                            aria-label="Show password">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    </button>
+                </div>
                 <button type="submit" class="checkout-btn">LOGIN</button>
             </form>
         </div>

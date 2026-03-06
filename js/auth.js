@@ -77,6 +77,19 @@ window.getUserTransactions = function() {
     return transactions.filter(t => t.userEmail === user.email);
 };
 
+window.togglePasswordVisibility = function(inputId, button) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+    const isPassword = input.type === 'password';
+    input.type = isPassword ? 'text' : 'password';
+
+    const eyeIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+    const eyeOffIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 19c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`;
+
+    button.innerHTML = isPassword ? eyeOffIcon : eyeIcon;
+    button.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
+};
+
 window.showToast = function(msg) {
     const toast = document.createElement('div');
     toast.className = 'toast';
@@ -110,26 +123,6 @@ window.closeMenu = function() {
     document.body.style.overflow = '';
 };
 
-window.openRequestGameModal = function() {
-    // This function is implemented in js/app.js where modal logic resides,
-    // but we can proxy it or let app.js handle the global definition.
-    // However, since auth.js loads before app.js, we should ensure it doesn't conflict.
-    // If app.js defines it, we can remove this or make it a safe fallback.
-    // Best practice: Let app.js handle UI interaction logic like modals.
-    // We'll remove this conflicting definition and rely on app.js.
-    // If we need it here for some reason (e.g. auth-links injection), we should delegate.
-    if (window.openModal) {
-        window.openModal('requestGameModal');
-    } else {
-        console.warn('Modal system not ready');
-    }
-};
-
-window.openWhatsApp = function() {
-    const whatsappDisplay = document.getElementById('whatsappNumber');
-    const num = whatsappDisplay ? whatsappDisplay.textContent.replace(/\D/g, '') : '62882007655617';
-    window.open(`https://wa.me/${num}`, '_blank');
-};
 
 document.addEventListener('DOMContentLoaded', () => {
     window.updateNavbar();
