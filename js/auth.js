@@ -125,6 +125,21 @@ window.openRequestGameModal = function() {
     }
 };
 
+window.togglePasswordVisibility = function(inputId, buttonElement) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+
+    const isPassword = input.type === 'password';
+    input.type = isPassword ? 'text' : 'password';
+
+    const icon = buttonElement.querySelector('.eye-icon');
+    if (icon) {
+        icon.textContent = isPassword ? '🙈' : '👁️';
+    }
+
+    buttonElement.setAttribute('aria-label', isPassword ? 'Sembunyikan password' : 'Tampilkan password');
+};
+
 window.openWhatsApp = function() {
     const whatsappDisplay = document.getElementById('whatsappNumber');
     const num = whatsappDisplay ? whatsappDisplay.textContent.replace(/\D/g, '') : '62882007655617';
