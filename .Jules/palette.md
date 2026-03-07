@@ -1,3 +1,7 @@
+## 2026-03-05 - Navigation Cleanup & Password Visibility Toggle
+**Learning:** Corrupted navigation headers (with Git conflict artifacts like branch names) are a major UX barrier that breaks the mental model of site structure. Additionally, modern authentication forms are expected to provide "Show/Hide Password" toggles to reduce input errors and improve accessibility.
+**Action:** Always audit secondary pages (`pages/`) for header/footer consistency with the root `index.html`. Implement password visibility toggles using `type="button"` and `aria-label` to ensure they don't trigger form submission and remain accessible to screen readers. Use emojis (👁️/🙈) for lightweight, dependency-free icons in vanilla JS projects.
+
 ## 2025-05-14 - Retrofitting Accessibility in Vanilla JS/HTML
 **Learning:** In projects without a framework or semantic HTML for interactive elements (using divs as buttons), a global keyboard listener combined with static ARIA roles/tabindex is a clean way to ensure accessibility without breaking custom CSS layouts.
 **Action:** Always check if interactive elements are semantically correct (e.g., <button> or <a>). If not, add role="button", tabindex="0", and a keyboard listener for Enter/Space. Match :focus-visible styles with :hover effects for visual consistency.
