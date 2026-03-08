@@ -14,3 +14,7 @@
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+
+## 2026-03-08 - Language Consistency & Global Accessibility Patterns
+**Learning:** UX enhancements like password toggles and keyboard accessibility must maintain language parity with the site's primary UI and be globally applied via common scripts to avoid page-specific regressions. Mixed-language ARIA labels can confuse screen reader users on an otherwise localized site.
+**Action:** Always match ARIA label languages with the site's primary content. Relocate general accessibility logic (e.g., Enter/Space handlers for non-semantic buttons) to global scripts loaded by all pages to ensure a consistent experience across landing, authentication, and dashboard views.
