@@ -263,23 +263,9 @@ async function initElementSDK() {
   }
 }
 
-function initAccessibility() {
-  // Global listener for keyboard interactions on role="button" elements
-  document.addEventListener('keydown', (e) => {
-    if ((e.key === 'Enter' || e.key === ' ') && e.target.getAttribute('role') === 'button') {
-      // Avoid triggering if it's already a native button or link (they handle Enter/Space automatically)
-      if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
-
-      e.preventDefault();
-      e.target.click();
-    }
-  });
-}
-
 (async function init() {
   await initDataSDK();
   await initElementSDK();
-  initAccessibility();
 })();
 
 function parsePrice(priceStr) {
@@ -319,7 +305,7 @@ function renderPackageSelection(gameKey) {
   const packages = GAME_PACKAGES[gameKey];
 
   container.innerHTML = packages.map(pkg => `
-    <div class="price-box-mini" onclick="selectPackage('${pkg.name}', '${pkg.price}')">
+    <div class="price-box-mini" onclick="selectPackage('${pkg.name}', '${pkg.price}')" role="button" tabindex="0" aria-label="Pilih paket ${pkg.name} dengan harga ${pkg.price}">
       <div class="mini-diamond">${pkg.name}</div>
       <div class="mini-price">${pkg.price}</div>
     </div>
@@ -733,7 +719,7 @@ function renderGames() {
   document.getElementById('noGamesFound').classList.add('hidden');
 
   container.innerHTML = games.map(game => `
-    <div class="game-card" onclick="selectGame('${game.id}')" role="button" tabindex="0">
+    <div class="game-card" onclick="selectGame('${game.id}')" role="button" tabindex="0" aria-label="Top up game ${game.name}">
         <div class="relative w-full aspect-square mb-4 rounded-xl overflow-hidden bg-slate-800">
             <img src="${game.image}" alt="${game.name}"
                  class="w-full h-full object-cover hover:scale-110 transition duration-500"
