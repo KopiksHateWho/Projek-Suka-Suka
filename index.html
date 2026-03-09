@@ -29,7 +29,7 @@
         <!-- Navigation -->
         <nav class="top-nav">
             <div class="nav-content">
-                <div class="logo-section" onclick="scrollToSection('home')" role="button" tabindex="0">
+                <div class="logo-section" onclick="scrollToSection('home')" role="button" tabindex="0" aria-label="KingSlayer Home">
                     <span class="logo-icon" role="img" aria-label="KingSlayer Logo">⚔️</span>
                     <span class="logo-text" id="navStoreName">KingSlayer</span>
                 </div>
@@ -165,7 +165,7 @@
         <!-- Footer -->
         <footer id="contact" class="footer-section mt-12">
             <p class="footer-message text-xl font-bold text-purple-400 mb-8" id="footerText">Fast & Secure Transactions</p>
-            <div class="whatsapp-box glass inline-flex items-center gap-4 px-8 py-4 rounded-full cursor-pointer hover:scale-105 transition mb-12" onclick="openWhatsApp()" role="button" tabindex="0">
+            <div class="whatsapp-box glass inline-flex items-center gap-4 px-8 py-4 rounded-full cursor-pointer hover:scale-105 transition mb-12" onclick="openWhatsApp()" role="button" tabindex="0" aria-label="Hubungi via WhatsApp">
                 <span class="text-4xl">💬</span>
                 <div class="text-left">
                     <div class="text-xs text-slate-400 uppercase font-bold tracking-widest">WhatsApp Number</div>
@@ -174,7 +174,7 @@
             </div>
             <div class="mt-12 opacity-50">
                 <p class="copyright">© 2024 KingSlayer. Built for Gamers.</p>
-                <p class="text-xs mt-2 cursor-pointer" onclick="handleOwnerClick()" id="ownerName">Dio Rezky Maulana</p>
+                <p class="text-xs mt-2 cursor-pointer" onclick="handleOwnerClick()" id="ownerName" role="button" tabindex="0" aria-label="Owner: Dio Rezky Maulana">Dio Rezky Maulana</p>
             </div>
         </footer>
     </div>
@@ -241,10 +241,10 @@
                 <div class="form-field mb-8">
                     <label class="field-label mb-3">Metode Pembayaran</label>
                     <div class="payment-select">
-                        <div class="payment-btn" onclick="selectPaymentMethod('DANA', this)">DANA</div>
-                        <div class="payment-btn" onclick="selectPaymentMethod('GOPAY', this)">GOPAY</div>
-                        <div class="payment-btn" onclick="selectPaymentMethod('OVO', this)">OVO</div>
-                        <div class="payment-btn" onclick="selectPaymentMethod('QRIS', this)">QRIS</div>
+                    <div class="payment-btn" onclick="selectPaymentMethod('DANA', this)" role="button" tabindex="0">DANA</div>
+                    <div class="payment-btn" onclick="selectPaymentMethod('GOPAY', this)" role="button" tabindex="0">GOPAY</div>
+                    <div class="payment-btn" onclick="selectPaymentMethod('OVO', this)" role="button" tabindex="0">OVO</div>
+                    <div class="payment-btn" onclick="selectPaymentMethod('QRIS', this)" role="button" tabindex="0">QRIS</div>
                     </div>
                 </div>
 
