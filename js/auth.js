@@ -131,8 +131,25 @@ window.openWhatsApp = function() {
     window.open(`https://wa.me/${num}`, '_blank');
 };
 
+function initAccessibility() {
+    document.addEventListener('keydown', (e) => {
+        if ((e.key === 'Enter' || e.key === ' ') && e.target.getAttribute('role') === 'button') {
+            if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
+            e.preventDefault();
+            e.target.click();
+        }
+    });
+}
+
+window.requestGame = function() {
+    const whatsappDisplay = document.getElementById('whatsappNumber');
+    const num = whatsappDisplay ? whatsappDisplay.textContent.replace(/\D/g, '') : '62882007655617';
+    window.open(`https://wa.me/${num}?text=${encodeURIComponent('Halo, saya ingin request game yang belum ada!')}`, '_blank');
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     window.updateNavbar();
+    initAccessibility();
 });
 
 // Add default admin for simulation
