@@ -331,6 +331,25 @@ h1, h2, h3, .logo-text, .hero-title, .btn-primary {
 .price-box-mini:hover, .price-box-mini.selected {
   border-color: var(--primary);
   background: rgba(191, 0, 255, 0.1);
+  position: relative;
+}
+
+.price-box-mini.selected::after {
+  content: '✓';
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: #4ade80;
+  font-weight: 900;
+  font-size: 0.8rem;
+  background: rgba(7, 8, 13, 0.8);
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid #4ade80;
 }
 
 .mini-diamond { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.25rem; }
@@ -376,6 +395,26 @@ h1, h2, h3, .logo-text, .hero-title, .btn-primary {
 .payment-btn.selected {
   border-color: var(--primary);
   background: rgba(191, 0, 255, 0.1);
+  position: relative;
+}
+
+.payment-btn.selected::after {
+  content: '✓';
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  color: #4ade80;
+  font-weight: 900;
+  font-size: 0.7rem;
+  background: #07080d;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid #4ade80;
+  box-shadow: 0 0 10px rgba(74, 222, 128, 0.3);
 }
 
 .checkout-btn {
