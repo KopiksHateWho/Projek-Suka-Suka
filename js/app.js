@@ -273,6 +273,15 @@ function initAccessibility() {
       e.preventDefault();
       e.target.click();
     }
+
+    // Keyboard shortcut '/' for search
+    if (e.key === '/' && !['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName) && !document.activeElement.isContentEditable) {
+        const searchInput = document.getElementById('gameSearch');
+        if (searchInput) {
+            e.preventDefault();
+            searchInput.focus();
+        }
+    }
   });
 }
 
@@ -319,7 +328,7 @@ function renderPackageSelection(gameKey) {
   const packages = GAME_PACKAGES[gameKey];
 
   container.innerHTML = packages.map(pkg => `
-    <div class="price-box-mini" onclick="selectPackage('${pkg.name}', '${pkg.price}')">
+    <div class="price-box-mini" onclick="selectPackage('${pkg.name}', '${pkg.price}')" role="button" tabindex="0">
       <div class="mini-diamond">${pkg.name}</div>
       <div class="mini-price">${pkg.price}</div>
     </div>
@@ -782,9 +791,9 @@ function clearSearch() {
 }
 
 // Request Game Logic
-function openRequestGameModal() {
+window.openRequestGameModal = function() {
     openModal('requestGameModal');
-}
+};
 
 function submitGameRequest(e) {
     e.preventDefault();
