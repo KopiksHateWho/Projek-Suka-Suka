@@ -326,11 +326,33 @@ h1, h2, h3, .logo-text, .hero-title, .btn-primary {
   cursor: pointer;
   transition: all 0.2s ease;
   text-align: center;
+  position: relative;
 }
 
 .price-box-mini:hover, .price-box-mini.selected {
   border-color: var(--primary);
   background: rgba(191, 0, 255, 0.1);
+}
+
+.price-box-mini.selected::after,
+.price-box.selected::after,
+.payment-btn.selected::after {
+    content: '✓';
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #4ade80;
+    color: #000;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 900;
+    box-shadow: 0 0 10px rgba(74, 222, 128, 0.4);
+    z-index: 10;
 }
 
 .mini-diamond { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.25rem; }
@@ -371,6 +393,7 @@ h1, h2, h3, .logo-text, .hero-title, .btn-primary {
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
+  position: relative;
 }
 
 .payment-btn.selected {
@@ -687,6 +710,10 @@ footer {
   .game-card { padding: 2rem 1rem; min-height: 240px; }
   .modal-content { padding: 1.5rem; }
   .main-wrapper { padding-bottom: 100px; } /* Space for sticky bar */
+}
+
+.price-box {
+    position: relative;
 }
 
 /* Accessibility: Focus Visible Styles */
