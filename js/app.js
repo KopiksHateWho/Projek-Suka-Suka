@@ -273,6 +273,18 @@ function initAccessibility() {
       e.preventDefault();
       e.target.click();
     }
+
+    // Shortcut '/' to focus search
+    if (e.key === '/' &&
+        !['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName) &&
+        !document.activeElement.isContentEditable &&
+        !e.ctrlKey && !e.metaKey && !e.altKey) {
+        const searchInput = document.getElementById('gameSearch');
+        if (searchInput) {
+            e.preventDefault();
+            searchInput.focus();
+        }
+    }
   });
 }
 
@@ -468,24 +480,31 @@ async function confirmOrder() {
 
 // Modal System
 function openModal(id) {
-  document.getElementById(id).classList.add('show');
-  // Prevent body scroll when modal open
-  document.body.style.overflow = 'hidden';
+  const el = document.getElementById(id);
+  if (el) {
+    el.classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
 }
 
 function closeModal(id) {
-  document.getElementById(id).classList.remove('show');
-  document.body.style.overflow = '';
+  const el = document.getElementById(id);
+  if (el) {
+    el.classList.remove('show');
+    document.body.style.overflow = '';
 
-  // Hide sticky bar if closing receipt or cancelling package selection
-  if (id === 'receiptModal' || (id === 'packageModal' && !isSubmitting)) {
-    // Only hide if we're not just moving to the summary modal
-    const stickyBar = document.getElementById('stickyMobileBar');
-    if (stickyBar && !document.getElementById('summaryModal').classList.contains('show')) {
-      stickyBar.classList.remove('active');
+    // Hide sticky bar if closing receipt or cancelling package selection
+    if (id === 'receiptModal' || (id === 'packageModal' && !isSubmitting)) {
+      const stickyBar = document.getElementById('stickyMobileBar');
+      if (stickyBar && !document.getElementById('summaryModal').classList.contains('show')) {
+        stickyBar.classList.remove('active');
+      }
     }
   }
 }
+
+window.openModal = openModal;
+window.closeModal = closeModal;
 
 // Loading Rocket
 function startLoading() {
@@ -591,9 +610,17 @@ function sendToWhatsApp() {
 
 // History
 function openHistory() {
-  openModal('historyModal');
-  document.getElementById('historyList').innerHTML = '';
+  const modal = document.getElementById('historyModal');
+  if (modal) {
+    openModal('historyModal');
+    const list = document.getElementById('historyList');
+    if (list) list.innerHTML = '';
+  } else {
+    window.showToast('📋 History only available on Home Page');
+  }
 }
+
+window.openHistory = openHistory;
 
 function searchOrders() {
   const phone = document.getElementById('historyPhone').value.trim();
@@ -783,8 +810,15 @@ function clearSearch() {
 
 // Request Game Logic
 function openRequestGameModal() {
-    openModal('requestGameModal');
+    const modal = document.getElementById('requestGameModal');
+    if (modal) {
+        openModal('requestGameModal');
+    } else {
+        window.requestGame();
+    }
 }
+
+window.openRequestGameModal = openRequestGameModal;
 
 function submitGameRequest(e) {
     e.preventDefault();
@@ -804,14 +838,20 @@ function submitGameRequest(e) {
 }
 
 function openWhatsApp() {
-  const num = document.getElementById('whatsappNumber').textContent.replace(/\D/g, '');
+  const el = document.getElementById('whatsappNumber');
+  const num = el ? el.textContent.replace(/\D/g, '') : '62882007655617';
   window.open(`https://wa.me/${num}`, '_blank');
 }
 
+window.openWhatsApp = openWhatsApp;
+
 function requestGame() {
-  const num = document.getElementById('whatsappNumber').textContent.replace(/\D/g, '');
+  const el = document.getElementById('whatsappNumber');
+  const num = el ? el.textContent.replace(/\D/g, '') : '62882007655617';
   window.open(`https://wa.me/${num}?text=${encodeURIComponent('Halo, saya ingin request game yang belum ada!')}`, '_blank');
 }
+
+window.requestGame = requestGame;
 
 function scrollToSection(id) {
   const el = document.getElementById(id);
