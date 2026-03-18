@@ -14,3 +14,7 @@
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+
+## 2026-03-18 - Robust Modal Fallbacks & Logic Consolidation
+**Learning:** In multi-page applications sharing a single logic file (`app.js`), global UI functions must be robust against missing DOM elements. Using a "proxy" pattern where a function checks for a modal's existence before opening it—and falling back to a toast or an external link—ensures a graceful degraded experience on sub-pages without duplicating modal HTML.
+**Action:** Explicitly attach UI handlers to `window`. Check for target elements before manipulation. Provide meaningful feedback (toasts) or alternative workflows (WhatsApp) when an in-page modal is unavailable.
