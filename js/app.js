@@ -590,10 +590,16 @@ function sendToWhatsApp() {
 }
 
 // History
-function openHistory() {
-  openModal('historyModal');
-  document.getElementById('historyList').innerHTML = '';
-}
+window.openHistory = function() {
+  const modal = document.getElementById('historyModal');
+  if (modal) {
+    openModal('historyModal');
+    const list = document.getElementById('historyList');
+    if (list) list.innerHTML = '';
+  } else {
+    window.showToast('📋 History is not available on this page');
+  }
+};
 
 function searchOrders() {
   const phone = document.getElementById('historyPhone').value.trim();
@@ -782,9 +788,15 @@ function clearSearch() {
 }
 
 // Request Game Logic
-function openRequestGameModal() {
-    openModal('requestGameModal');
-}
+window.openRequestGameModal = function() {
+    const modal = document.getElementById('requestGameModal');
+    if (modal) {
+        openModal('requestGameModal');
+    } else {
+        // Fallback to WhatsApp if modal element is not present (on sub-pages)
+        window.requestGame();
+    }
+};
 
 function submitGameRequest(e) {
     e.preventDefault();
