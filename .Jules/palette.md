@@ -14,3 +14,7 @@
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+
+## 2026-02-23 - Micro-UX: The Power of Visibility Toggles
+**Learning:** Implementing a password visibility toggle is a high-impact micro-UX improvement that significantly reduces friction during authentication. It should always be paired with appropriate ARIA labels and icon transitions (👁️/🙈) to ensure both accessibility and clear visual feedback.
+**Action:** When creating login or registration forms, always include a password visibility toggle within a relative container for precise positioning. Ensure the toggle is keyboard-accessible and updates its ARIA state dynamically.
