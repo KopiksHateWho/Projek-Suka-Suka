@@ -14,3 +14,7 @@
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+
+## 2026-03-22 - Explicit Selection Feedback & A11y
+**Learning:** In checkout flows, "invisible" states (where a selection is only indicated by a subtle border change) increase cognitive load. A persistent visual badge (like a checkmark) provides immediate confirmation. When using non-semantic buttons, `aria-pressed` and `focus-visible` styles are essential to bridge the gap between visual and programmatic states.
+**Action:** Use CSS pseudo-elements to add visual "Selected" badges. Always pair `tabindex="0"` and `role="button"` with `aria-pressed` and ensure a global or local keydown handler is present to prevent focus traps.
