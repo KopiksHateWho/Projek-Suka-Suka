@@ -319,7 +319,7 @@ function renderPackageSelection(gameKey) {
   const packages = GAME_PACKAGES[gameKey];
 
   container.innerHTML = packages.map(pkg => `
-    <div class="price-box-mini" onclick="selectPackage('${pkg.name}', '${pkg.price}')">
+    <div class="price-box-mini" onclick="selectPackage('${pkg.name}', '${pkg.price}')" role="button" tabindex="0" aria-pressed="false">
       <div class="mini-diamond">${pkg.name}</div>
       <div class="mini-price">${pkg.price}</div>
     </div>
@@ -340,8 +340,9 @@ function selectPackage(name, price, maybePrice) {
 
   document.querySelectorAll('.price-box-mini, .price-box').forEach(el => {
     const pkgText = el.querySelector('.mini-diamond, .diamond-value')?.textContent || '';
-    if (pkgText === finalPackage) el.classList.add('selected');
-    else el.classList.remove('selected');
+    const isSelected = pkgText === finalPackage;
+    el.classList.toggle('selected', isSelected);
+    el.setAttribute('aria-pressed', isSelected);
   });
 
   updateOrderSummary();
@@ -386,8 +387,11 @@ function adjustQty(amount) {
 
 function selectPaymentMethod(method, el) {
   currentOrder.paymentMethod = method;
-  document.querySelectorAll('.payment-btn').forEach(btn => btn.classList.remove('selected'));
-  el.classList.add('selected');
+  document.querySelectorAll('.payment-btn').forEach(btn => {
+    const isSelected = btn === el;
+    btn.classList.toggle('selected', isSelected);
+    btn.setAttribute('aria-pressed', isSelected);
+  });
 }
 
 async function submitOrder(e) {

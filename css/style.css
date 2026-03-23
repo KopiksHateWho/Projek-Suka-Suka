@@ -333,6 +333,30 @@ h1, h2, h3, .logo-text, .hero-title, .btn-primary {
   background: rgba(191, 0, 255, 0.1);
 }
 
+.price-box.selected, .price-box-mini.selected, .payment-btn.selected {
+  position: relative;
+}
+
+.price-box.selected::after, .price-box-mini.selected::after, .payment-btn.selected::after {
+  content: "✓";
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 18px;
+  height: 18px;
+  background: #4ade80;
+  color: #07080d;
+  font-size: 11px;
+  font-weight: 900;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 12px rgba(74, 222, 128, 0.4);
+  z-index: 10;
+  border: 2px solid #07080d;
+}
+
 .mini-diamond { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.25rem; }
 .mini-price { font-size: 0.8rem; color: #4ade80; font-weight: 700; }
 
@@ -692,7 +716,8 @@ footer {
 /* Accessibility: Focus Visible Styles */
 .game-card:focus-visible,
 .price-box:focus-visible,
-.payment-option:focus-visible,
+.price-box-mini:focus-visible,
+.payment-btn:focus-visible,
 .logo-section:focus-visible,
 .whatsapp-box:focus-visible {
     outline: 3px solid var(--primary);
