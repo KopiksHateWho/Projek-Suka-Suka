@@ -266,6 +266,16 @@ async function initElementSDK() {
 function initAccessibility() {
   // Global listener for keyboard interactions on role="button" elements
   document.addEventListener('keydown', (e) => {
+    // Search Shortcut: '/' key to focus search input
+    if (e.key === '/' && !['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName) && !e.target.isContentEditable && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        const searchInput = document.getElementById('gameSearch');
+        if (searchInput) {
+            e.preventDefault();
+            searchInput.focus();
+            searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
     if ((e.key === 'Enter' || e.key === ' ') && e.target.getAttribute('role') === 'button') {
       // Avoid triggering if it's already a native button or link (they handle Enter/Space automatically)
       if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
