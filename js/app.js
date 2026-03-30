@@ -590,9 +590,19 @@ function sendToWhatsApp() {
 }
 
 // History
+window.openHistory = function() {
+  const modal = document.getElementById('historyModal');
+  if (modal) {
+    openModal('historyModal');
+    const historyList = document.getElementById('historyList');
+    if (historyList) historyList.innerHTML = '';
+  } else {
+    window.showToast('📋 History is only available on the main page');
+  }
+};
+
 function openHistory() {
-  openModal('historyModal');
-  document.getElementById('historyList').innerHTML = '';
+  window.openHistory();
 }
 
 function searchOrders() {
@@ -782,8 +792,18 @@ function clearSearch() {
 }
 
 // Request Game Logic
+window.openRequestGameModal = function() {
+    const modal = document.getElementById('requestGameModal');
+    if (modal) {
+        openModal('requestGameModal');
+    } else {
+        // Fallback to direct WhatsApp request if modal not on page
+        window.requestGame();
+    }
+};
+
 function openRequestGameModal() {
-    openModal('requestGameModal');
+    window.openRequestGameModal();
 }
 
 function submitGameRequest(e) {
@@ -803,14 +823,24 @@ function submitGameRequest(e) {
     e.target.reset();
 }
 
-function openWhatsApp() {
-  const num = document.getElementById('whatsappNumber').textContent.replace(/\D/g, '');
+window.openWhatsApp = function() {
+  const whatsappEl = document.getElementById('whatsappNumber');
+  const num = whatsappEl ? whatsappEl.textContent.replace(/\D/g, '') : (defaultConfig.whatsapp_number ? defaultConfig.whatsapp_number.replace(/\D/g, '') : '62882007655617');
   window.open(`https://wa.me/${num}`, '_blank');
+};
+
+function openWhatsApp() {
+  window.openWhatsApp();
 }
 
-function requestGame() {
-  const num = document.getElementById('whatsappNumber').textContent.replace(/\D/g, '');
+window.requestGame = function() {
+  const whatsappEl = document.getElementById('whatsappNumber');
+  const num = whatsappEl ? whatsappEl.textContent.replace(/\D/g, '') : (defaultConfig.whatsapp_number ? defaultConfig.whatsapp_number.replace(/\D/g, '') : '62882007655617');
   window.open(`https://wa.me/${num}?text=${encodeURIComponent('Halo, saya ingin request game yang belum ada!')}`, '_blank');
+};
+
+function requestGame() {
+  window.requestGame();
 }
 
 function scrollToSection(id) {
