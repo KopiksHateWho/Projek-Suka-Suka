@@ -11,6 +11,10 @@
 **Learning:** Preventing UX "dead-ends" by providing clear actions (like "Clear Search" or "Request Item") in empty states significantly improves user retention and satisfaction. Additionally, a "Clear" button in search inputs is a small but high-impact convenience that users expect.
 **Action:** When implementing search or filters, always include a visual clear button and an actionable empty state. Ensure that clearing search also resets any related UI states (like "No results" messages).
 
+## 2026-02-21 - CSS-driven UI State Management
+**Learning:** For transient UI hints (like keyboard shortcuts or help text), using Tailwind's `peer` selectors (`peer-focus` and `peer-[:not(:placeholder-shown)]`) is a performant alternative to JavaScript event listeners. It ensures the UI remains snappy and reduces DOM manipulation overhead for purely visual state toggles.
+**Action:** Use CSS-only state management for visual hints when possible. Ensure that keyboard shortcuts are also accompanied by `aria-keyshortcuts` to maintain accessibility parity for screen reader users.
+
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
