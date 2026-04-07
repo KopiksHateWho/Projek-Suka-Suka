@@ -85,6 +85,16 @@ window.showToast = function(msg) {
     setTimeout(() => toast.remove(), 3000);
 };
 
+window.togglePasswordVisibility = function(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+
+    const isPassword = input.type === 'password';
+    input.type = isPassword ? 'text' : 'password';
+    btn.textContent = isPassword ? '🙈' : '👁️';
+    btn.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
+};
+
 window.toggleMenu = function() {
     const links = document.querySelector('.nav-links-container');
     const overlay = document.querySelector('.nav-overlay');
