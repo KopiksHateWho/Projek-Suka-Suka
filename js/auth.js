@@ -85,6 +85,21 @@ window.showToast = function(msg) {
     setTimeout(() => toast.remove(), 3000);
 };
 
+window.togglePasswordVisibility = function(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+
+    if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '🙈';
+        btn.setAttribute('aria-label', 'Hide password');
+    } else {
+        input.type = 'password';
+        btn.textContent = '👁️';
+        btn.setAttribute('aria-label', 'Show password');
+    }
+};
+
 window.toggleMenu = function() {
     const links = document.querySelector('.nav-links-container');
     const overlay = document.querySelector('.nav-overlay');
@@ -110,19 +125,26 @@ window.closeMenu = function() {
     document.body.style.overflow = '';
 };
 
+window.openHistory = function() {
+    if (document.getElementById('historyModal')) {
+        window.openModal('historyModal');
+    } else {
+        window.showToast('ℹ️ Feature available on Home page');
+    }
+};
+
 window.openRequestGameModal = function() {
-    // This function is implemented in js/app.js where modal logic resides,
-    // but we can proxy it or let app.js handle the global definition.
-    // However, since auth.js loads before app.js, we should ensure it doesn't conflict.
-    // If app.js defines it, we can remove this or make it a safe fallback.
-    // Best practice: Let app.js handle UI interaction logic like modals.
-    // We'll remove this conflicting definition and rely on app.js.
-    // If we need it here for some reason (e.g. auth-links injection), we should delegate.
-    if (window.openModal) {
+    if (document.getElementById('requestGameModal')) {
         window.openModal('requestGameModal');
     } else {
-        console.warn('Modal system not ready');
+        window.showToast('ℹ️ Feature available on Home page');
     }
+};
+
+window.requestGame = function() {
+    const whatsappDisplay = document.getElementById('whatsappNumber');
+    const num = whatsappDisplay ? whatsappDisplay.textContent.replace(/\D/g, '') : '62882007655617';
+    window.open(`https://wa.me/${num}?text=${encodeURIComponent('Halo, saya ingin request game yang belum ada!')}`, '_blank');
 };
 
 window.openWhatsApp = function() {
