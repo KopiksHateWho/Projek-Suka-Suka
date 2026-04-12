@@ -14,3 +14,7 @@
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+
+## 2026-04-12 - Modal UX & Global Consistency
+**Learning:** In vanilla JS projects with multiple entry points, UI components like modals can easily become "traps" if they lack explicit close buttons. Furthermore, maintaining a strict prefixing convention (e.g., `window.handler`) in HTML attributes prevents scope ambiguity and ensures reliability across different document contexts.
+**Action:** Every modal must have an accessible close button with a clear ARIA label (in English for consistency). Always use the `window.` prefix for global scope handlers in HTML `onclick` attributes to maintain consistency with the application's architecture.
