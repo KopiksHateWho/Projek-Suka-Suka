@@ -110,6 +110,21 @@ window.closeMenu = function() {
     document.body.style.overflow = '';
 };
 
+window.togglePasswordVisibility = function(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+
+    if (input.type === 'password') {
+        input.type = 'text';
+        btn.innerHTML = '👁️';
+        btn.setAttribute('aria-label', 'Hide password');
+    } else {
+        input.type = 'password';
+        btn.innerHTML = '🙈';
+        btn.setAttribute('aria-label', 'Show password');
+    }
+};
+
 window.openRequestGameModal = function() {
     // This function is implemented in js/app.js where modal logic resides,
     // but we can proxy it or let app.js handle the global definition.
