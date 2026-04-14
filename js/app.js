@@ -263,15 +263,16 @@ async function initElementSDK() {
   }
 }
 
-function initAccessibility() {
-  // Global listener for keyboard interactions on role="button" elements
+function initSearchShortcut() {
   document.addEventListener('keydown', (e) => {
-    if ((e.key === 'Enter' || e.key === ' ') && e.target.getAttribute('role') === 'button') {
-      // Avoid triggering if it's already a native button or link (they handle Enter/Space automatically)
-      if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
-
-      e.preventDefault();
-      e.target.click();
+    // '/' focuses search if not in an input
+    if (e.key === '/' && !['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) {
+      const searchInput = document.getElementById('gameSearch');
+      if (searchInput) {
+        e.preventDefault();
+        searchInput.focus();
+        searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     }
   });
 }
@@ -279,7 +280,7 @@ function initAccessibility() {
 (async function init() {
   await initDataSDK();
   await initElementSDK();
-  initAccessibility();
+  initSearchShortcut();
 })();
 
 function parsePrice(priceStr) {
