@@ -14,3 +14,7 @@
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+
+## 2026-02-22 - Centralized Navigation Proxies for Vanilla JS
+**Learning:** In vanilla JS multi-page apps, shared UI handlers (modals, smooth scroll) must be centralized or proxied in a global script (like `auth.js`) to ensure navigation consistency and provide graceful fallbacks on sub-pages where specific DOM elements (modals) might be absent.
+**Action:** Centralize common UI handlers in a global utility script. Use existence checks and `window.showToast` for graceful degradation of sub-page features.
