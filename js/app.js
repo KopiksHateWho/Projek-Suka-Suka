@@ -590,7 +590,7 @@ function sendToWhatsApp() {
 }
 
 // History
-function openHistory() {
+window.openHistory = function() {
   openModal('historyModal');
   document.getElementById('historyList').innerHTML = '';
 }
@@ -782,7 +782,7 @@ function clearSearch() {
 }
 
 // Request Game Logic
-function openRequestGameModal() {
+window.openRequestGameModal = function() {
     openModal('requestGameModal');
 }
 
