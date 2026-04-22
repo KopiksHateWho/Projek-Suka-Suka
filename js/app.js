@@ -263,23 +263,9 @@ async function initElementSDK() {
   }
 }
 
-function initAccessibility() {
-  // Global listener for keyboard interactions on role="button" elements
-  document.addEventListener('keydown', (e) => {
-    if ((e.key === 'Enter' || e.key === ' ') && e.target.getAttribute('role') === 'button') {
-      // Avoid triggering if it's already a native button or link (they handle Enter/Space automatically)
-      if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
-
-      e.preventDefault();
-      e.target.click();
-    }
-  });
-}
-
 (async function init() {
   await initDataSDK();
   await initElementSDK();
-  initAccessibility();
 })();
 
 function parsePrice(priceStr) {
@@ -808,15 +794,6 @@ function openWhatsApp() {
   window.open(`https://wa.me/${num}`, '_blank');
 }
 
-function requestGame() {
-  const num = document.getElementById('whatsappNumber').textContent.replace(/\D/g, '');
-  window.open(`https://wa.me/${num}?text=${encodeURIComponent('Halo, saya ingin request game yang belum ada!')}`, '_blank');
-}
-
-function scrollToSection(id) {
-  const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: 'smooth' });
-}
 
 window.copyToClipboard = function(text) {
     if (!text) return;
