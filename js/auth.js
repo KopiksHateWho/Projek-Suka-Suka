@@ -85,6 +85,36 @@ window.showToast = function(msg) {
     setTimeout(() => toast.remove(), 3000);
 };
 
+window.togglePasswordVisibility = function(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+    const isPassword = input.type === 'password';
+    input.type = isPassword ? 'text' : 'password';
+    btn.textContent = isPassword ? '🙈' : '👁️';
+    btn.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
+};
+
+window.scrollToSection = function(id) {
+    const el = document.getElementById(id);
+    if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+    } else {
+        const isInPages = window.location.pathname.includes('/pages/');
+        window.location.href = (isInPages ? '../index.html#' : 'index.html#') + id;
+    }
+};
+
+window.openHistory = function() {
+    if (window.openModal) {
+        const list = document.getElementById('historyList');
+        if (list) list.innerHTML = ''; // Reset list
+        window.openModal('historyModal');
+    } else {
+        const isInPages = window.location.pathname.includes('/pages/');
+        window.location.href = isInPages ? '../index.html' : 'index.html';
+    }
+};
+
 window.toggleMenu = function() {
     const links = document.querySelector('.nav-links-container');
     const overlay = document.querySelector('.nav-overlay');
@@ -111,17 +141,11 @@ window.closeMenu = function() {
 };
 
 window.openRequestGameModal = function() {
-    // This function is implemented in js/app.js where modal logic resides,
-    // but we can proxy it or let app.js handle the global definition.
-    // However, since auth.js loads before app.js, we should ensure it doesn't conflict.
-    // If app.js defines it, we can remove this or make it a safe fallback.
-    // Best practice: Let app.js handle UI interaction logic like modals.
-    // We'll remove this conflicting definition and rely on app.js.
-    // If we need it here for some reason (e.g. auth-links injection), we should delegate.
     if (window.openModal) {
         window.openModal('requestGameModal');
     } else {
-        console.warn('Modal system not ready');
+        const isInPages = window.location.pathname.includes('/pages/');
+        window.location.href = isInPages ? '../index.html' : 'index.html';
     }
 };
 
@@ -131,8 +155,19 @@ window.openWhatsApp = function() {
     window.open(`https://wa.me/${num}`, '_blank');
 };
 
+function initAccessibility() {
+    document.addEventListener('keydown', (e) => {
+        if ((e.key === 'Enter' || e.key === ' ') && e.target.getAttribute('role') === 'button') {
+            if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
+            e.preventDefault();
+            e.target.click();
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     window.updateNavbar();
+    initAccessibility();
 });
 
 // Add default admin for simulation
