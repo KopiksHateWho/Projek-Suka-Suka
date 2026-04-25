@@ -135,6 +135,21 @@ document.addEventListener('DOMContentLoaded', () => {
     window.updateNavbar();
 });
 
+window.togglePasswordVisibility = function(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+
+    if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '🙈';
+        btn.setAttribute('aria-label', 'Hide password');
+    } else {
+        input.type = 'password';
+        btn.textContent = '👁️';
+        btn.setAttribute('aria-label', 'Show password');
+    }
+};
+
 // Add default admin for simulation
 (function initAdmin() {
     const USERS_KEY = 'ks_users';
