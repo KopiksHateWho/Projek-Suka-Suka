@@ -14,3 +14,7 @@
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+
+## 2026-04-26 - Password Visibility & Input UX
+**Learning:** Providing a password visibility toggle is a high-impact micro-UX improvement that reduces user frustration during auth. In a Tailwind-based glassmorphism design, using a relative container for the input and absolute positioning for the toggle button ensures a clean, integrated look without affecting layout flow.
+**Action:** Always implement password visibility toggles for sensitive input fields. Use `relative` on the wrapper and `absolute right-4 top-1/2 -translate-y-1/2` for the toggle button. Ensure appropriate ARIA labels and icons (e.g., 👁️/🙈) for clarity.
