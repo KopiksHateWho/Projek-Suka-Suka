@@ -14,3 +14,7 @@
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+
+## 2026-03-05 - Forms Visibility & Navigation Hygiene
+**Learning:** In a vanilla HTML environment, shared UX features like password visibility toggles and consistent navigation must be manually synced across all pages. Neglected subpages often accumulate technical debt (like merge conflict markers) that directly impacts the user's perception of quality.
+**Action:** Always audit subpages (login, admin, dashboard) when updating global navigation or form utilities. Implement shared interactions (like `togglePasswordVisibility`) in a central JS file and use descriptive ARIA labels to ensure accessibility across all touchpoints.
