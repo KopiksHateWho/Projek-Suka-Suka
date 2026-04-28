@@ -14,3 +14,7 @@
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+
+## 2026-02-22 - Password Visibility & Modal Entrapment
+**Learning:** Password visibility toggles are essential for reducing friction in authentication, particularly on mobile. Additionally, even 'hidden' or backdoor modals (like an Admin Login triggered by clicks) must include explicit close buttons to prevent keyboard-only users from becoming trapped in the modal state.
+**Action:** Implement ARIA-compliant password toggles for all sensitive inputs. Ensure every modal in the application has a visible, high-contrast close button that is accessible via both mouse and keyboard.
