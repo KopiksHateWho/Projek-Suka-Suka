@@ -110,18 +110,39 @@ window.closeMenu = function() {
     document.body.style.overflow = '';
 };
 
+window.togglePasswordVisibility = function(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+
+    if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '🙈';
+        btn.setAttribute('aria-label', 'Hide password');
+    } else {
+        input.type = 'password';
+        btn.textContent = '👁️';
+        btn.setAttribute('aria-label', 'Show password');
+    }
+};
+
+window.openHistory = function() {
+    if (window.openModal) {
+        // Clear history search if on home page
+        const list = document.getElementById('historyList');
+        if (list) list.innerHTML = '';
+        window.openModal('historyModal');
+    } else {
+        window.showToast('📋 Redirecting to history...');
+        window.location.href = '../index.html#history';
+    }
+};
+
 window.openRequestGameModal = function() {
-    // This function is implemented in js/app.js where modal logic resides,
-    // but we can proxy it or let app.js handle the global definition.
-    // However, since auth.js loads before app.js, we should ensure it doesn't conflict.
-    // If app.js defines it, we can remove this or make it a safe fallback.
-    // Best practice: Let app.js handle UI interaction logic like modals.
-    // We'll remove this conflicting definition and rely on app.js.
-    // If we need it here for some reason (e.g. auth-links injection), we should delegate.
     if (window.openModal) {
         window.openModal('requestGameModal');
     } else {
-        console.warn('Modal system not ready');
+        window.showToast('💡 Redirecting to request...');
+        window.location.href = '../index.html#request';
     }
 };
 
@@ -131,8 +152,39 @@ window.openWhatsApp = function() {
     window.open(`https://wa.me/${num}`, '_blank');
 };
 
+window.requestGame = function() {
+    const whatsappDisplay = document.getElementById('whatsappNumber');
+    const num = whatsappDisplay ? whatsappDisplay.textContent.replace(/\D/g, '') : '62882007655617';
+    window.open(`https://wa.me/${num}?text=${encodeURIComponent('Halo, saya ingin request game yang belum ada!')}`, '_blank');
+};
+
+window.scrollToSection = function(id) {
+    const el = document.getElementById(id);
+    if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+    } else {
+        const isInPages = window.location.pathname.includes('/pages/');
+        const prefix = isInPages ? '../' : '';
+        window.location.href = `${prefix}index.html#${id}`;
+    }
+};
+
+function initAccessibility() {
+    // Global listener for keyboard interactions on role="button" elements
+    document.addEventListener('keydown', (e) => {
+        if ((e.key === 'Enter' || e.key === ' ') && e.target.getAttribute('role') === 'button') {
+            // Avoid triggering if it's already a native button or link (they handle Enter/Space automatically)
+            if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
+
+            e.preventDefault();
+            e.target.click();
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     window.updateNavbar();
+    initAccessibility();
 });
 
 // Add default admin for simulation
