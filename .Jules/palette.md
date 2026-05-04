@@ -14,3 +14,7 @@
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+
+## 2026-05-04 - Password Visibility & Navigation Hygiene
+**Learning:** Password visibility toggles are essential for mobile-first gaming apps where users often use complex passwords. Implementing this as a global utility (`window.togglePasswordVisibility`) with dynamic ARIA labels ensures accessibility. Additionally, multi-page vanilla projects are prone to "artifact rot" (like merge conflict markers); regular audits of shared components like navigation across all HTML files are mandatory.
+**Action:** Add password toggles to all auth fields. Use `relative` containers with `absolute` positioned buttons for consistent input alignment. Always purge branch-specific debris during UI audits.
