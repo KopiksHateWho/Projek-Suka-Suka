@@ -14,3 +14,7 @@
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+
+## 2026-05-06 - Standardizing Password Inputs
+**Learning:** In applications with multiple entry points for authentication (Login, Register, Admin backdoor), a centralized password visibility utility combined with a consistent "relative-absolute" CSS pattern ensures a polished and accessible experience. Avoiding ambiguous placeholders like bullet points prevents user confusion about pre-filled data.
+**Action:** Use a global `window.togglePasswordVisibility` helper. Wrap password inputs in a relative container and position the toggle button absolutely (`right-4 top-1/2 -translate-y-1/2`). Use action-oriented placeholders like "Password..." instead of bullet strings.
