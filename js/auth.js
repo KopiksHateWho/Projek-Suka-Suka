@@ -85,6 +85,33 @@ window.showToast = function(msg) {
     setTimeout(() => toast.remove(), 3000);
 };
 
+window.escapeHTML = function(str) {
+    if (!str) return '';
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return str.replace(/[&<>"']/g, m => map[m]);
+};
+
+window.togglePasswordVisibility = function(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+
+    if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '🙈';
+        btn.setAttribute('aria-label', 'Hide password');
+    } else {
+        input.type = 'password';
+        btn.textContent = '👁️';
+        btn.setAttribute('aria-label', 'Show password');
+    }
+};
+
 window.toggleMenu = function() {
     const links = document.querySelector('.nav-links-container');
     const overlay = document.querySelector('.nav-overlay');
@@ -131,8 +158,22 @@ window.openWhatsApp = function() {
     window.open(`https://wa.me/${num}`, '_blank');
 };
 
+window.initAccessibility = function() {
+    // Global listener for keyboard interactions on role="button" elements
+    document.addEventListener('keydown', (e) => {
+        if ((e.key === 'Enter' || e.key === ' ') && e.target.getAttribute('role') === 'button') {
+            // Avoid triggering if it's already a native button or link (they handle Enter/Space automatically)
+            if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
+
+            e.preventDefault();
+            e.target.click();
+        }
+    });
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     window.updateNavbar();
+    window.initAccessibility();
 });
 
 // Add default admin for simulation
