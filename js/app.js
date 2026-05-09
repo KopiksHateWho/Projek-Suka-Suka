@@ -263,23 +263,9 @@ async function initElementSDK() {
   }
 }
 
-function initAccessibility() {
-  // Global listener for keyboard interactions on role="button" elements
-  document.addEventListener('keydown', (e) => {
-    if ((e.key === 'Enter' || e.key === ' ') && e.target.getAttribute('role') === 'button') {
-      // Avoid triggering if it's already a native button or link (they handle Enter/Space automatically)
-      if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
-
-      e.preventDefault();
-      e.target.click();
-    }
-  });
-}
-
 (async function init() {
   await initDataSDK();
   await initElementSDK();
-  initAccessibility();
 })();
 
 function parsePrice(priceStr) {
@@ -813,10 +799,6 @@ function requestGame() {
   window.open(`https://wa.me/${num}?text=${encodeURIComponent('Halo, saya ingin request game yang belum ada!')}`, '_blank');
 }
 
-function scrollToSection(id) {
-  const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: 'smooth' });
-}
 
 window.copyToClipboard = function(text) {
     if (!text) return;
@@ -830,7 +812,17 @@ window.copyToClipboard = function(text) {
 
 // Init
 window.onload = () => {
-  initDataSDK();
-  initElementSDK();
   renderGames();
+
+  // Handle URL Hash
+  const hash = window.location.hash;
+  if (hash === '#history') {
+      setTimeout(openHistory, 500);
+  } else if (hash === '#request') {
+      setTimeout(openRequestGameModal, 500);
+  } else if (hash) {
+      const targetId = hash.substring(1);
+      const el = document.getElementById(targetId);
+      if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth' }), 500);
+  }
 };
