@@ -14,3 +14,7 @@
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+
+## 2026-05-10 - Micro-UX: Password Visibility & Deep Linking
+**Learning:** Adding a password visibility toggle and supporting deep linking via URL hashes (e.g., #history) are high-impact micro-UX improvements in vanilla JS apps. Centralizing these utilities in a shared auth/utility file ensures consistency across sub-pages and simplifies navigation logic.
+**Action:** Always provide a password visibility toggle for better accessibility and UX. Use URL hashes to bridge the gap between multiple pages and single-page modal systems.

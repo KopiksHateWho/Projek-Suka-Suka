@@ -131,8 +131,32 @@ window.openWhatsApp = function() {
     window.open(`https://wa.me/${num}`, '_blank');
 };
 
+window.togglePasswordVisibility = function(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+
+    const isPassword = input.type === 'password';
+    input.type = isPassword ? 'text' : 'password';
+    btn.textContent = isPassword ? '🙈' : '👁️';
+    btn.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
+};
+
+function initAccessibility() {
+    // Global listener for keyboard interactions on role="button" elements
+    document.addEventListener('keydown', (e) => {
+        if ((e.key === 'Enter' || e.key === ' ') && e.target.getAttribute('role') === 'button') {
+            // Avoid triggering if it's already a native button or link (they handle Enter/Space automatically)
+            if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
+
+            e.preventDefault();
+            e.target.click();
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     window.updateNavbar();
+    initAccessibility();
 });
 
 // Add default admin for simulation
