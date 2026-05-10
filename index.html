@@ -396,9 +396,16 @@
     <!-- Admin Logic Modals -->
     <div id="adminLoginModal" class="modal">
         <div class="modal-content max-w-sm">
+            <button class="close-modal" onclick="closeModal('adminLoginModal')" aria-label="Tutup Modal">&times;</button>
             <h3 class="modal-title mb-6">ADMIN LOGIN</h3>
             <form onsubmit="handleAdminLogin(event)">
-                <input type="password" id="adminPassInput" class="field-input mb-6" placeholder="Password...">
+                <div class="form-field mb-6">
+                    <label class="field-label">Admin Password</label>
+                    <div class="relative">
+                        <input type="password" id="adminPassInput" class="field-input pr-10" placeholder="Enter password" required>
+                        <button type="button" onclick="window.togglePasswordVisibility('adminPassInput', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition" aria-label="Show password">👁️</button>
+                    </div>
+                </div>
                 <button type="submit" class="checkout-btn">LOGIN</button>
             </form>
         </div>
