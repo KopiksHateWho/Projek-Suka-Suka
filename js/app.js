@@ -263,23 +263,9 @@ async function initElementSDK() {
   }
 }
 
-function initAccessibility() {
-  // Global listener for keyboard interactions on role="button" elements
-  document.addEventListener('keydown', (e) => {
-    if ((e.key === 'Enter' || e.key === ' ') && e.target.getAttribute('role') === 'button') {
-      // Avoid triggering if it's already a native button or link (they handle Enter/Space automatically)
-      if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
-
-      e.preventDefault();
-      e.target.click();
-    }
-  });
-}
-
 (async function init() {
   await initDataSDK();
   await initElementSDK();
-  initAccessibility();
 })();
 
 function parsePrice(priceStr) {
@@ -319,9 +305,9 @@ function renderPackageSelection(gameKey) {
   const packages = GAME_PACKAGES[gameKey];
 
   container.innerHTML = packages.map(pkg => `
-    <div class="price-box-mini" onclick="selectPackage('${pkg.name}', '${pkg.price}')">
-      <div class="mini-diamond">${pkg.name}</div>
-      <div class="mini-price">${pkg.price}</div>
+    <div class="price-box-mini" onclick="selectPackage('${window.escapeHTML(pkg.name)}', '${window.escapeHTML(pkg.price)}')">
+      <div class="mini-diamond">${window.escapeHTML(pkg.name)}</div>
+      <div class="mini-price">${window.escapeHTML(pkg.price)}</div>
     </div>
   `).join('');
 }
@@ -609,11 +595,11 @@ function searchOrders() {
     list.innerHTML = matched.map(o => `
       <div class="order-item-history">
         <div class="flex justify-between mb-2">
-          <span class="font-bold text-primary">${o.order_number}</span>
-          <span class="status-badge ${o.status}">${o.status.toUpperCase()}</span>
+          <span class="font-bold text-primary">${window.escapeHTML(o.order_number)}</span>
+          <span class="status-badge ${window.escapeHTML(o.status)}">${window.escapeHTML(o.status.toUpperCase())}</span>
         </div>
-        <div class="text-sm text-slate-400">${o.game} - ${o.diamond}</div>
-        <div class="text-sm font-bold mt-1">${o.price}</div>
+        <div class="text-sm text-slate-400">${window.escapeHTML(o.game)} - ${window.escapeHTML(o.diamond)}</div>
+        <div class="text-sm font-bold mt-1">${window.escapeHTML(o.price)}</div>
       </div>
     `).join('');
   }
@@ -668,11 +654,11 @@ function renderAdminOrders() {
 
   list.innerHTML = sorted.map(o => `
     <div class="admin-row">
-      <div>${o.order_number}</div>
-      <div>${o.game}</div>
-      <div>${o.nickname}</div>
-      <div>${o.status.toUpperCase()}</div>
-      <button onclick="viewAdminDetail('${o.__backendId}')" class="btn-mini">DETAIL</button>
+      <div>${window.escapeHTML(o.order_number)}</div>
+      <div>${window.escapeHTML(o.game)}</div>
+      <div>${window.escapeHTML(o.nickname)}</div>
+      <div>${window.escapeHTML(o.status.toUpperCase())}</div>
+      <button onclick="viewAdminDetail('${window.escapeHTML(o.__backendId)}')" class="btn-mini">DETAIL</button>
     </div>
   `).join('');
 }
@@ -682,12 +668,12 @@ async function viewAdminDetail(id) {
   if (!o) return;
   currentAdminOrderId = id;
   document.getElementById('adminDetailContent').innerHTML = `
-    <p>📦 <b>No:</b> ${o.order_number}</p>
-    <p>🎮 <b>Game:</b> ${o.game} (${o.diamond})</p>
-    <p>👤 <b>User:</b> ${o.nickname} (${o.game_id})</p>
-    <p>📱 <b>WA:</b> ${o.whatsapp}</p>
-    <p>💳 <b>Pay:</b> ${o.payment_method}</p>
-    <p>💰 <b>Total:</b> ${o.price}</p>
+    <p>📦 <b>No:</b> ${window.escapeHTML(o.order_number)}</p>
+    <p>🎮 <b>Game:</b> ${window.escapeHTML(o.game)} (${window.escapeHTML(o.diamond)})</p>
+    <p>👤 <b>User:</b> ${window.escapeHTML(o.nickname)} (${window.escapeHTML(o.game_id)})</p>
+    <p>📱 <b>WA:</b> ${window.escapeHTML(o.whatsapp)}</p>
+    <p>💳 <b>Pay:</b> ${window.escapeHTML(o.payment_method)}</p>
+    <p>💰 <b>Total:</b> ${window.escapeHTML(o.price)}</p>
     <div class="mt-4">
       <label class="block text-xs mb-1">STATUS</label>
       <select id="adminStatusUpdate" class="field-input py-2">
@@ -733,15 +719,15 @@ function renderGames() {
   document.getElementById('noGamesFound').classList.add('hidden');
 
   container.innerHTML = games.map(game => `
-    <div class="game-card" onclick="selectGame('${game.id}')" role="button" tabindex="0">
+    <div class="game-card" onclick="selectGame('${window.escapeHTML(game.id)}')" role="button" tabindex="0">
         <div class="relative w-full aspect-square mb-4 rounded-xl overflow-hidden bg-slate-800">
-            <img src="${game.image}" alt="${game.name}"
+            <img src="${window.escapeHTML(game.image)}" alt="${window.escapeHTML(game.name)}"
                  class="w-full h-full object-cover hover:scale-110 transition duration-500"
                  loading="lazy"
                  onerror="this.src='https://placehold.co/400x400/1e293b/bf00ff?text=${encodeURIComponent(game.name)}'">
         </div>
-        <div class="game-name text-center">${game.name}</div>
-        <div class="game-subtitle text-center text-xs text-slate-400 mt-1">Mulai ${game.basePrice || 'Rp1.000'}</div>
+        <div class="game-name text-center">${window.escapeHTML(game.name)}</div>
+        <div class="game-subtitle text-center text-xs text-slate-400 mt-1">Mulai ${window.escapeHTML(game.basePrice || 'Rp1.000')}</div>
         <button class="btn-mini w-full mt-4 bg-primary/20 hover:bg-primary border-primary/30">TOP UP</button>
     </div>
   `).join('');
@@ -813,10 +799,6 @@ function requestGame() {
   window.open(`https://wa.me/${num}?text=${encodeURIComponent('Halo, saya ingin request game yang belum ada!')}`, '_blank');
 }
 
-function scrollToSection(id) {
-  const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: 'smooth' });
-}
 
 window.copyToClipboard = function(text) {
     if (!text) return;

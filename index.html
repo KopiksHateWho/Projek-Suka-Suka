@@ -197,7 +197,7 @@
     <!-- Package Selection Modal -->
     <div id="packageModal" class="modal">
         <div class="modal-content max-w-2xl">
-            <button class="close-modal" onclick="closeModal('packageModal')" aria-label="Tutup Modal">&times;</button>
+            <button class="close-modal" onclick="window.closeModal('packageModal')" aria-label="Close Modal">&times;</button>
             <div class="modal-header">
                 <h3 class="modal-title">PILIH PAKET</h3>
             </div>
@@ -262,7 +262,7 @@
     <!-- Checkout Summary Modal -->
     <div id="summaryModal" class="modal">
         <div class="modal-content max-w-md">
-            <button class="close-modal" onclick="closeModal('summaryModal')" aria-label="Tutup Modal">&times;</button>
+            <button class="close-modal" onclick="window.closeModal('summaryModal')" aria-label="Close Modal">&times;</button>
             <div class="modal-header">
                 <h3 class="modal-title">RINGKASAN PESANAN</h3>
             </div>
@@ -300,7 +300,7 @@
     <!-- Request Game Modal -->
     <div id="requestGameModal" class="modal">
         <div class="modal-content max-w-md">
-            <button class="close-modal" onclick="closeModal('requestGameModal')" aria-label="Tutup Modal">&times;</button>
+            <button class="close-modal" onclick="window.closeModal('requestGameModal')" aria-label="Close Modal">&times;</button>
             <h3 class="modal-title mb-6">REQUEST GAME</h3>
             <p class="text-sm text-slate-400 mb-6">Game belum tersedia? Request di sini agar segera kami tambahkan!</p>
 
@@ -343,6 +343,7 @@
     <!-- Receipt Modal -->
     <div id="receiptModal" class="modal">
         <div class="modal-content">
+            <button class="close-modal" onclick="window.closeModal('receiptModal')" aria-label="Close Modal">&times;</button>
             <div class="text-center">
                 <div class="text-6xl mb-4">✅</div>
                 <h3 class="text-2xl font-black mb-6">PESANAN TERKIRIM!</h3>
@@ -372,7 +373,7 @@
                 <button onclick="sendToWhatsApp()" class="checkout-btn bg-green-600 mb-4">KONFIRMASI VIA WA</button>
                 <div class="grid grid-cols-2 gap-4">
                     <button onclick="window.location.href='index.html'" class="btn-secondary py-3 text-xs">HOME</button>
-                    <button onclick="closeModal('receiptModal')" class="btn-secondary py-3 text-xs">TUTUP</button>
+                    <button onclick="window.closeModal('receiptModal')" class="btn-secondary py-3 text-xs">TUTUP</button>
                 </div>
             </div>
         </div>
@@ -381,7 +382,7 @@
     <!-- History Modal -->
     <div id="historyModal" class="modal">
         <div class="modal-content">
-            <button class="close-modal" onclick="closeModal('historyModal')" aria-label="Tutup Modal">&times;</button>
+            <button class="close-modal" onclick="window.closeModal('historyModal')" aria-label="Close Modal">&times;</button>
             <h3 class="modal-title mb-6">RIWAYAT PESANAN</h3>
             <div class="flex gap-2 mb-6">
                 <input type="tel" id="historyPhone" class="field-input" placeholder="Nomor WhatsApp...">
@@ -396,6 +397,7 @@
     <!-- Admin Logic Modals -->
     <div id="adminLoginModal" class="modal">
         <div class="modal-content max-w-sm">
+            <button class="close-modal" onclick="window.closeModal('adminLoginModal')" aria-label="Close Modal">&times;</button>
             <h3 class="modal-title mb-6">ADMIN LOGIN</h3>
             <form onsubmit="handleAdminLogin(event)">
                 <input type="password" id="adminPassInput" class="field-input mb-6" placeholder="Password...">
@@ -406,9 +408,9 @@
 
     <div id="adminPanelModal" class="modal">
         <div class="modal-content max-w-4xl">
+            <button class="close-modal" onclick="window.closeModal('adminPanelModal')" aria-label="Close Modal">&times;</button>
             <div class="flex justify-between items-center mb-8">
                 <h3 class="modal-title">ADMIN DASHBOARD</h3>
-                <button class="text-slate-400" onclick="closeModal('adminPanelModal')">Close</button>
             </div>
 
             <div class="grid grid-cols-3 gap-4 mb-8">
@@ -434,10 +436,11 @@
 
     <div id="adminDetailModal" class="modal">
         <div class="modal-content max-w-md">
+            <button class="close-modal" onclick="window.closeModal('adminDetailModal')" aria-label="Close Modal">&times;</button>
             <h3 class="modal-title mb-6">ORDER DETAIL</h3>
             <div id="adminDetailContent" class="space-y-2 mb-8 bg-black/40 p-6 rounded-2xl border border-white/5"></div>
             <button onclick="saveAdminStatus()" class="checkout-btn mb-4">SAVE CHANGES</button>
-            <button onclick="closeModal('adminDetailModal')" class="w-full text-slate-400">Cancel</button>
+            <button onclick="window.closeModal('adminDetailModal')" class="w-full text-slate-400">Cancel</button>
         </div>
     </div>
 

@@ -6,6 +6,33 @@ const AUTH_KEY = 'ks_current_user';
 const USERS_KEY = 'ks_users';
 const TRANSACTIONS_KEY = 'ks_transactions';
 
+window.escapeHTML = function(str) {
+    if (!str) return '';
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return String(str).replace(/[&<>"']/g, m => map[m]);
+};
+
+window.togglePasswordVisibility = function(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+
+    if (input.type === 'password') {
+        input.type = 'text';
+        btn.innerHTML = '🙈';
+        btn.setAttribute('aria-label', 'Hide password');
+    } else {
+        input.type = 'password';
+        btn.innerHTML = '👁️';
+        btn.setAttribute('aria-label', 'Show password');
+    }
+};
+
 window.getCurrentUser = function() {
     const user = localStorage.getItem(AUTH_KEY);
     return user ? JSON.parse(user) : null;
@@ -24,7 +51,7 @@ window.loginUser = function(email, password) {
 window.registerUser = function(email, password) {
     const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
     if (users.find(u => u.email === email)) return false;
-    const newUser = { email, password };
+    const newUser = { email, password, isAdmin: false };
     users.push(newUser);
     localStorage.setItem(USERS_KEY, JSON.stringify(users));
     localStorage.setItem(AUTH_KEY, JSON.stringify(newUser));
@@ -46,7 +73,7 @@ window.updateNavbar = function() {
 
     const user = window.getCurrentUser();
     if (user) {
-        const isAdmin = user.email === 'admin@kingslayer.com';
+        const isAdmin = user.isAdmin === true || user.email === 'admin@kingslayer.com';
         authLinks.innerHTML = `
             ${isAdmin ? `<a href="${pagesPrefix}admin.html" class="nav-link w-full md:w-auto text-center text-primary font-bold" onclick="window.closeMenu()">ADMIN</a>` : ''}
             <a href="${pagesPrefix}dashboard.html" class="nav-link w-full md:w-auto text-center" onclick="window.closeMenu()">DASHBOARD</a>
@@ -110,18 +137,21 @@ window.closeMenu = function() {
     document.body.style.overflow = '';
 };
 
+window.openHistory = function() {
+    if (window.openModal) {
+        const list = document.getElementById('historyList');
+        if (list) list.innerHTML = '';
+        window.openModal('historyModal');
+    } else {
+        window.location.href = window.location.pathname.includes('/pages/') ? '../index.html#history' : '#history';
+    }
+};
+
 window.openRequestGameModal = function() {
-    // This function is implemented in js/app.js where modal logic resides,
-    // but we can proxy it or let app.js handle the global definition.
-    // However, since auth.js loads before app.js, we should ensure it doesn't conflict.
-    // If app.js defines it, we can remove this or make it a safe fallback.
-    // Best practice: Let app.js handle UI interaction logic like modals.
-    // We'll remove this conflicting definition and rely on app.js.
-    // If we need it here for some reason (e.g. auth-links injection), we should delegate.
     if (window.openModal) {
         window.openModal('requestGameModal');
     } else {
-        console.warn('Modal system not ready');
+        window.location.href = window.location.pathname.includes('/pages/') ? '../index.html#request' : '#request';
     }
 };
 
@@ -131,8 +161,28 @@ window.openWhatsApp = function() {
     window.open(`https://wa.me/${num}`, '_blank');
 };
 
+window.scrollToSection = function(id) {
+    const el = document.getElementById(id);
+    if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+    } else {
+        window.location.href = window.location.pathname.includes('/pages/') ? `../index.html#${id}` : `#${id}`;
+    }
+};
+
+function initAccessibility() {
+    document.addEventListener('keydown', (e) => {
+        if ((e.key === 'Enter' || e.key === ' ') && e.target.getAttribute('role') === 'button') {
+            if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
+            e.preventDefault();
+            e.target.click();
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     window.updateNavbar();
+    initAccessibility();
 });
 
 // Add default admin for simulation
@@ -140,7 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const USERS_KEY = 'ks_users';
     const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
     if (!users.find(u => u.email === 'admin@kingslayer.com')) {
-        users.push({ email: 'admin@kingslayer.com', password: 'admin' });
+        users.push({ email: 'admin@kingslayer.com', password: 'admin', isAdmin: true });
         localStorage.setItem(USERS_KEY, JSON.stringify(users));
     }
 })();
