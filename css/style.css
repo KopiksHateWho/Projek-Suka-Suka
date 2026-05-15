@@ -689,6 +689,38 @@ footer {
   .main-wrapper { padding-bottom: 100px; } /* Space for sticky bar */
 }
 
+.password-container {
+    position: relative;
+    width: 100%;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.25rem;
+    cursor: pointer;
+    z-index: 10;
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease;
+}
+
+.password-toggle:hover {
+    color: var(--primary);
+}
+
+.password-toggle:focus-visible {
+    outline: 2px solid var(--primary);
+    border-radius: 4px;
+}
+
 /* Accessibility: Focus Visible Styles */
 .game-card:focus-visible,
 .price-box:focus-visible,
