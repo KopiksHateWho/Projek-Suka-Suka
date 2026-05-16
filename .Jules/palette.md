@@ -14,3 +14,7 @@
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+
+## 2026-05-16 - Isolated Relative Containers for Centered Toggles
+**Learning:** When using absolute positioning (`top-1/2 -translate-y-1/2`) for UI elements like password toggles, the `relative` parent must wrap *only* the input field. Including block-level `<label>` elements inside the same relative container shifts the vertical center, causing the toggle to appear misaligned (usually too low).
+**Action:** Always use a dedicated wrapper div around the input for absolute positioning, ensuring it is isolated from the label or other surrounding block elements.
