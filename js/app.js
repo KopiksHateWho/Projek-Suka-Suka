@@ -590,10 +590,6 @@ function sendToWhatsApp() {
 }
 
 // History
-function openHistory() {
-  openModal('historyModal');
-  document.getElementById('historyList').innerHTML = '';
-}
 
 function searchOrders() {
   const phone = document.getElementById('historyPhone').value.trim();
@@ -782,9 +778,6 @@ function clearSearch() {
 }
 
 // Request Game Logic
-function openRequestGameModal() {
-    openModal('requestGameModal');
-}
 
 function submitGameRequest(e) {
     e.preventDefault();
@@ -803,20 +796,6 @@ function submitGameRequest(e) {
     e.target.reset();
 }
 
-function openWhatsApp() {
-  const num = document.getElementById('whatsappNumber').textContent.replace(/\D/g, '');
-  window.open(`https://wa.me/${num}`, '_blank');
-}
-
-function requestGame() {
-  const num = document.getElementById('whatsappNumber').textContent.replace(/\D/g, '');
-  window.open(`https://wa.me/${num}?text=${encodeURIComponent('Halo, saya ingin request game yang belum ada!')}`, '_blank');
-}
-
-function scrollToSection(id) {
-  const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: 'smooth' });
-}
 
 window.copyToClipboard = function(text) {
     if (!text) return;
@@ -833,4 +812,13 @@ window.onload = () => {
   initDataSDK();
   initElementSDK();
   renderGames();
+
+  // Handle Hash
+  if (window.location.hash === '#history') {
+      window.openHistory();
+  } else if (window.location.hash === '#request') {
+      window.openRequestGameModal();
+  } else if (window.location.hash) {
+      window.scrollToSection(window.location.hash.substring(1));
+  }
 };
