@@ -398,9 +398,13 @@
         <div class="modal-content max-w-sm">
             <h3 class="modal-title mb-6">ADMIN LOGIN</h3>
             <form onsubmit="handleAdminLogin(event)">
-                <input type="password" id="adminPassInput" class="field-input mb-6" placeholder="Password...">
+                <div class="relative mb-6">
+                    <input type="password" id="adminPassInput" class="field-input pr-10" placeholder="Password...">
+                    <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-xl opacity-50 hover:opacity-100 transition" onclick="window.togglePasswordVisibility('adminPassInput', this)" aria-label="Show password">🙈</button>
+                </div>
                 <button type="submit" class="checkout-btn">LOGIN</button>
             </form>
+            <button class="w-full text-slate-500 mt-4 text-sm hover:text-white transition" onclick="closeModal('adminLoginModal')">CANCEL</button>
         </div>
     </div>
 
