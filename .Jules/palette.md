@@ -14,3 +14,7 @@
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+
+## 2026-05-18 - Centralized UX Utilities & Nav Standardization
+**Learning:** In a multi-page vanilla JS application, inconsistent navigation and fragmented UI logic (like password toggles) significantly degrade the user experience. Centralizing shared UX utilities and standardizing navigation blocks (including emojis and ARIA labels) across all pages ensures a predictable and accessible interface.
+**Action:** Move shared UI logic (accessibility listeners, password toggles, common proxies) to a centralized script (e.g., `js/auth.js`) that is loaded on every page. Use consistent HTML templates for navigation to prevent visual regressions during development.
