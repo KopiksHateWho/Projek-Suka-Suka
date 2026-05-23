@@ -14,3 +14,7 @@
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+
+## 2026-03-05 - Global Utilities & Form Accessibility
+**Learning:** In multi-page vanilla JS apps, centralizing shared UI logic (like password toggles and accessibility listeners) in a common script (e.g., `auth.js`) ensures consistency. Using English for ARIA labels (`Close Modal`, `Show password`) is preferred for standard screen reader behavior, even in localized apps.
+**Action:** Place common UI helpers in the most globally accessible script. Use absolute-positioned buttons within relative containers for input overlays to ensure perfect vertical centering.
