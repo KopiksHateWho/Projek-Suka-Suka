@@ -80,6 +80,8 @@ window.getUserTransactions = function() {
 window.showToast = function(msg) {
     const toast = document.createElement('div');
     toast.className = 'toast';
+    toast.setAttribute('role', 'status');
+    toast.setAttribute('aria-live', 'polite');
     toast.textContent = msg;
     document.body.appendChild(toast);
     setTimeout(() => toast.remove(), 3000);
