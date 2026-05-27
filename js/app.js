@@ -273,8 +273,18 @@ function initAccessibility() {
       e.preventDefault();
       e.target.click();
     }
+
+    if (e.key === 'Escape') {
+      window.closeAllModals();
+      if (window.closeMenu) window.closeMenu();
+    }
   });
 }
+
+window.closeAllModals = function() {
+  document.querySelectorAll('.modal').forEach(m => m.classList.remove('show'));
+  document.body.style.overflow = '';
+};
 
 (async function init() {
   await initDataSDK();
@@ -319,7 +329,11 @@ function renderPackageSelection(gameKey) {
   const packages = GAME_PACKAGES[gameKey];
 
   container.innerHTML = packages.map(pkg => `
-    <div class="price-box-mini" onclick="selectPackage('${pkg.name}', '${pkg.price}')">
+    <div class="price-box-mini"
+         onclick="selectPackage('${pkg.name}', '${pkg.price}')"
+         role="button"
+         tabindex="0"
+         aria-label="${pkg.name} - ${pkg.price}">
       <div class="mini-diamond">${pkg.name}</div>
       <div class="mini-price">${pkg.price}</div>
     </div>
@@ -818,10 +832,15 @@ function scrollToSection(id) {
   if (el) el.scrollIntoView({ behavior: 'smooth' });
 }
 
-window.copyToClipboard = function(text) {
+window.copyToClipboard = function(text, btn) {
     if (!text) return;
     navigator.clipboard.writeText(text).then(() => {
         showToast('📋 ID Pesanan disalin!');
+        if (btn) {
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '✅';
+            setTimeout(() => { btn.innerHTML = originalHTML; }, 2000);
+        }
     }).catch(err => {
         console.error('Failed to copy: ', err);
         showToast('❌ Gagal menyalin');

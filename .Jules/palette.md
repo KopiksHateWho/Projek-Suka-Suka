@@ -14,3 +14,7 @@
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+
+## 2026-02-23 - Holistic Modal & Clipboard UX
+**Learning:** Improving modal accessibility isn't just about labels; it's about providing a universal "escape hatch" (Escape key) and ensuring every modal has a clear close button to prevent user entrapment. Furthermore, providing immediate visual feedback on copy actions (e.g., icon change) confirms success more effectively than a fleeting toast.
+**Action:** Always implement a global Escape key listener to close active overlays. Ensure dynamically generated items (like packages) have proper ARIA roles and labels. Add visual feedback (like a checkmark) to copy buttons to confirm success.
