@@ -14,3 +14,7 @@
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+
+## 2026-05-28 - Cross-Page Modal Access & Password UX
+**Learning:** In multi-page applications where interactive features (like History or Request modals) are only defined on the homepage, simple anchor links are insufficient. Deep linking via URL hashes coupled with JS-based "onload" triggers is necessary to provide a seamless transition from sub-pages back to homepage interactive states. Additionally, password visibility toggles significantly improve accessibility and user confidence during authentication.
+**Action:** Use global proxies for navigation that can differentiate between same-page modal opening and cross-page hash redirection. Always wrap password inputs in a relative container when adding absolute-positioned toggle buttons to maintain layout integrity.

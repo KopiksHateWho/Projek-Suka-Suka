@@ -818,10 +818,15 @@ function scrollToSection(id) {
   if (el) el.scrollIntoView({ behavior: 'smooth' });
 }
 
-window.copyToClipboard = function(text) {
+window.copyToClipboard = function(text, btn) {
     if (!text) return;
     navigator.clipboard.writeText(text).then(() => {
         showToast('📋 ID Pesanan disalin!');
+        if (btn) {
+            const original = btn.innerHTML;
+            btn.innerHTML = '✅';
+            setTimeout(() => btn.innerHTML = original, 2000);
+        }
     }).catch(err => {
         console.error('Failed to copy: ', err);
         showToast('❌ Gagal menyalin');
@@ -833,4 +838,12 @@ window.onload = () => {
   initDataSDK();
   initElementSDK();
   renderGames();
+
+  // Deep linking
+  const hash = window.location.hash;
+  if (hash === '#history') {
+    setTimeout(openHistory, 500);
+  } else if (hash === '#request') {
+    setTimeout(openRequestGameModal, 500);
+  }
 };
