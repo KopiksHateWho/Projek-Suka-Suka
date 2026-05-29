@@ -266,6 +266,26 @@ async function initElementSDK() {
 function initAccessibility() {
   // Global listener for keyboard interactions on role="button" elements
   document.addEventListener('keydown', (e) => {
+    // Search focus shortcut (/)
+    if (e.key === '/' && !['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) {
+      const searchInput = document.getElementById('gameSearch');
+      if (searchInput) {
+        e.preventDefault();
+        searchInput.focus();
+      }
+    }
+
+    // Escape to close modals or clear search
+    if (e.key === 'Escape') {
+      window.closeAllModals();
+      const searchInput = document.getElementById('gameSearch');
+      if (searchInput === document.activeElement) {
+        searchInput.value = '';
+        filterGames();
+        searchInput.blur();
+      }
+    }
+
     if ((e.key === 'Enter' || e.key === ' ') && e.target.getAttribute('role') === 'button') {
       // Avoid triggering if it's already a native button or link (they handle Enter/Space automatically)
       if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
@@ -280,6 +300,7 @@ function initAccessibility() {
   await initDataSDK();
   await initElementSDK();
   initAccessibility();
+  renderGames();
 })();
 
 function parsePrice(priceStr) {
@@ -474,7 +495,9 @@ function openModal(id) {
 }
 
 function closeModal(id) {
-  document.getElementById(id).classList.remove('show');
+  const modal = document.getElementById(id);
+  if (!modal) return;
+  modal.classList.remove('show');
   document.body.style.overflow = '';
 
   // Hide sticky bar if closing receipt or cancelling package selection
@@ -486,6 +509,11 @@ function closeModal(id) {
     }
   }
 }
+
+window.closeAllModals = function() {
+  document.querySelectorAll('.modal.show').forEach(m => closeModal(m.id));
+  if (window.closeMenu) window.closeMenu();
+};
 
 // Loading Rocket
 function startLoading() {
@@ -828,9 +856,3 @@ window.copyToClipboard = function(text) {
     });
 };
 
-// Init
-window.onload = () => {
-  initDataSDK();
-  initElementSDK();
-  renderGames();
-};
