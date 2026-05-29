@@ -60,8 +60,9 @@
 
         <!-- Search Bar -->
         <div class="section-container pb-0">
-            <div class="max-w-md mx-auto relative group">
-                <input type="text" id="gameSearch" class="field-input text-center pr-10" placeholder="🔍 Cari game favoritmu..." onkeyup="filterGames()" aria-label="Cari game favorit">
+            <div class="max-w-md mx-auto relative">
+                <span id="searchShortcutHint" class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-xs font-mono pointer-events-none hidden md:block transition-opacity duration-200" aria-hidden="true">[/]</span>
+                <input type="text" id="gameSearch" class="field-input text-center pr-10" placeholder="🔍 Cari game favoritmu..." onkeyup="filterGames()" aria-label="Cari game favorit" onfocus="document.getElementById('searchShortcutHint').style.opacity='0'" onblur="document.getElementById('searchShortcutHint').style.opacity='1'">
                 <button id="clearSearch" class="hidden absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white text-2xl transition-all" onclick="clearSearch()" aria-label="Bersihkan pencarian" title="Bersihkan pencarian">&times;</button>
             </div>
         </div>
