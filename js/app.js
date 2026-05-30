@@ -263,15 +263,25 @@ async function initElementSDK() {
   }
 }
 
-function initAccessibility() {
-  // Global listener for keyboard interactions on role="button" elements
-  document.addEventListener('keydown', (e) => {
-    if ((e.key === 'Enter' || e.key === ' ') && e.target.getAttribute('role') === 'button') {
-      // Avoid triggering if it's already a native button or link (they handle Enter/Space automatically)
-      if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
+window.closeAllModals = function() {
+    document.querySelectorAll('.modal, .loading-modal').forEach(m => m.classList.remove('show'));
+    window.closeMenu();
+    document.body.style.overflow = '';
+};
 
+function initAccessibility() {
+  // Global listener for keyboard interactions
+  document.addEventListener('keydown', (e) => {
+    // 1. Role Button Accessibility
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.getAttribute('role') === 'button') {
+      if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
       e.preventDefault();
       e.target.click();
+    }
+
+    // 2. ESC key to close all modals & menu
+    if (e.key === 'Escape') {
+      window.closeAllModals();
     }
   });
 }
