@@ -352,7 +352,7 @@
                         <span class="text-slate-400">Order No:</span>
                         <div class="flex items-center gap-2">
                             <span id="receiptOrderNum" class="font-mono text-xs"></span>
-                            <button onclick="window.copyToClipboard(document.getElementById('receiptOrderNum').textContent)" class="text-primary hover:text-white transition" aria-label="Salin ID Pesanan" title="Salin ID Pesanan">📋</button>
+                            <button onclick="window.copyToClipboard(document.getElementById('receiptOrderNum').textContent, this)" class="text-primary hover:text-white transition" aria-label="Salin ID Pesanan" title="Salin ID Pesanan">📋</button>
                         </div>
                     </div>
                     <div class="flex justify-between">
@@ -396,9 +396,13 @@
     <!-- Admin Logic Modals -->
     <div id="adminLoginModal" class="modal">
         <div class="modal-content max-w-sm">
+            <button class="close-modal" onclick="closeModal('adminLoginModal')" aria-label="Close Modal">&times;</button>
             <h3 class="modal-title mb-6">ADMIN LOGIN</h3>
             <form onsubmit="handleAdminLogin(event)">
-                <input type="password" id="adminPassInput" class="field-input mb-6" placeholder="Password...">
+                <div class="relative mb-6">
+                    <input type="password" id="adminPassInput" class="field-input pr-12" placeholder="Password...">
+                    <button type="button" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition" onclick="window.togglePasswordVisibility('adminPassInput', this)" aria-label="Show password">🙈</button>
+                </div>
                 <button type="submit" class="checkout-btn">LOGIN</button>
             </form>
         </div>
