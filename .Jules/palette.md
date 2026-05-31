@@ -14,3 +14,7 @@
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+
+## 2026-02-22 - Visual Feedback & Navigation Hygiene
+**Learning:** Providing immediate visual feedback for utility actions (like changing a copy icon to a checkmark) creates a more responsive and "premium" feel than relying solely on toasts. Furthermore, ensuring navigation consistency and cleaning up version control debris in sub-pages is essential for maintaining a seamless multi-page experience in vanilla JS projects.
+**Action:** Always include temporary state changes (visual confirmation) for copy-to-clipboard actions. Audit sub-pages for navigation parity and remove any non-functional code artifacts during UX passes.

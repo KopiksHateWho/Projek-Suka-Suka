@@ -80,9 +80,25 @@ window.getUserTransactions = function() {
 window.showToast = function(msg) {
     const toast = document.createElement('div');
     toast.className = 'toast';
+    toast.setAttribute('role', 'status');
+    toast.setAttribute('aria-live', 'polite');
     toast.textContent = msg;
     document.body.appendChild(toast);
     setTimeout(() => toast.remove(), 3000);
+};
+
+window.togglePasswordVisibility = function(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+
+    const isPassword = input.type === 'password';
+    input.type = isPassword ? 'text' : 'password';
+
+    // Update icon and ARIA label
+    if (btn) {
+        btn.textContent = isPassword ? '👁️' : '🙈';
+        btn.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
+    }
 };
 
 window.toggleMenu = function() {

@@ -818,10 +818,15 @@ function scrollToSection(id) {
   if (el) el.scrollIntoView({ behavior: 'smooth' });
 }
 
-window.copyToClipboard = function(text) {
+window.copyToClipboard = function(text, btn) {
     if (!text) return;
     navigator.clipboard.writeText(text).then(() => {
         showToast('📋 ID Pesanan disalin!');
+        if (btn) {
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '✅';
+            setTimeout(() => { btn.innerHTML = originalHTML; }, 2000);
+        }
     }).catch(err => {
         console.error('Failed to copy: ', err);
         showToast('❌ Gagal menyalin');
