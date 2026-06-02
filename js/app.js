@@ -833,4 +833,12 @@ window.onload = () => {
   initDataSDK();
   initElementSDK();
   renderGames();
+
+  // Hash-based modal triggering
+  const hash = window.location.hash;
+  if (hash === '#history') {
+    setTimeout(openHistory, 500);
+  } else if (hash === '#request') {
+    setTimeout(openRequestGameModal, 500);
+  }
 };
