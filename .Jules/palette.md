@@ -14,3 +14,7 @@
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+
+## 2026-05-20 - Global Proxies & Cross-Page Navigation
+**Learning:** When using modals for core features (like History or Request Game), sub-pages must use proxy functions that handle the context. If the user is on a sub-page, the proxy should redirect to the home page with a hash (e.g., `index.html#history`), which the home page then consumes to open the modal. This maintains feature parity across the app without duplicating modal code.
+**Action:** Centralize UI interaction logic in global proxies. Ensure these proxies are aware of `window.location` and handle redirection vs. direct modal opening correctly. Always use the `window.` prefix for these global handlers to ensure consistency and visibility.
