@@ -590,10 +590,16 @@ function sendToWhatsApp() {
 }
 
 // History
-function openHistory() {
+window.openHistory = function() {
+  const isInPages = window.location.pathname.includes('/pages/');
+  if (isInPages) {
+    window.location.href = '../index.html#history';
+    return;
+  }
   openModal('historyModal');
-  document.getElementById('historyList').innerHTML = '';
-}
+  const historyList = document.getElementById('historyList');
+  if (historyList) historyList.innerHTML = '';
+};
 
 function searchOrders() {
   const phone = document.getElementById('historyPhone').value.trim();
@@ -782,9 +788,14 @@ function clearSearch() {
 }
 
 // Request Game Logic
-function openRequestGameModal() {
+window.openRequestGameModal = function() {
+    const isInPages = window.location.pathname.includes('/pages/');
+    if (isInPages) {
+        window.location.href = '../index.html#request';
+        return;
+    }
     openModal('requestGameModal');
-}
+};
 
 function submitGameRequest(e) {
     e.preventDefault();
