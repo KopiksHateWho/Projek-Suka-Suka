@@ -131,8 +131,44 @@ window.openWhatsApp = function() {
     window.open(`https://wa.me/${num}`, '_blank');
 };
 
+window.escapeHTML = function(str) {
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+};
+
+window.togglePasswordVisibility = function(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input || !btn) return;
+
+    if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '👁️';
+        btn.setAttribute('aria-label', 'Hide password');
+    } else {
+        input.type = 'password';
+        btn.textContent = '🙈';
+        btn.setAttribute('aria-label', 'Show password');
+    }
+};
+
+window.initAccessibility = function() {
+    document.addEventListener('keydown', (e) => {
+        if ((e.key === 'Enter' || e.key === ' ') && e.target.getAttribute('role') === 'button') {
+            if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
+            e.preventDefault();
+            e.target.click();
+        }
+    });
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     window.updateNavbar();
+    window.initAccessibility();
 });
 
 // Add default admin for simulation
