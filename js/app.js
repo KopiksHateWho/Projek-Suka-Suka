@@ -833,4 +833,15 @@ window.onload = () => {
   initDataSDK();
   initElementSDK();
   renderGames();
+
+  // Handle Hash for deep linking
+  const hash = window.location.hash;
+  if (hash === '#history') {
+    setTimeout(openHistory, 500);
+  } else if (hash === '#request') {
+    setTimeout(openRequestGameModal, 500);
+  } else if (hash) {
+    const id = hash.substring(1);
+    scrollToSection(id);
+  }
 };
