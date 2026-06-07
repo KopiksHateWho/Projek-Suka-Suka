@@ -273,6 +273,14 @@ function initAccessibility() {
       e.preventDefault();
       e.target.click();
     }
+
+    // Escape to close modals
+    if (e.key === 'Escape') {
+      const openModal = document.querySelector('.modal.show');
+      if (openModal) {
+        closeModal(openModal.id);
+      }
+    }
   });
 }
 
@@ -319,7 +327,7 @@ function renderPackageSelection(gameKey) {
   const packages = GAME_PACKAGES[gameKey];
 
   container.innerHTML = packages.map(pkg => `
-    <div class="price-box-mini" onclick="selectPackage('${pkg.name}', '${pkg.price}')">
+    <div class="price-box-mini" onclick="selectPackage('${pkg.name}', '${pkg.price}')" role="button" tabindex="0" aria-label="${pkg.name} - ${pkg.price}">
       <div class="mini-diamond">${pkg.name}</div>
       <div class="mini-price">${pkg.price}</div>
     </div>
