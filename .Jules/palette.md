@@ -14,3 +14,7 @@
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+
+## 2024-06-12 - Password Visibility & Layout Preservation
+**Learning:** Password visibility toggle buttons using absolute positioning (e.g., `top-1/2 -translate-y-1/2`) must be placed within a dedicated `relative` container that wraps only the input element. Including block-level labels inside the same container disrupts vertical centering. Additionally, toggle buttons should always include `type="button"` to prevent accidental form submission.
+**Action:** Always wrap password inputs in a clean `relative` container when adding absolute-positioned toggles. Use `type="button"` for the toggle and ensure English ARIA labels match the visible UI state for screen reader consistency.

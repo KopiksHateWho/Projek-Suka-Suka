@@ -106,6 +106,35 @@ try {
     assert(e instanceof SyntaxError, 'Should throw SyntaxError for invalid JSON');
 }
 
+// Test 4: togglePasswordVisibility
+console.log('🧪 Running tests for window.togglePasswordVisibility...');
+
+const mockInput = new MockElement();
+mockInput.type = 'password';
+mockInput.id = 'testPass';
+
+const mockBtn = new MockElement();
+mockBtn.textContent = '🙈';
+mockBtn.setAttribute = function(name, value) { this[name] = value; };
+
+// Add getElementById to global document for this test
+const originalGetElementById = global.document.getElementById;
+global.document.getElementById = (id) => id === 'testPass' ? mockInput : null;
+
+// Toggle to text
+window.togglePasswordVisibility('testPass', mockBtn);
+assert(mockInput.type === 'text', 'Input type should be text after toggle');
+assert(mockBtn.textContent === '👁️', 'Button icon should be 👁️ after toggle');
+assert(mockBtn['aria-label'] === 'Hide password', 'Button ARIA label should be Hide password');
+
+// Toggle back to password
+window.togglePasswordVisibility('testPass', mockBtn);
+assert(mockInput.type === 'password', 'Input type should be password after second toggle');
+assert(mockBtn.textContent === '🙈', 'Button icon should be 🙈 after second toggle');
+assert(mockBtn['aria-label'] === 'Show password', 'Button ARIA label should be Show password');
+
+global.document.getElementById = originalGetElementById;
+
 // Summary
 console.log(`\nTest Summary: ${testsPassed} passed, ${testsFailed} failed.`);
 if (testsFailed > 0) {
