@@ -319,9 +319,9 @@ function renderPackageSelection(gameKey) {
   const packages = GAME_PACKAGES[gameKey];
 
   container.innerHTML = packages.map(pkg => `
-    <div class="price-box-mini" onclick="selectPackage('${pkg.name}', '${pkg.price}')">
-      <div class="mini-diamond">${pkg.name}</div>
-      <div class="mini-price">${pkg.price}</div>
+    <div class="price-box-mini" onclick="selectPackage('${window.escapeHTML(pkg.name)}', '${window.escapeHTML(pkg.price)}')">
+      <div class="mini-diamond">${window.escapeHTML(pkg.name)}</div>
+      <div class="mini-price">${window.escapeHTML(pkg.price)}</div>
     </div>
   `).join('');
 }
@@ -668,11 +668,11 @@ function renderAdminOrders() {
 
   list.innerHTML = sorted.map(o => `
     <div class="admin-row">
-      <div>${o.order_number}</div>
-      <div>${o.game}</div>
-      <div>${o.nickname}</div>
-      <div>${o.status.toUpperCase()}</div>
-      <button onclick="viewAdminDetail('${o.__backendId}')" class="btn-mini">DETAIL</button>
+      <div>${window.escapeHTML(o.order_number)}</div>
+      <div>${window.escapeHTML(o.game)}</div>
+      <div>${window.escapeHTML(o.nickname)}</div>
+      <div>${window.escapeHTML(o.status.toUpperCase())}</div>
+      <button onclick="viewAdminDetail('${window.escapeHTML(o.__backendId)}')" class="btn-mini">DETAIL</button>
     </div>
   `).join('');
 }
@@ -733,15 +733,15 @@ function renderGames() {
   document.getElementById('noGamesFound').classList.add('hidden');
 
   container.innerHTML = games.map(game => `
-    <div class="game-card" onclick="selectGame('${game.id}')" role="button" tabindex="0">
+    <div class="game-card" onclick="selectGame('${window.escapeHTML(game.id)}')" role="button" tabindex="0">
         <div class="relative w-full aspect-square mb-4 rounded-xl overflow-hidden bg-slate-800">
-            <img src="${game.image}" alt="${game.name}"
+            <img src="${window.escapeHTML(game.image)}" alt="${window.escapeHTML(game.name)}"
                  class="w-full h-full object-cover hover:scale-110 transition duration-500"
                  loading="lazy"
                  onerror="this.src='https://placehold.co/400x400/1e293b/bf00ff?text=${encodeURIComponent(game.name)}'">
         </div>
-        <div class="game-name text-center">${game.name}</div>
-        <div class="game-subtitle text-center text-xs text-slate-400 mt-1">Mulai ${game.basePrice || 'Rp1.000'}</div>
+        <div class="game-name text-center">${window.escapeHTML(game.name)}</div>
+        <div class="game-subtitle text-center text-xs text-slate-400 mt-1">Mulai ${window.escapeHTML(game.basePrice || 'Rp1.000')}</div>
         <button class="btn-mini w-full mt-4 bg-primary/20 hover:bg-primary border-primary/30">TOP UP</button>
     </div>
   `).join('');
