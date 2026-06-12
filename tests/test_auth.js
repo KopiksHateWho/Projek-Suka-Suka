@@ -66,7 +66,7 @@ try {
 }
 
 // Test Suite
-console.log('🧪 Running tests for window.getCurrentUser...');
+console.log('🧪 Running tests for auth utilities...');
 
 let testsPassed = 0;
 let testsFailed = 0;
@@ -105,6 +105,27 @@ try {
 } catch (e) {
     assert(e instanceof SyntaxError, 'Should throw SyntaxError for invalid JSON');
 }
+
+// Test 4: togglePasswordVisibility
+console.log('\n🧪 Testing togglePasswordVisibility...');
+const mockInput = { id: 'password-field', type: 'password' };
+const mockBtn = { textContent: '👁️', attributes: {}, setAttribute: function(k, v) { this.attributes[k] = v; } };
+
+// Mock getElementById for this test
+const originalGetElementById = global.document.getElementById;
+global.document.getElementById = (id) => id === 'password-field' ? mockInput : null;
+
+window.togglePasswordVisibility('password-field', mockBtn);
+assert(mockInput.type === 'text', 'Input type should change to text');
+assert(mockBtn.textContent === '🙈', 'Button icon should change to 🙈');
+assert(mockBtn.attributes['aria-label'] === 'Hide password', 'ARIA label should be "Hide password"');
+
+window.togglePasswordVisibility('password-field', mockBtn);
+assert(mockInput.type === 'password', 'Input type should change back to password');
+assert(mockBtn.textContent === '👁️', 'Button icon should change back to 👁️');
+assert(mockBtn.attributes['aria-label'] === 'Show password', 'ARIA label should be "Show password"');
+
+global.document.getElementById = originalGetElementById;
 
 // Summary
 console.log(`\nTest Summary: ${testsPassed} passed, ${testsFailed} failed.`);
