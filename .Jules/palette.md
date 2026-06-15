@@ -14,3 +14,7 @@
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+
+## 2026-03-05 - Modal Accessibility & Deep Linking
+**Learning:** Standardizing global modal control via `window` proxies ensures reliable behavior across multi-page apps with inline handlers. Implementing the `Escape` key listener for modals and menus is a low-effort, high-impact accessibility win. Deep linking with URL hashes (`#history`, `#request`) allows seamless feature access when transitioning from sub-pages back to the main landing page.
+**Action:** Use `window.` prefix for global UI handlers. Always include an `Escape` key listener in a central accessibility init function. Leverage `hashchange` listeners to trigger specific UI states (like opening modals) based on incoming navigation hashes.
