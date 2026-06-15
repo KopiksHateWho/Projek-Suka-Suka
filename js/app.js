@@ -264,14 +264,25 @@ async function initElementSDK() {
 }
 
 function initAccessibility() {
-  // Global listener for keyboard interactions on role="button" elements
+  // Global listener for keyboard interactions
   document.addEventListener('keydown', (e) => {
+    // Enter/Space for role="button"
     if ((e.key === 'Enter' || e.key === ' ') && e.target.getAttribute('role') === 'button') {
-      // Avoid triggering if it's already a native button or link (they handle Enter/Space automatically)
       if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
-
       e.preventDefault();
       e.target.click();
+    }
+
+    // Escape to close modals and menu
+    if (e.key === 'Escape') {
+      const openModal = document.querySelector('.modal.show, .loading-modal.show');
+      if (openModal) {
+        const id = openModal.id;
+        // Don't allow escaping the loading modal during active submission
+        if (id === 'loadingModal' && isSubmitting) return;
+        window.closeModal(id);
+      }
+      if (window.closeMenu) window.closeMenu();
     }
   });
 }
@@ -467,14 +478,16 @@ async function confirmOrder() {
 }
 
 // Modal System
-function openModal(id) {
-  document.getElementById(id).classList.add('show');
+window.openModal = function(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.add('show');
   // Prevent body scroll when modal open
   document.body.style.overflow = 'hidden';
-}
+};
 
-function closeModal(id) {
-  document.getElementById(id).classList.remove('show');
+window.closeModal = function(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.remove('show');
   document.body.style.overflow = '';
 
   // Hide sticky bar if closing receipt or cancelling package selection
@@ -828,9 +841,27 @@ window.copyToClipboard = function(text) {
     });
 };
 
+function handleDeepLink() {
+  const hash = window.location.hash;
+  if (hash === '#history') {
+    openHistory();
+  } else if (hash === '#request') {
+    openRequestGameModal();
+  } else if (hash === '#games') {
+    scrollToSection('games');
+  } else if (hash === '#home') {
+    scrollToSection('home');
+  } else if (hash === '#contact') {
+    scrollToSection('contact');
+  }
+}
+
 // Init
 window.onload = () => {
   initDataSDK();
   initElementSDK();
   renderGames();
+  handleDeepLink();
 };
+
+window.addEventListener('hashchange', handleDeepLink);
