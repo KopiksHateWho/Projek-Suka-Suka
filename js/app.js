@@ -467,13 +467,13 @@ async function confirmOrder() {
 }
 
 // Modal System
-function openModal(id) {
+window.openModal = function(id) {
   document.getElementById(id).classList.add('show');
   // Prevent body scroll when modal open
   document.body.style.overflow = 'hidden';
-}
+};
 
-function closeModal(id) {
+window.closeModal = function(id) {
   document.getElementById(id).classList.remove('show');
   document.body.style.overflow = '';
 
