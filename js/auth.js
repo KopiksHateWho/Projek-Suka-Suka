@@ -77,6 +77,17 @@ window.getUserTransactions = function() {
     return transactions.filter(t => t.userEmail === user.email);
 };
 
+window.togglePasswordVisibility = function(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+    const isPassword = input.type === 'password';
+    input.type = isPassword ? 'text' : 'password';
+    btn.innerHTML = isPassword ? '🙈' : '👁️‍🗨️';
+    btn.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
+};
+
+window.escapeHTML = (str) => String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+
 window.showToast = function(msg) {
     const toast = document.createElement('div');
     toast.className = 'toast';
