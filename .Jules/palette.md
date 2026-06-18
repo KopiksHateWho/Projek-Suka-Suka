@@ -14,3 +14,7 @@
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+
+## 2026-06-18 - Accessible Password Visibility Toggle
+**Learning:** In a glassmorphism UI with absolute-positioned icons, password visibility toggles must be placed within a `relative` container that wraps only the `input`. This ensures the icon remains vertically centered regardless of label height.
+**Action:** Use `window.togglePasswordVisibility(id, btn)` and ensure the button has `type="button"` and descriptive English `aria-label`s ('Show password' / 'Hide password').
