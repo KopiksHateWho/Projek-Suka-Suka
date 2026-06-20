@@ -27,6 +27,8 @@ class MockElement {
         this.className = '';
         this.textContent = '';
         this.innerHTML = '';
+        this.type = '';
+        this.attributes = {};
         this.style = {};
         this.classList = {
             add: () => {},
@@ -38,6 +40,12 @@ class MockElement {
     appendChild(child) {}
     remove() {}
     addEventListener(event, callback) {}
+    setAttribute(name, value) {
+        this.attributes[name] = value;
+    }
+    getAttribute(name) {
+        return this.attributes[name] || null;
+    }
 }
 
 // Setup global environment
@@ -105,6 +113,26 @@ try {
 } catch (e) {
     assert(e instanceof SyntaxError, 'Should throw SyntaxError for invalid JSON');
 }
+
+// Test 4: Password visibility toggle
+const mockInput = new MockElement();
+mockInput.type = 'password';
+const mockBtn = new MockElement();
+
+const originalGetElementById = global.document.getElementById;
+global.document.getElementById = (id) => id === 'password-input' ? mockInput : null;
+
+window.togglePasswordVisibility('password-input', mockBtn);
+assert(mockInput.type === 'text', 'Should toggle password to text');
+assert(mockBtn.textContent === '👁️‍🗨️', 'Should update button icon to eye');
+assert(mockBtn.getAttribute('aria-label') === 'Hide password', 'Should update ARIA label to Hide');
+
+window.togglePasswordVisibility('password-input', mockBtn);
+assert(mockInput.type === 'password', 'Should toggle text back to password');
+assert(mockBtn.textContent === '🙈', 'Should update button icon to hidden');
+assert(mockBtn.getAttribute('aria-label') === 'Show password', 'Should update ARIA label to Show');
+
+global.document.getElementById = originalGetElementById;
 
 // Summary
 console.log(`\nTest Summary: ${testsPassed} passed, ${testsFailed} failed.`);
