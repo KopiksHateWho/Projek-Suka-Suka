@@ -48,13 +48,13 @@ window.updateNavbar = function() {
     if (user) {
         const isAdmin = user.email === 'admin@kingslayer.com';
         authLinks.innerHTML = `
-            ${isAdmin ? `<a href="${pagesPrefix}admin.html" class="nav-link w-full md:w-auto text-center text-primary font-bold" onclick="window.closeMenu()">ADMIN</a>` : ''}
-            <a href="${pagesPrefix}dashboard.html" class="nav-link w-full md:w-auto text-center" onclick="window.closeMenu()">DASHBOARD</a>
-            <a href="#" class="nav-link w-full md:w-auto text-center" onclick="window.logout(); window.closeMenu()">LOGOUT</a>
+            ${isAdmin ? `<a href="${pagesPrefix}admin.html" class="nav-link w-full md:w-auto text-center text-primary font-bold" onclick="window.closeMenu()">🛠️ ADMIN</a>` : ''}
+            <a href="${pagesPrefix}dashboard.html" class="nav-link w-full md:w-auto text-center" onclick="window.closeMenu()">👤 DASHBOARD</a>
+            <a href="#" class="nav-link w-full md:w-auto text-center" onclick="window.logout(); window.closeMenu()">🚪 LOGOUT</a>
         `;
     } else {
         authLinks.innerHTML = `
-            <a href="${pagesPrefix}login.html" class="nav-link w-full md:w-auto text-center" onclick="window.closeMenu()">LOGIN</a>
+            <a href="${pagesPrefix}login.html" class="nav-link w-full md:w-auto text-center" onclick="window.closeMenu()">🔑 LOGIN</a>
         `;
     }
 };
@@ -129,6 +129,21 @@ window.openWhatsApp = function() {
     const whatsappDisplay = document.getElementById('whatsappNumber');
     const num = whatsappDisplay ? whatsappDisplay.textContent.replace(/\D/g, '') : '62882007655617';
     window.open(`https://wa.me/${num}`, '_blank');
+};
+
+window.togglePasswordVisibility = function(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+
+    if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '👁️‍🗨️';
+        btn.setAttribute('aria-label', 'Hide password');
+    } else {
+        input.type = 'password';
+        btn.textContent = '🙈';
+        btn.setAttribute('aria-label', 'Show password');
+    }
 };
 
 document.addEventListener('DOMContentLoaded', () => {

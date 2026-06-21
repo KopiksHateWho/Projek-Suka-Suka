@@ -11,6 +11,10 @@
 **Learning:** Preventing UX "dead-ends" by providing clear actions (like "Clear Search" or "Request Item") in empty states significantly improves user retention and satisfaction. Additionally, a "Clear" button in search inputs is a small but high-impact convenience that users expect.
 **Action:** When implementing search or filters, always include a visual clear button and an actionable empty state. Ensure that clearing search also resets any related UI states (like "No results" messages).
 
+## 2026-02-21 - Password Visibility & Navigation Consistency
+**Learning:** In projects with multiple entry points (index, login, dashboard), maintaining feature parity like password visibility toggles and mobile navigation overlays is critical for UX. Centralizing these utilities in a global `js/auth.js` or `js/app.js` and using `window.` proxies for navigation ensures consistency.
+**Action:** Implement password visibility toggles with standard English ARIA labels and state-dependent emojis (🙈/👁️‍🗨️). Always include the `#nav-backdrop` and proper script ordering on sub-pages to support mobile navigation proxies.
+
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
