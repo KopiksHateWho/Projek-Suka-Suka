@@ -1,16 +1,13 @@
-## 2025-05-14 - Retrofitting Accessibility in Vanilla JS/HTML
-**Learning:** In projects without a framework or semantic HTML for interactive elements (using divs as buttons), a global keyboard listener combined with static ARIA roles/tabindex is a clean way to ensure accessibility without breaking custom CSS layouts.
-**Action:** Always check if interactive elements are semantically correct (e.g., <button> or <a>). If not, add role="button", tabindex="0", and a keyboard listener for Enter/Space. Match :focus-visible styles with :hover effects for visual consistency.
- palette/search-enhancement-and-cleanup-4472390093947769525
+# Palette's Journal - Critical UX/Accessibility Learnings
 
-## 2025-05-15 - Search Feedback & Nav Consistency
-**Learning:** In multi-page vanilla JS applications, "dead-end" states (empty search results) and placeholder-corrupted navigation are major UX blockers. Restoring navigation consistency across all entry points is a prerequisite for any meaningful UX polish.
-**Action:** Audit search functionality for empty states. Use a dedicated hidden element with a call-to-action (like "Request Game") to guide users when no results match. Ensure navigation components are identical across all HTML files if a shared template engine is absent.
+## 2025-05-15 - [Deep Linking for Modal Navigation]
+**Learning:** In multi-page applications where interactive features (History, Request Modal) are implemented as modals on the home page, sub-pages often end up with "dead-end" navigation links if they simply try to trigger the same modals.
+**Action:** Implement a routing proxy (like `openHistory()`) that checks the current path. If on a sub-page, it should redirect to the home page with a URL hash (e.g., `index.html#history`). Use a `hashchange` listener on the home page to automatically trigger the modal upon landing.
 
-## 2026-02-12 - Actionable Empty States & Search Polish
-**Learning:** Preventing UX "dead-ends" by providing clear actions (like "Clear Search" or "Request Item") in empty states significantly improves user retention and satisfaction. Additionally, a "Clear" button in search inputs is a small but high-impact convenience that users expect.
-**Action:** When implementing search or filters, always include a visual clear button and an actionable empty state. Ensure that clearing search also resets any related UI states (like "No results" messages).
+## 2025-05-15 - [Consistency in Accessibility Labels]
+**Learning:** Mixed-language ARIA labels (e.g., "Tutup Modal" in an English-centric UI) create a jarring experience for screen reader users and indicate a lack of polish.
+**Action:** Standardize all `aria-label` and `title` attributes to English to match the primary UI language and ensure consistent accessibility across all components.
 
-## 2026-02-21 - Destructive Cleanup & CSS Regression
-**Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
-**Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+## 2025-05-15 - [Template Sanitization and Visual Artifacts]
+**Learning:** Residual git conflict markers (`<<<<<<<`, `=======`) in HTML templates can lead to broken DOM structures and visible "ghost" text that degrades the professional feel of the UI.
+**Action:** Always perform a full-text search for conflict markers before finalizing a UI change, especially when working with shared templates like navigation bars. Use visual regression testing (Playwright screenshots) to catch layout regressions caused by malformed HTML.
