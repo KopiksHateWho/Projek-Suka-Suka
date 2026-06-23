@@ -828,9 +828,27 @@ window.copyToClipboard = function(text) {
     });
 };
 
+function handleDeepLink() {
+    const hash = window.location.hash;
+    if (hash === '#history') {
+        openHistory();
+    } else if (hash === '#request') {
+        openRequestGameModal();
+    } else if (hash === '#games') {
+        scrollToSection('games');
+    } else if (hash === '#home') {
+        scrollToSection('home');
+    } else if (hash === '#contact') {
+        scrollToSection('contact');
+    }
+}
+
 // Init
 window.onload = () => {
   initDataSDK();
   initElementSDK();
   renderGames();
+  handleDeepLink();
 };
+
+window.addEventListener('hashchange', handleDeepLink);

@@ -110,18 +110,21 @@ window.closeMenu = function() {
     document.body.style.overflow = '';
 };
 
+window.openHistory = function() {
+    const isInPages = window.location.pathname.includes('/pages/');
+    if (isInPages) {
+        window.location.href = '../index.html#history';
+    } else if (window.openModal) {
+        window.openModal('historyModal');
+    }
+};
+
 window.openRequestGameModal = function() {
-    // This function is implemented in js/app.js where modal logic resides,
-    // but we can proxy it or let app.js handle the global definition.
-    // However, since auth.js loads before app.js, we should ensure it doesn't conflict.
-    // If app.js defines it, we can remove this or make it a safe fallback.
-    // Best practice: Let app.js handle UI interaction logic like modals.
-    // We'll remove this conflicting definition and rely on app.js.
-    // If we need it here for some reason (e.g. auth-links injection), we should delegate.
-    if (window.openModal) {
+    const isInPages = window.location.pathname.includes('/pages/');
+    if (isInPages) {
+        window.location.href = '../index.html#request';
+    } else if (window.openModal) {
         window.openModal('requestGameModal');
-    } else {
-        console.warn('Modal system not ready');
     }
 };
 
@@ -129,6 +132,21 @@ window.openWhatsApp = function() {
     const whatsappDisplay = document.getElementById('whatsappNumber');
     const num = whatsappDisplay ? whatsappDisplay.textContent.replace(/\D/g, '') : '62882007655617';
     window.open(`https://wa.me/${num}`, '_blank');
+};
+
+window.togglePasswordVisibility = function(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+
+    if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '👁️️‍🗨️';
+        btn.setAttribute('aria-label', 'Hide password');
+    } else {
+        input.type = 'password';
+        btn.textContent = '🙈';
+        btn.setAttribute('aria-label', 'Show password');
+    }
 };
 
 document.addEventListener('DOMContentLoaded', () => {
