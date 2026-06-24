@@ -267,24 +267,43 @@ function initAccessibility() {
   // Global listener for keyboard interactions on role="button" elements
   document.addEventListener('keydown', (e) => {
     if ((e.key === 'Enter' || e.key === ' ') && e.target.getAttribute('role') === 'button') {
-      // Avoid triggering if it's already a native button or link (they handle Enter/Space automatically)
       if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
-
       e.preventDefault();
       e.target.click();
+    }
+    // Escape key to close modals
+    if (e.key === 'Escape') {
+        const openModal = document.querySelector('.modal.show');
+        if (openModal) {
+            window.closeModal(openModal.id);
+        }
     }
   });
 }
 
-(async function init() {
-  await initDataSDK();
-  await initElementSDK();
-  initAccessibility();
-})();
+function handleDeepLink() {
+    const hash = window.location.hash;
+    if (!hash) return;
 
-function parsePrice(priceStr) {
-  return parseInt(priceStr.replace(/[^0-9]/g, ''));
+    if (hash === '#history') {
+        window.openHistory();
+    } else if (hash === '#request') {
+        window.openRequestGameModal();
+    } else if (hash === '#games') {
+        scrollToSection('games');
+    } else if (hash === '#home') {
+        scrollToSection('home');
+    } else if (hash === '#contact') {
+        scrollToSection('contact');
+    }
+    // Clear hash after handling? Maybe not to allow refresh
 }
+
+(async function init() {
+  // Initialization is handled in window.onload to avoid redundant calls
+  initAccessibility();
+  window.addEventListener('hashchange', handleDeepLink);
+})();
 
 function formatPrice(price) {
   return `Rp${price.toLocaleString('id-ID')}`;
@@ -296,46 +315,45 @@ function selectGame(gameId) {
   const game = games.find(g => g.id === gameId);
 
   if (!game) {
-    // Fallback for legacy calls if any (though we rendered with ID)
     const legacyMapping = { 'ml': 'MOBILE LEGENDS', 'ff': 'FREE FIRE', 'pubg': 'PUBG MOBILE' };
     const name = legacyMapping[gameId] || gameId;
     const legacyGame = games.find(g => g.name === name);
     if (legacyGame) {
       currentOrder.game = legacyGame.name;
       renderPackageSelection(legacyGame.name);
-      openModal('packageModal');
+      window.openModal('packageModal');
       return;
     }
-    return showToast('🎮 Game tidak ditemukan');
+    return window.showToast('🎮 Game tidak ditemukan');
   }
 
   currentOrder.game = game.name;
   renderPackageSelection(game.name);
-  openModal('packageModal');
+  window.openModal('packageModal');
 }
 
 function renderPackageSelection(gameKey) {
   const container = document.getElementById('packageList');
   const packages = GAME_PACKAGES[gameKey];
+  if (!container || !packages) return;
 
   container.innerHTML = packages.map(pkg => `
-    <div class="price-box-mini" onclick="selectPackage('${pkg.name}', '${pkg.price}')">
-      <div class="mini-diamond">${pkg.name}</div>
-      <div class="mini-price">${pkg.price}</div>
+    <div class="price-box-mini" onclick="selectPackage('${window.escapeHTML(pkg.name)}', '${window.escapeHTML(pkg.price)}')" role="button" tabindex="0">
+      <div class="mini-diamond">${window.escapeHTML(pkg.name)}</div>
+      <div class="mini-price">${window.escapeHTML(pkg.price)}</div>
     </div>
   `).join('');
 }
 
 function selectPackage(name, price, maybePrice) {
-  // Handle both 2-arg (pkg, price) and 3-arg (game, pkg, price) calls
   const finalPackage = maybePrice ? price : name;
   const finalPrice = maybePrice ? maybePrice : price;
 
-  if (finalPrice === 'HABIS') return showToast('❌ Stok sedang kosong');
+  if (finalPrice === 'HABIS') return window.showToast('❌ Stok sedang kosong');
 
   currentOrder.package = finalPackage;
   currentOrder.price = finalPrice;
-  currentOrder.unitPrice = parseInt(finalPrice.replace(/[^0-9]/g, ''));
+  currentOrder.unitPrice = parseInt(finalPrice.replace(/[^0-9]/g, '')) || 0;
   currentOrder.quantity = 1;
 
   document.querySelectorAll('.price-box-mini, .price-box').forEach(el => {
@@ -348,14 +366,13 @@ function selectPackage(name, price, maybePrice) {
   const stickyBar = document.getElementById('stickyMobileBar');
   if (stickyBar) stickyBar.classList.add('active');
 
-  // If clicking from the static price grid, also open the modal if not already open
   if (!document.getElementById('packageModal').classList.contains('show')) {
       const gameName = maybePrice ? name : '';
       if (gameName) {
           currentOrder.game = gameName;
           renderPackageSelection(gameName);
       }
-      openModal('packageModal');
+      window.openModal('packageModal');
   }
 }
 
@@ -363,15 +380,18 @@ function updateOrderSummary() {
   const total = currentOrder.unitPrice * currentOrder.quantity;
   const formattedPrice = `Rp${total.toLocaleString('id-ID')}`;
 
-  // Package Modal Summary
-  document.getElementById('summaryGame').textContent = currentOrder.game;
-  document.getElementById('summaryPackage').textContent = currentOrder.package;
-  document.getElementById('summaryTotal').textContent = formattedPrice;
-  document.getElementById('qtyDisplay').textContent = currentOrder.quantity;
+  const elements = {
+      'summaryGame': currentOrder.game,
+      'summaryPackage': currentOrder.package,
+      'summaryTotal': formattedPrice,
+      'qtyDisplay': currentOrder.quantity,
+      'stickyTotal': formattedPrice
+  };
 
-  // Sticky Mobile Bar
-  const stickyTotal = document.getElementById('stickyTotal');
-  if (stickyTotal) stickyTotal.textContent = formattedPrice;
+  for (const [id, val] of Object.entries(elements)) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = val;
+  }
 }
 
 function adjustQty(amount) {
@@ -380,7 +400,7 @@ function adjustQty(amount) {
     currentOrder.quantity = newQty;
     updateOrderSummary();
   } else if (newQty > 10) {
-    showToast('⚠️ Maksimal 10x order!');
+    window.showToast('⚠️ Maksimal 10x order!');
   }
 }
 
@@ -393,30 +413,29 @@ function selectPaymentMethod(method, el) {
 async function submitOrder(e) {
   e.preventDefault();
   if (isSubmitting) return;
-  if (!currentOrder.package || !currentOrder.paymentMethod) return showToast('❌ Pilih paket & pembayaran!');
+  if (!currentOrder.package || !currentOrder.paymentMethod) return window.showToast('❌ Pilih paket & pembayaran!');
 
   const gameId = document.getElementById('gameIdInput').value.trim();
   const nickname = document.getElementById('nicknameInput').value.trim();
   const whatsapp = document.getElementById('whatsappInput').value.trim();
 
-  if (!gameId || !nickname || !whatsapp) return showToast('❌ Lengkapi data pemain!');
+  if (!gameId || !nickname || !whatsapp) return window.showToast('❌ Lengkapi data pemain!');
 
-  // Show Summary Modal
   document.getElementById('summGame').textContent = currentOrder.game;
   document.getElementById('summItem').textContent = currentOrder.package;
-  document.getElementById('summUserId').textContent = `${nickname} (${gameId})`;
+  document.getElementById('summUserId').innerHTML = `${window.escapeHTML(nickname)} (${window.escapeHTML(gameId)})`;
   document.getElementById('summPayment').textContent = currentOrder.paymentMethod;
   document.getElementById('summTotal').textContent = document.getElementById('summaryTotal').textContent;
 
-  closeModal('packageModal');
-  openModal('summaryModal');
+  window.closeModal('packageModal');
+  window.openModal('summaryModal');
 }
 
 async function confirmOrder() {
   if (isSubmitting) return;
   isSubmitting = true;
 
-  closeModal('summaryModal');
+  window.closeModal('summaryModal');
   startLoading();
 
   const gameId = document.getElementById('gameIdInput').value.trim();
@@ -438,7 +457,6 @@ async function confirmOrder() {
       order_date: new Date().toISOString()
     };
 
-    // Simulate network delay for the premium loading experience
     await new Promise(resolve => setTimeout(resolve, 3000));
 
     if (window.dataSdk) {
@@ -449,10 +467,9 @@ async function confirmOrder() {
         showReceipt(orderData);
       } else {
         stopLoading();
-        showToast('❌ Gagal membuat pesanan');
+        window.showToast('❌ Gagal membuat pesanan');
       }
     } else {
-      // Simulation mode if SDK is not present
       if (window.saveTransaction) window.saveTransaction(orderData);
       stopLoading();
       showReceipt(orderData);
@@ -460,32 +477,35 @@ async function confirmOrder() {
   } catch (err) {
     console.error(err);
     stopLoading();
-    showToast('❌ Terjadi kesalahan');
+    window.showToast('❌ Terjadi kesalahan');
   } finally {
     isSubmitting = false;
   }
 }
 
 // Modal System
-function openModal(id) {
-  document.getElementById(id).classList.add('show');
-  // Prevent body scroll when modal open
-  document.body.style.overflow = 'hidden';
-}
-
-function closeModal(id) {
-  document.getElementById(id).classList.remove('show');
-  document.body.style.overflow = '';
-
-  // Hide sticky bar if closing receipt or cancelling package selection
-  if (id === 'receiptModal' || (id === 'packageModal' && !isSubmitting)) {
-    // Only hide if we're not just moving to the summary modal
-    const stickyBar = document.getElementById('stickyMobileBar');
-    if (stickyBar && !document.getElementById('summaryModal').classList.contains('show')) {
-      stickyBar.classList.remove('active');
-    }
+window.openModal = function(id) {
+  const el = document.getElementById(id);
+  if (el) {
+      el.classList.add('show');
+      document.body.style.overflow = 'hidden';
   }
-}
+};
+
+window.closeModal = function(id) {
+  const el = document.getElementById(id);
+  if (el) {
+      el.classList.remove('show');
+      document.body.style.overflow = '';
+
+      if (id === 'receiptModal' || (id === 'packageModal' && !isSubmitting)) {
+        const stickyBar = document.getElementById('stickyMobileBar');
+        if (stickyBar && !document.getElementById('summaryModal').classList.contains('show')) {
+          stickyBar.classList.remove('active');
+        }
+      }
+  }
+};
 
 // Loading Rocket
 function startLoading() {
@@ -504,7 +524,6 @@ function startLoading() {
 
   modal.classList.add('show');
   let p = 0;
-  let msgIndex = 0;
 
   const interval = setInterval(() => {
     p += Math.random() * 3;
@@ -516,17 +535,14 @@ function startLoading() {
     bar.style.width = p + '%';
     percent.textContent = Math.floor(p) + '%';
 
-    // Move rocket across the track
     if (rocket) {
-      const trackWidth = rocket.parentElement.offsetWidth;
       rocket.style.left = `calc(${p}% - 30px)`;
     }
 
-    // Cycle messages
-    if (Math.floor(p) % 25 === 0 && messages[msgIndex]) {
-        statusText.textContent = messages[Math.floor(p / 25)] || messages[messages.length - 1];
+    if (Math.floor(p) % 25 === 0) {
+        const idx = Math.floor(p / 25);
+        if (messages[idx]) statusText.textContent = messages[idx];
     }
-
   }, 50);
 
   window.loadingInterval = interval;
@@ -537,49 +553,15 @@ function stopLoading() {
   document.getElementById('loadingModal').classList.remove('show');
 }
 
-function filterGameSearch(event) {
-  const searchInput = event.target.value.toLowerCase().trim();
-  const resultsContainer = document.getElementById('gameSearchResults');
-
-  if (!searchInput) {
-    resultsContainer.style.display = 'none';
-    return;
-  }
-
-  const filteredGames = games.filter(game =>
-    game.name.toLowerCase().includes(searchInput)
-  );
-
-  if (filteredGames.length === 0) {
-    resultsContainer.innerHTML = '<div style="padding: 12px 15px; color: #d1fae5; font-size: 13px;">❌ Game tidak ditemukan</div>';
-    resultsContainer.style.display = 'block';
-    return;
-  }
-
-  resultsContainer.innerHTML = filteredGames.map(game => `
-    <div style="padding: 12px 15px; border-bottom: 1px solid rgba(253, 224, 71, 0.2); cursor: pointer; transition: all 0.2s ease; background: transparent;"
-         role="button"
-         tabindex="0"
-         onmouseover="this.style.background = 'rgba(253, 224, 71, 0.1)'"
-         onmouseout="this.style.background = 'transparent'"
-         onclick="selectGameFromSearch('${game.id}')">
-      <span style="font-size: 18px; margin-right: 8px;" role="img" aria-label="${game.name} icon">${game.emoji}</span>
-      <span style="color: #fde047; font-weight: 700; font-size: 13px;">${game.name}</span>
-    </div>
-  `).join('');
-
-  resultsContainer.style.display = 'block';
-}
-
 // Receipt
 function showReceipt(data) {
-  closeModal('packageModal');
+  window.closeModal('packageModal');
   document.getElementById('receiptOrderNum').textContent = data.order_number;
   document.getElementById('receiptGame').textContent = data.game;
   document.getElementById('receiptPackage').textContent = data.diamond;
   document.getElementById('receiptTotal').textContent = data.price;
   window.currentReceipt = data;
-  openModal('receiptModal');
+  window.openModal('receiptModal');
 }
 
 function sendToWhatsApp() {
@@ -590,14 +572,20 @@ function sendToWhatsApp() {
 }
 
 // History
-function openHistory() {
-  openModal('historyModal');
-  document.getElementById('historyList').innerHTML = '';
-}
+window.openHistory = function() {
+  const isInPages = window.location.pathname.includes('/pages/');
+  if (isInPages) {
+      window.location.href = '../index.html#history';
+      return;
+  }
+  window.openModal('historyModal');
+  const list = document.getElementById('historyList');
+  if (list) list.innerHTML = '';
+};
 
 function searchOrders() {
   const phone = document.getElementById('historyPhone').value.trim();
-  if (!phone) return showToast('❌ Masukkan nomor WhatsApp');
+  if (!phone) return window.showToast('❌ Masukkan nomor WhatsApp');
 
   const search = normalizePhone(phone);
   const matched = allOrders.filter(o => normalizePhone(o.whatsapp || '').includes(search));
@@ -609,11 +597,11 @@ function searchOrders() {
     list.innerHTML = matched.map(o => `
       <div class="order-item-history">
         <div class="flex justify-between mb-2">
-          <span class="font-bold text-primary">${o.order_number}</span>
+          <span class="font-bold text-primary">${window.escapeHTML(o.order_number)}</span>
           <span class="status-badge ${o.status}">${o.status.toUpperCase()}</span>
         </div>
-        <div class="text-sm text-slate-400">${o.game} - ${o.diamond}</div>
-        <div class="text-sm font-bold mt-1">${o.price}</div>
+        <div class="text-sm text-slate-400">${window.escapeHTML(o.game)} - ${window.escapeHTML(o.diamond)}</div>
+        <div class="text-sm font-bold mt-1">${window.escapeHTML(o.price)}</div>
       </div>
     `).join('');
   }
@@ -624,13 +612,13 @@ function normalizePhone(p) {
   return p.startsWith('62') ? p.substring(2) : (p.startsWith('0') ? p.substring(1) : p);
 }
 
-// Admin
+// Admin Backdoor
 function handleOwnerClick() {
   adminClickCount++;
   clearTimeout(adminClickTimer);
   if (adminClickCount === 10) {
     adminClickCount = 0;
-    openModal('adminLoginModal');
+    window.openModal('adminLoginModal');
   }
   adminClickTimer = setTimeout(() => adminClickCount = 0, 3000);
 }
@@ -639,38 +627,46 @@ function handleAdminLogin(e) {
   e.preventDefault();
   const pass = document.getElementById('adminPassInput').value;
   if (pass === ADMIN_PASSWORD) {
-    closeModal('adminLoginModal');
+    window.closeModal('adminLoginModal');
     showAdminPanel();
   } else {
-    showToast('❌ Password salah');
+    window.showToast('❌ Password salah');
   }
 }
 
 function showAdminPanel() {
   updateAdminStats();
   renderAdminOrders();
-  openModal('adminPanelModal');
+  window.openModal('adminPanelModal');
 }
 
 function updateAdminStats() {
   const total = allOrders.length;
   const success = allOrders.filter(o => o.status === 'success').length;
-  const revenue = allOrders.reduce((acc, o) => acc + parseInt(o.price.replace(/[^0-9]/g, '') || 0), 0);
+  const revenue = allOrders.reduce((acc, o) => acc + (parseInt(o.price.replace(/[^0-9]/g, '')) || 0), 0);
 
-  document.getElementById('adminStatTotal').textContent = total;
-  document.getElementById('adminStatSuccess').textContent = success;
-  document.getElementById('adminStatRevenue').textContent = `Rp${revenue.toLocaleString('id-ID')}`;
+  const stats = {
+      'adminStatTotal': total,
+      'adminStatSuccess': success,
+      'adminStatRevenue': formatPrice(revenue)
+  };
+
+  for (const [id, val] of Object.entries(stats)) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = val;
+  }
 }
 
 function renderAdminOrders() {
   const list = document.getElementById('adminOrdersList');
+  if (!list) return;
   const sorted = [...allOrders].sort((a, b) => new Date(b.order_date) - new Date(a.order_date));
 
   list.innerHTML = sorted.map(o => `
     <div class="admin-row">
-      <div>${o.order_number}</div>
-      <div>${o.game}</div>
-      <div>${o.nickname}</div>
+      <div>${window.escapeHTML(o.order_number)}</div>
+      <div>${window.escapeHTML(o.game)}</div>
+      <div>${window.escapeHTML(o.nickname)}</div>
       <div>${o.status.toUpperCase()}</div>
       <button onclick="viewAdminDetail('${o.__backendId}')" class="btn-mini">DETAIL</button>
     </div>
@@ -682,12 +678,12 @@ async function viewAdminDetail(id) {
   if (!o) return;
   currentAdminOrderId = id;
   document.getElementById('adminDetailContent').innerHTML = `
-    <p>📦 <b>No:</b> ${o.order_number}</p>
-    <p>🎮 <b>Game:</b> ${o.game} (${o.diamond})</p>
-    <p>👤 <b>User:</b> ${o.nickname} (${o.game_id})</p>
-    <p>📱 <b>WA:</b> ${o.whatsapp}</p>
-    <p>💳 <b>Pay:</b> ${o.payment_method}</p>
-    <p>💰 <b>Total:</b> ${o.price}</p>
+    <p>📦 <b>No:</b> ${window.escapeHTML(o.order_number)}</p>
+    <p>🎮 <b>Game:</b> ${window.escapeHTML(o.game)} (${window.escapeHTML(o.diamond)})</p>
+    <p>👤 <b>User:</b> ${window.escapeHTML(o.nickname)} (${window.escapeHTML(o.game_id)})</p>
+    <p>📱 <b>WA:</b> ${window.escapeHTML(o.whatsapp)}</p>
+    <p>💳 <b>Pay:</b> ${window.escapeHTML(o.payment_method)}</p>
+    <p>💰 <b>Total:</b> ${window.escapeHTML(o.price)}</p>
     <div class="mt-4">
       <label class="block text-xs mb-1">STATUS</label>
       <select id="adminStatusUpdate" class="field-input py-2">
@@ -697,7 +693,7 @@ async function viewAdminDetail(id) {
       </select>
     </div>
   `;
-  openModal('adminDetailModal');
+  window.openModal('adminDetailModal');
 }
 
 async function saveAdminStatus() {
@@ -709,39 +705,40 @@ async function saveAdminStatus() {
   if (window.dataSdk) {
     const res = await window.dataSdk.update(o);
     if (res.isOk) {
-      showToast('✅ Status diupdate');
-      closeModal('adminDetailModal');
+      window.showToast('✅ Status diupdate');
+      window.closeModal('adminDetailModal');
       renderAdminOrders();
       updateAdminStats();
     }
   }
 }
 
-// Search & Misc
+// Search & Rendering
 function renderGames() {
   const container = document.getElementById('gamesGrid');
   if (!container) return;
 
   const games = Storage.getGames().filter(g => g.status === 'active');
+  const emptyState = document.getElementById('noGamesFound');
 
   if (games.length === 0) {
-    document.getElementById('noGamesFound').classList.remove('hidden');
+    if (emptyState) emptyState.classList.remove('hidden');
     container.innerHTML = '';
     return;
   }
 
-  document.getElementById('noGamesFound').classList.add('hidden');
+  if (emptyState) emptyState.classList.add('hidden');
 
   container.innerHTML = games.map(game => `
     <div class="game-card" onclick="selectGame('${game.id}')" role="button" tabindex="0">
         <div class="relative w-full aspect-square mb-4 rounded-xl overflow-hidden bg-slate-800">
-            <img src="${game.image}" alt="${game.name}"
+            <img src="${game.image}" alt="${window.escapeHTML(game.name)}"
                  class="w-full h-full object-cover hover:scale-110 transition duration-500"
                  loading="lazy"
                  onerror="this.src='https://placehold.co/400x400/1e293b/bf00ff?text=${encodeURIComponent(game.name)}'">
         </div>
-        <div class="game-name text-center">${game.name}</div>
-        <div class="game-subtitle text-center text-xs text-slate-400 mt-1">Mulai ${game.basePrice || 'Rp1.000'}</div>
+        <div class="game-name text-center">${window.escapeHTML(game.name)}</div>
+        <div class="game-subtitle text-center text-xs text-slate-400 mt-1">Mulai ${window.escapeHTML(game.basePrice || 'Rp1.000')}</div>
         <button class="btn-mini w-full mt-4 bg-primary/20 hover:bg-primary border-primary/30">TOP UP</button>
     </div>
   `).join('');
@@ -749,10 +746,10 @@ function renderGames() {
 
 function filterGames() {
   const input = document.getElementById('gameSearch');
+  if (!input) return;
   const q = input.value.toLowerCase();
   let found = false;
 
-  // Toggle clear button
   const clearBtn = document.getElementById('clearSearch');
   if (clearBtn) clearBtn.classList.toggle('hidden', !q);
 
@@ -767,9 +764,7 @@ function filterGames() {
   });
 
   const emptyState = document.getElementById('noGamesFound');
-  if (emptyState) {
-      emptyState.classList.toggle('hidden', found);
-  }
+  if (emptyState) emptyState.classList.toggle('hidden', found);
 }
 
 function clearSearch() {
@@ -782,9 +777,14 @@ function clearSearch() {
 }
 
 // Request Game Logic
-function openRequestGameModal() {
-    openModal('requestGameModal');
-}
+window.openRequestGameModal = function() {
+    const isInPages = window.location.pathname.includes('/pages/');
+    if (isInPages) {
+        window.location.href = '../index.html#request';
+        return;
+    }
+    window.openModal('requestGameModal');
+};
 
 function submitGameRequest(e) {
     e.preventDefault();
@@ -798,19 +798,9 @@ function submitGameRequest(e) {
         notes: notes
     });
 
-    showToast('✅ Request terkirim! Terima kasih.');
-    closeModal('requestGameModal');
+    window.showToast('✅ Request terkirim! Terima kasih.');
+    window.closeModal('requestGameModal');
     e.target.reset();
-}
-
-function openWhatsApp() {
-  const num = document.getElementById('whatsappNumber').textContent.replace(/\D/g, '');
-  window.open(`https://wa.me/${num}`, '_blank');
-}
-
-function requestGame() {
-  const num = document.getElementById('whatsappNumber').textContent.replace(/\D/g, '');
-  window.open(`https://wa.me/${num}?text=${encodeURIComponent('Halo, saya ingin request game yang belum ada!')}`, '_blank');
 }
 
 function scrollToSection(id) {
@@ -818,19 +808,19 @@ function scrollToSection(id) {
   if (el) el.scrollIntoView({ behavior: 'smooth' });
 }
 
+window.onload = async () => {
+  await initDataSDK();
+  await initElementSDK();
+  renderGames();
+  handleDeepLink();
+};
+
 window.copyToClipboard = function(text) {
     if (!text) return;
     navigator.clipboard.writeText(text).then(() => {
-        showToast('📋 ID Pesanan disalin!');
+        window.showToast('📋 ID Pesanan disalin!');
     }).catch(err => {
         console.error('Failed to copy: ', err);
-        showToast('❌ Gagal menyalin');
+        window.showToast('❌ Gagal menyalin');
     });
-};
-
-// Init
-window.onload = () => {
-  initDataSDK();
-  initElementSDK();
-  renderGames();
 };
