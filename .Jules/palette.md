@@ -14,3 +14,7 @@
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+
+## 2026-03-24 - Defensive Vanilla UX: XSS & Form Clarity
+**Learning:** In vanilla JS apps using `innerHTML` for dynamic rendering, security is a core UX component. Mixing `textContent` for security and `innerHTML` for structure leads to inconsistent patterns. A single `escapeHTML` standard used within `innerHTML` strings ensures safety while maintaining template readability.
+**Action:** Implement a global `escapeHTML` and use it for all dynamic data in templates. For form clarity, always include a password visibility toggle; however, ensure the toggle button is inside a dedicated `relative` container wrapping *only* the input to prevent CSS positioning from shifting parent labels.
