@@ -240,11 +240,11 @@
 
                 <div class="form-field mb-8">
                     <label class="field-label mb-3">Metode Pembayaran</label>
-                    <div class="payment-select">
-                        <div class="payment-btn" onclick="selectPaymentMethod('DANA', this)">DANA</div>
-                        <div class="payment-btn" onclick="selectPaymentMethod('GOPAY', this)">GOPAY</div>
-                        <div class="payment-btn" onclick="selectPaymentMethod('OVO', this)">OVO</div>
-                        <div class="payment-btn" onclick="selectPaymentMethod('QRIS', this)">QRIS</div>
+                    <div class="payment-select" role="radiogroup" aria-label="Metode Pembayaran">
+                        <div class="payment-btn" onclick="selectPaymentMethod('DANA', this)" role="radio" aria-checked="false" tabindex="0">DANA</div>
+                        <div class="payment-btn" onclick="selectPaymentMethod('GOPAY', this)" role="radio" aria-checked="false" tabindex="0">GOPAY</div>
+                        <div class="payment-btn" onclick="selectPaymentMethod('OVO', this)" role="radio" aria-checked="false" tabindex="0">OVO</div>
+                        <div class="payment-btn" onclick="selectPaymentMethod('QRIS', this)" role="radio" aria-checked="false" tabindex="0">QRIS</div>
                     </div>
                 </div>
 

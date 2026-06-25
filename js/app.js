@@ -264,10 +264,11 @@ async function initElementSDK() {
 }
 
 function initAccessibility() {
-  // Global listener for keyboard interactions on role="button" elements
+  // Global listener for keyboard interactions on role="button" or role="radio" elements
   document.addEventListener('keydown', (e) => {
-    if ((e.key === 'Enter' || e.key === ' ') && e.target.getAttribute('role') === 'button') {
-      // Avoid triggering if it's already a native button or link (they handle Enter/Space automatically)
+    const role = e.target.getAttribute('role');
+    if ((e.key === 'Enter' || e.key === ' ') && (role === 'button' || role === 'radio')) {
+      // Avoid triggering if it's already a native button or link
       if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
 
       e.preventDefault();
@@ -276,10 +277,21 @@ function initAccessibility() {
   });
 }
 
+function handleDeepLink() {
+  const hash = window.location.hash;
+  if (hash === '#history') openHistory();
+  else if (hash === '#request') openRequestGameModal();
+  else if (hash === '#games') scrollToSection('games');
+  else if (hash === '#home') scrollToSection('home');
+  else if (hash === '#contact') scrollToSection('contact');
+}
+
 (async function init() {
   await initDataSDK();
   await initElementSDK();
   initAccessibility();
+  handleDeepLink();
+  window.addEventListener('hashchange', handleDeepLink);
 })();
 
 function parsePrice(priceStr) {
@@ -319,7 +331,7 @@ function renderPackageSelection(gameKey) {
   const packages = GAME_PACKAGES[gameKey];
 
   container.innerHTML = packages.map(pkg => `
-    <div class="price-box-mini" onclick="selectPackage('${pkg.name}', '${pkg.price}')">
+    <div class="price-box-mini" onclick="selectPackage('${pkg.name}', '${pkg.price}')" role="button" tabindex="0" aria-pressed="false">
       <div class="mini-diamond">${pkg.name}</div>
       <div class="mini-price">${pkg.price}</div>
     </div>
@@ -340,8 +352,13 @@ function selectPackage(name, price, maybePrice) {
 
   document.querySelectorAll('.price-box-mini, .price-box').forEach(el => {
     const pkgText = el.querySelector('.mini-diamond, .diamond-value')?.textContent || '';
-    if (pkgText === finalPackage) el.classList.add('selected');
-    else el.classList.remove('selected');
+    if (pkgText === finalPackage) {
+      el.classList.add('selected');
+      el.setAttribute('aria-pressed', 'true');
+    } else {
+      el.classList.remove('selected');
+      el.setAttribute('aria-pressed', 'false');
+    }
   });
 
   updateOrderSummary();
@@ -386,8 +403,12 @@ function adjustQty(amount) {
 
 function selectPaymentMethod(method, el) {
   currentOrder.paymentMethod = method;
-  document.querySelectorAll('.payment-btn').forEach(btn => btn.classList.remove('selected'));
+  document.querySelectorAll('.payment-btn').forEach(btn => {
+    btn.classList.remove('selected');
+    btn.setAttribute('aria-checked', 'false');
+  });
   el.classList.add('selected');
+  el.setAttribute('aria-checked', 'true');
 }
 
 async function submitOrder(e) {
