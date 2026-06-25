@@ -333,6 +333,11 @@ h1, h2, h3, .logo-text, .hero-title, .btn-primary {
   background: rgba(191, 0, 255, 0.1);
 }
 
+.price-box-mini.selected {
+  transform: scale(1.02);
+  box-shadow: 0 0 15px rgba(191, 0, 255, 0.3);
+}
+
 .mini-diamond { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.25rem; }
 .mini-price { font-size: 0.8rem; color: #4ade80; font-weight: 700; }
 
@@ -376,6 +381,8 @@ h1, h2, h3, .logo-text, .hero-title, .btn-primary {
 .payment-btn.selected {
   border-color: var(--primary);
   background: rgba(191, 0, 255, 0.1);
+  transform: scale(1.02);
+  box-shadow: 0 0 15px rgba(191, 0, 255, 0.3);
 }
 
 .checkout-btn {

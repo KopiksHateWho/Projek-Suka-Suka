@@ -48,13 +48,13 @@ window.updateNavbar = function() {
     if (user) {
         const isAdmin = user.email === 'admin@kingslayer.com';
         authLinks.innerHTML = `
-            ${isAdmin ? `<a href="${pagesPrefix}admin.html" class="nav-link w-full md:w-auto text-center text-primary font-bold" onclick="window.closeMenu()">ADMIN</a>` : ''}
-            <a href="${pagesPrefix}dashboard.html" class="nav-link w-full md:w-auto text-center" onclick="window.closeMenu()">DASHBOARD</a>
-            <a href="#" class="nav-link w-full md:w-auto text-center" onclick="window.logout(); window.closeMenu()">LOGOUT</a>
+            ${isAdmin ? `<a href="${pagesPrefix}admin.html" class="nav-link w-full md:w-auto text-center text-primary font-bold" onclick="window.closeMenu()">🛠️ ADMIN</a>` : ''}
+            <a href="${pagesPrefix}dashboard.html" class="nav-link w-full md:w-auto text-center" onclick="window.closeMenu()">👤 DASHBOARD</a>
+            <a href="#" class="nav-link w-full md:w-auto text-center" onclick="window.logout(); window.closeMenu()">🚪 LOGOUT</a>
         `;
     } else {
         authLinks.innerHTML = `
-            <a href="${pagesPrefix}login.html" class="nav-link w-full md:w-auto text-center" onclick="window.closeMenu()">LOGIN</a>
+            <a href="${pagesPrefix}login.html" class="nav-link w-full md:w-auto text-center" onclick="window.closeMenu()">🔑 LOGIN</a>
         `;
     }
 };
@@ -111,17 +111,20 @@ window.closeMenu = function() {
 };
 
 window.openRequestGameModal = function() {
-    // This function is implemented in js/app.js where modal logic resides,
-    // but we can proxy it or let app.js handle the global definition.
-    // However, since auth.js loads before app.js, we should ensure it doesn't conflict.
-    // If app.js defines it, we can remove this or make it a safe fallback.
-    // Best practice: Let app.js handle UI interaction logic like modals.
-    // We'll remove this conflicting definition and rely on app.js.
-    // If we need it here for some reason (e.g. auth-links injection), we should delegate.
     if (window.openModal) {
         window.openModal('requestGameModal');
     } else {
-        console.warn('Modal system not ready');
+        const isInPages = window.location.pathname.includes('/pages/');
+        window.location.href = (isInPages ? '../index.html' : 'index.html') + '#request';
+    }
+};
+
+window.openHistory = function() {
+    if (window.openModal) {
+        window.openModal('historyModal');
+    } else {
+        const isInPages = window.location.pathname.includes('/pages/');
+        window.location.href = (isInPages ? '../index.html' : 'index.html') + '#history';
     }
 };
 
