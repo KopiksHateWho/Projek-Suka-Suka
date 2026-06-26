@@ -25,8 +25,10 @@ class MockStorage {
 class MockElement {
     constructor() {
         this.className = '';
-        this.textContent = '';
+        this._textContent = '';
         this.innerHTML = '';
+        this.type = '';
+        this.attributes = {};
         this.style = {};
         this.classList = {
             add: () => {},
@@ -35,9 +37,21 @@ class MockElement {
             contains: () => false
         };
     }
+    set textContent(val) {
+        this._textContent = val;
+        // Simple mock escaping for tests
+        this.innerHTML = String(val).replace(/&/g, '&amp;')
+                            .replace(/</g, '&lt;')
+                            .replace(/>/g, '&gt;')
+                            .replace(/"/g, '&quot;')
+                            .replace(/'/g, '&#039;');
+    }
+    get textContent() { return this._textContent; }
     appendChild(child) {}
     remove() {}
     addEventListener(event, callback) {}
+    setAttribute(name, value) { this.attributes[name] = value; }
+    getAttribute(name) { return this.attributes[name]; }
 }
 
 // Setup global environment
@@ -105,6 +119,35 @@ try {
 } catch (e) {
     assert(e instanceof SyntaxError, 'Should throw SyntaxError for invalid JSON');
 }
+
+// Test 4: window.escapeHTML
+console.log('🧪 Running tests for window.escapeHTML...');
+const unsafe = '<script>alert("xss")</script>';
+const escaped = window.escapeHTML(unsafe);
+assert(escaped.includes('&lt;script&gt;'), 'Should escape HTML tags');
+
+// Test 5: window.togglePasswordVisibility
+console.log('🧪 Running tests for window.togglePasswordVisibility...');
+const mockInput = new MockElement();
+mockInput.type = 'password';
+const mockBtn = new MockElement();
+mockBtn.textContent = '👁️‍🗨️';
+
+// We need document.getElementById to return our mockInput
+const originalGetElementById = global.document.getElementById;
+global.document.getElementById = (id) => id === 'pass' ? mockInput : null;
+
+window.togglePasswordVisibility('pass', mockBtn);
+assert(mockInput.type === 'text', 'Should toggle password to text');
+assert(mockBtn.textContent === '🙈', 'Should update button icon');
+assert(mockBtn.getAttribute('aria-label') === 'Hide password', 'Should update ARIA label');
+
+window.togglePasswordVisibility('pass', mockBtn);
+assert(mockInput.type === 'password', 'Should toggle text back to password');
+assert(mockBtn.textContent === '👁️‍🗨️', 'Should update button icon back');
+assert(mockBtn.getAttribute('aria-label') === 'Show password', 'Should update ARIA label back');
+
+global.document.getElementById = originalGetElementById;
 
 // Summary
 console.log(`\nTest Summary: ${testsPassed} passed, ${testsFailed} failed.`);

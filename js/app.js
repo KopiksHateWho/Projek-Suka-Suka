@@ -546,7 +546,9 @@ function filterGameSearch(event) {
     return;
   }
 
-  const filteredGames = games.filter(game =>
+  // Note: 'games' should be defined globally or passed. Assuming it refers to Storage.getGames()
+  const allAvailableGames = typeof Storage !== 'undefined' ? Storage.getGames() : [];
+  const filteredGames = allAvailableGames.filter(game =>
     game.name.toLowerCase().includes(searchInput)
   );
 
@@ -556,15 +558,16 @@ function filterGameSearch(event) {
     return;
   }
 
+  const esc = window.escapeHTML || (s => s);
   resultsContainer.innerHTML = filteredGames.map(game => `
     <div style="padding: 12px 15px; border-bottom: 1px solid rgba(253, 224, 71, 0.2); cursor: pointer; transition: all 0.2s ease; background: transparent;"
          role="button"
          tabindex="0"
          onmouseover="this.style.background = 'rgba(253, 224, 71, 0.1)'"
          onmouseout="this.style.background = 'transparent'"
-         onclick="selectGameFromSearch('${game.id}')">
-      <span style="font-size: 18px; margin-right: 8px;" role="img" aria-label="${game.name} icon">${game.emoji}</span>
-      <span style="color: #fde047; font-weight: 700; font-size: 13px;">${game.name}</span>
+         onclick="selectGameFromSearch('${esc(game.id)}')">
+      <span style="font-size: 18px; margin-right: 8px;" role="img" aria-label="${esc(game.name)} icon">${esc(game.emoji)}</span>
+      <span style="color: #fde047; font-weight: 700; font-size: 13px;">${esc(game.name)}</span>
     </div>
   `).join('');
 
@@ -601,6 +604,7 @@ function searchOrders() {
 
   const search = normalizePhone(phone);
   const matched = allOrders.filter(o => normalizePhone(o.whatsapp || '').includes(search));
+  const esc = window.escapeHTML || (s => s);
 
   const list = document.getElementById('historyList');
   if (matched.length === 0) {
@@ -609,11 +613,11 @@ function searchOrders() {
     list.innerHTML = matched.map(o => `
       <div class="order-item-history">
         <div class="flex justify-between mb-2">
-          <span class="font-bold text-primary">${o.order_number}</span>
-          <span class="status-badge ${o.status}">${o.status.toUpperCase()}</span>
+          <span class="font-bold text-primary">${esc(o.order_number)}</span>
+          <span class="status-badge ${esc(o.status)}">${esc(o.status.toUpperCase())}</span>
         </div>
-        <div class="text-sm text-slate-400">${o.game} - ${o.diamond}</div>
-        <div class="text-sm font-bold mt-1">${o.price}</div>
+        <div class="text-sm text-slate-400">${esc(o.game)} - ${esc(o.diamond)}</div>
+        <div class="text-sm font-bold mt-1">${esc(o.price)}</div>
       </div>
     `).join('');
   }
@@ -665,14 +669,15 @@ function updateAdminStats() {
 function renderAdminOrders() {
   const list = document.getElementById('adminOrdersList');
   const sorted = [...allOrders].sort((a, b) => new Date(b.order_date) - new Date(a.order_date));
+  const esc = window.escapeHTML || (s => s);
 
   list.innerHTML = sorted.map(o => `
     <div class="admin-row">
-      <div>${o.order_number}</div>
-      <div>${o.game}</div>
-      <div>${o.nickname}</div>
-      <div>${o.status.toUpperCase()}</div>
-      <button onclick="viewAdminDetail('${o.__backendId}')" class="btn-mini">DETAIL</button>
+      <div>${esc(o.order_number)}</div>
+      <div>${esc(o.game)}</div>
+      <div>${esc(o.nickname)}</div>
+      <div>${esc(o.status.toUpperCase())}</div>
+      <button onclick="viewAdminDetail('${esc(o.__backendId)}')" class="btn-mini">DETAIL</button>
     </div>
   `).join('');
 }
@@ -681,13 +686,14 @@ async function viewAdminDetail(id) {
   const o = allOrders.find(x => x.__backendId === id);
   if (!o) return;
   currentAdminOrderId = id;
+  const esc = window.escapeHTML || (s => s);
   document.getElementById('adminDetailContent').innerHTML = `
-    <p>📦 <b>No:</b> ${o.order_number}</p>
-    <p>🎮 <b>Game:</b> ${o.game} (${o.diamond})</p>
-    <p>👤 <b>User:</b> ${o.nickname} (${o.game_id})</p>
-    <p>📱 <b>WA:</b> ${o.whatsapp}</p>
-    <p>💳 <b>Pay:</b> ${o.payment_method}</p>
-    <p>💰 <b>Total:</b> ${o.price}</p>
+    <p>📦 <b>No:</b> ${esc(o.order_number)}</p>
+    <p>🎮 <b>Game:</b> ${esc(o.game)} (${esc(o.diamond)})</p>
+    <p>👤 <b>User:</b> ${esc(o.nickname)} (${esc(o.game_id)})</p>
+    <p>📱 <b>WA:</b> ${esc(o.whatsapp)}</p>
+    <p>💳 <b>Pay:</b> ${esc(o.payment_method)}</p>
+    <p>💰 <b>Total:</b> ${esc(o.price)}</p>
     <div class="mt-4">
       <label class="block text-xs mb-1">STATUS</label>
       <select id="adminStatusUpdate" class="field-input py-2">
@@ -732,16 +738,17 @@ function renderGames() {
 
   document.getElementById('noGamesFound').classList.add('hidden');
 
+  const esc = window.escapeHTML || (s => s);
   container.innerHTML = games.map(game => `
-    <div class="game-card" onclick="selectGame('${game.id}')" role="button" tabindex="0">
+    <div class="game-card" onclick="selectGame('${esc(game.id)}')" role="button" tabindex="0">
         <div class="relative w-full aspect-square mb-4 rounded-xl overflow-hidden bg-slate-800">
-            <img src="${game.image}" alt="${game.name}"
+            <img src="${esc(game.image)}" alt="${esc(game.name)}"
                  class="w-full h-full object-cover hover:scale-110 transition duration-500"
                  loading="lazy"
                  onerror="this.src='https://placehold.co/400x400/1e293b/bf00ff?text=${encodeURIComponent(game.name)}'">
         </div>
-        <div class="game-name text-center">${game.name}</div>
-        <div class="game-subtitle text-center text-xs text-slate-400 mt-1">Mulai ${game.basePrice || 'Rp1.000'}</div>
+        <div class="game-name text-center">${esc(game.name)}</div>
+        <div class="game-subtitle text-center text-xs text-slate-400 mt-1">Mulai ${esc(game.basePrice || 'Rp1.000')}</div>
         <button class="btn-mini w-full mt-4 bg-primary/20 hover:bg-primary border-primary/30">TOP UP</button>
     </div>
   `).join('');
@@ -813,10 +820,23 @@ function requestGame() {
   window.open(`https://wa.me/${num}?text=${encodeURIComponent('Halo, saya ingin request game yang belum ada!')}`, '_blank');
 }
 
+function handleDeepLink() {
+  const hash = window.location.hash;
+  if (hash === '#history') {
+    window.openHistory();
+  } else if (hash === '#request') {
+    window.openRequestGameModal();
+  } else if (hash === '#games' || hash === '#home' || hash === '#contact') {
+    scrollToSection(hash.substring(1));
+  }
+}
+
 function scrollToSection(id) {
   const el = document.getElementById(id);
   if (el) el.scrollIntoView({ behavior: 'smooth' });
 }
+
+window.addEventListener('hashchange', handleDeepLink);
 
 window.copyToClipboard = function(text) {
     if (!text) return;
@@ -833,4 +853,5 @@ window.onload = () => {
   initDataSDK();
   initElementSDK();
   renderGames();
+  handleDeepLink();
 };

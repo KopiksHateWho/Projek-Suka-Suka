@@ -110,18 +110,35 @@ window.closeMenu = function() {
     document.body.style.overflow = '';
 };
 
+window.escapeHTML = function(str) {
+    if (!str) return '';
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+};
+
+window.togglePasswordVisibility = function(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+    const isPassword = input.type === 'password';
+    input.type = isPassword ? 'text' : 'password';
+    btn.textContent = isPassword ? '🙈' : '👁️‍🗨️';
+    btn.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
+};
+
+window.openHistory = function() {
+    if (window.location.pathname.includes('/pages/')) {
+        window.location.href = '../index.html#history';
+    } else if (window.openModal) {
+        window.openModal('historyModal');
+    }
+};
+
 window.openRequestGameModal = function() {
-    // This function is implemented in js/app.js where modal logic resides,
-    // but we can proxy it or let app.js handle the global definition.
-    // However, since auth.js loads before app.js, we should ensure it doesn't conflict.
-    // If app.js defines it, we can remove this or make it a safe fallback.
-    // Best practice: Let app.js handle UI interaction logic like modals.
-    // We'll remove this conflicting definition and rely on app.js.
-    // If we need it here for some reason (e.g. auth-links injection), we should delegate.
-    if (window.openModal) {
+    if (window.location.pathname.includes('/pages/')) {
+        window.location.href = '../index.html#request';
+    } else if (window.openModal) {
         window.openModal('requestGameModal');
-    } else {
-        console.warn('Modal system not ready');
     }
 };
 
