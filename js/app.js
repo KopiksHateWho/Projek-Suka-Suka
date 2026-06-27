@@ -818,6 +818,32 @@ function scrollToSection(id) {
   if (el) el.scrollIntoView({ behavior: 'smooth' });
 }
 
+function handleDeepLink() {
+  const hash = window.location.hash;
+  if (!hash) return;
+
+  // Small delay to ensure DOM and SDK are ready
+  setTimeout(() => {
+    switch (hash) {
+      case '#history':
+        openHistory();
+        break;
+      case '#request':
+        openRequestGameModal();
+        break;
+      case '#games':
+        scrollToSection('games');
+        break;
+      case '#home':
+        scrollToSection('home');
+        break;
+      case '#contact':
+        scrollToSection('contact');
+        break;
+    }
+  }, 300);
+}
+
 window.copyToClipboard = function(text) {
     if (!text) return;
     navigator.clipboard.writeText(text).then(() => {
@@ -833,4 +859,7 @@ window.onload = () => {
   initDataSDK();
   initElementSDK();
   renderGames();
+  handleDeepLink();
 };
+
+window.addEventListener('hashchange', handleDeepLink);
