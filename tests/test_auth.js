@@ -27,6 +27,8 @@ class MockElement {
         this.className = '';
         this.textContent = '';
         this.innerHTML = '';
+        this.type = '';
+        this.attributes = {};
         this.style = {};
         this.classList = {
             add: () => {},
@@ -38,6 +40,12 @@ class MockElement {
     appendChild(child) {}
     remove() {}
     addEventListener(event, callback) {}
+    setAttribute(name, value) {
+        this.attributes[name] = value;
+    }
+    getAttribute(name) {
+        return this.attributes[name];
+    }
 }
 
 // Setup global environment
@@ -105,6 +113,23 @@ try {
 } catch (e) {
     assert(e instanceof SyntaxError, 'Should throw SyntaxError for invalid JSON');
 }
+
+// Test 4: togglePasswordVisibility
+console.log('🧪 Running tests for window.togglePasswordVisibility...');
+const mockInput = new MockElement();
+mockInput.type = 'password';
+const mockBtn = new MockElement();
+global.document.getElementById = (id) => id === 'testPass' ? mockInput : null;
+
+window.togglePasswordVisibility('testPass', mockBtn);
+assert(mockInput.type === 'text', 'Input type should change to text');
+assert(mockBtn.innerHTML === '👁️‍🗨️', 'Button icon should change to open eye');
+assert(mockBtn.getAttribute('aria-label') === 'Hide password', 'ARIA label should be Hide password');
+
+window.togglePasswordVisibility('testPass', mockBtn);
+assert(mockInput.type === 'password', 'Input type should change back to password');
+assert(mockBtn.innerHTML === '🙈', 'Button icon should change back to monkey');
+assert(mockBtn.getAttribute('aria-label') === 'Show password', 'ARIA label should be Show password');
 
 // Summary
 console.log(`\nTest Summary: ${testsPassed} passed, ${testsFailed} failed.`);

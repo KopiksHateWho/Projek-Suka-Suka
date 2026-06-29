@@ -828,9 +828,38 @@ window.copyToClipboard = function(text) {
     });
 };
 
+function handleDeepLink() {
+  const hash = window.location.hash;
+  if (!hash) return;
+
+  // Add small delay to ensure SDK/DOM ready
+  setTimeout(() => {
+    switch (hash) {
+      case '#history':
+        openHistory();
+        break;
+      case '#request':
+        openRequestGameModal();
+        break;
+      case '#games':
+        scrollToSection('games');
+        break;
+      case '#home':
+        scrollToSection('home');
+        break;
+      case '#contact':
+        scrollToSection('contact');
+        break;
+    }
+  }, 300);
+}
+
 // Init
 window.onload = () => {
   initDataSDK();
   initElementSDK();
   renderGames();
+  handleDeepLink();
 };
+
+window.addEventListener('hashchange', handleDeepLink);
