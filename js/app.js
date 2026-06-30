@@ -563,8 +563,8 @@ function filterGameSearch(event) {
          onmouseover="this.style.background = 'rgba(253, 224, 71, 0.1)'"
          onmouseout="this.style.background = 'transparent'"
          onclick="selectGameFromSearch('${game.id}')">
-      <span style="font-size: 18px; margin-right: 8px;" role="img" aria-label="${game.name} icon">${game.emoji}</span>
-      <span style="color: #fde047; font-weight: 700; font-size: 13px;">${game.name}</span>
+      <span style="font-size: 18px; margin-right: 8px;" role="img" aria-label="${window.escapeHTML(game.name)} icon">${window.escapeHTML(game.emoji)}</span>
+      <span style="color: #fde047; font-weight: 700; font-size: 13px;">${window.escapeHTML(game.name)}</span>
     </div>
   `).join('');
 
@@ -668,10 +668,10 @@ function renderAdminOrders() {
 
   list.innerHTML = sorted.map(o => `
     <div class="admin-row">
-      <div>${o.order_number}</div>
-      <div>${o.game}</div>
-      <div>${o.nickname}</div>
-      <div>${o.status.toUpperCase()}</div>
+      <div>${window.escapeHTML(o.order_number)}</div>
+      <div>${window.escapeHTML(o.game)}</div>
+      <div>${window.escapeHTML(o.nickname)}</div>
+      <div>${window.escapeHTML(o.status.toUpperCase())}</div>
       <button onclick="viewAdminDetail('${o.__backendId}')" class="btn-mini">DETAIL</button>
     </div>
   `).join('');
@@ -682,12 +682,12 @@ async function viewAdminDetail(id) {
   if (!o) return;
   currentAdminOrderId = id;
   document.getElementById('adminDetailContent').innerHTML = `
-    <p>📦 <b>No:</b> ${o.order_number}</p>
-    <p>🎮 <b>Game:</b> ${o.game} (${o.diamond})</p>
-    <p>👤 <b>User:</b> ${o.nickname} (${o.game_id})</p>
-    <p>📱 <b>WA:</b> ${o.whatsapp}</p>
-    <p>💳 <b>Pay:</b> ${o.payment_method}</p>
-    <p>💰 <b>Total:</b> ${o.price}</p>
+    <p>📦 <b>No:</b> ${window.escapeHTML(o.order_number)}</p>
+    <p>🎮 <b>Game:</b> ${window.escapeHTML(o.game)} (${window.escapeHTML(o.diamond)})</p>
+    <p>👤 <b>User:</b> ${window.escapeHTML(o.nickname)} (${window.escapeHTML(o.game_id)})</p>
+    <p>📱 <b>WA:</b> ${window.escapeHTML(o.whatsapp)}</p>
+    <p>💳 <b>Pay:</b> ${window.escapeHTML(o.payment_method)}</p>
+    <p>💰 <b>Total:</b> ${window.escapeHTML(o.price)}</p>
     <div class="mt-4">
       <label class="block text-xs mb-1">STATUS</label>
       <select id="adminStatusUpdate" class="field-input py-2">
@@ -735,14 +735,14 @@ function renderGames() {
   container.innerHTML = games.map(game => `
     <div class="game-card" onclick="selectGame('${game.id}')" role="button" tabindex="0">
         <div class="relative w-full aspect-square mb-4 rounded-xl overflow-hidden bg-slate-800">
-            <img src="${game.image}" alt="${game.name}"
+            <img src="${game.image}" alt="${window.escapeHTML(game.name)}"
                  class="w-full h-full object-cover hover:scale-110 transition duration-500"
                  loading="lazy"
                  onerror="this.src='https://placehold.co/400x400/1e293b/bf00ff?text=${encodeURIComponent(game.name)}'">
         </div>
-        <div class="game-name text-center">${game.name}</div>
-        <div class="game-subtitle text-center text-xs text-slate-400 mt-1">Mulai ${game.basePrice || 'Rp1.000'}</div>
-        <button class="btn-mini w-full mt-4 bg-primary/20 hover:bg-primary border-primary/30">TOP UP</button>
+        <div class="game-name text-center">${window.escapeHTML(game.name)}</div>
+        <div class="game-subtitle text-center text-xs text-slate-400 mt-1">Mulai ${window.escapeHTML(game.basePrice || 'Rp1.000')}</div>
+        <button class="btn-mini w-full mt-4 bg-primary/20 hover:bg-primary border-primary/30" aria-label="Top up ${window.escapeHTML(game.name)}">TOP UP</button>
     </div>
   `).join('');
 }
@@ -828,9 +828,30 @@ window.copyToClipboard = function(text) {
     });
 };
 
+// Deep Link Handling
+function handleDeepLink() {
+  const hash = window.location.hash;
+  if (!hash) return;
+
+  // Small delay to ensure everything is initialized
+  setTimeout(() => {
+    if (hash === '#history') window.openHistory();
+    if (hash === '#request') window.openRequestGameModal();
+  }, 300);
+}
+
+// Global modal assignments
+window.openModal = openModal;
+window.closeModal = closeModal;
+window.openHistory = openHistory;
+window.openRequestGameModal = openRequestGameModal;
+
 // Init
 window.onload = () => {
   initDataSDK();
   initElementSDK();
   renderGames();
+  handleDeepLink();
 };
+
+window.addEventListener('hashchange', handleDeepLink);
