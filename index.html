@@ -249,9 +249,9 @@
                 </div>
 
                 <div id="quantity-selector" class="flex items-center justify-center gap-6 mb-8">
-                    <button type="button" class="btn-mini text-2xl px-4" onclick="adjustQty(-1)" aria-label="Kurangi Jumlah">−</button>
+                    <button type="button" class="btn-mini text-2xl px-4" onclick="adjustQty(-1)" aria-label="Decrease Quantity">−</button>
                     <div class="text-4xl font-black text-primary" id="qtyDisplay">1</div>
-                    <button type="button" class="btn-mini text-2xl px-4" onclick="adjustQty(1)" aria-label="Tambah Jumlah">+</button>
+                    <button type="button" class="btn-mini text-2xl px-4" onclick="adjustQty(1)" aria-label="Increase Quantity">+</button>
                 </div>
 
                 <button type="submit" class="checkout-btn">BELI SEKARANG</button>
@@ -352,7 +352,7 @@
                         <span class="text-slate-400">Order No:</span>
                         <div class="flex items-center gap-2">
                             <span id="receiptOrderNum" class="font-mono text-xs"></span>
-                            <button onclick="window.copyToClipboard(document.getElementById('receiptOrderNum').textContent)" class="text-primary hover:text-white transition" aria-label="Salin ID Pesanan" title="Salin ID Pesanan">📋</button>
+                            <button onclick="window.copyToClipboard(document.getElementById('receiptOrderNum').textContent)" class="text-primary hover:text-white transition" aria-label="Copy Order ID" title="Copy Order ID">📋</button>
                         </div>
                     </div>
                     <div class="flex justify-between">
@@ -396,6 +396,7 @@
     <!-- Admin Logic Modals -->
     <div id="adminLoginModal" class="modal">
         <div class="modal-content max-w-sm">
+            <button class="close-modal" onclick="closeModal('adminLoginModal')" aria-label="Close Modal">&times;</button>
             <h3 class="modal-title mb-6">ADMIN LOGIN</h3>
             <form onsubmit="handleAdminLogin(event)">
                 <input type="password" id="adminPassInput" class="field-input mb-6" placeholder="Password...">
