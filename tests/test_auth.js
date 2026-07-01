@@ -27,6 +27,8 @@ class MockElement {
         this.className = '';
         this.textContent = '';
         this.innerHTML = '';
+        this.type = '';
+        this.attributes = {};
         this.style = {};
         this.classList = {
             add: () => {},
@@ -38,6 +40,12 @@ class MockElement {
     appendChild(child) {}
     remove() {}
     addEventListener(event, callback) {}
+    setAttribute(name, value) {
+        this.attributes[name] = value;
+    }
+    getAttribute(name) {
+        return this.attributes[name] || null;
+    }
 }
 
 // Setup global environment
@@ -97,14 +105,34 @@ assert(user2 && user2.email === testUser.email, 'Should return user object when 
 // Test 3: Invalid JSON handling
 try {
     localStorage.setItem('ks_current_user', '{invalid_json');
-    // window.getCurrentUser might throw SyntaxError
-    const user3 = window.getCurrentUser();
-    // If it doesn't throw, we check if it handles it gracefully (returns null?)
-    // Based on implementation: JSON.parse throws on invalid JSON.
+    window.getCurrentUser();
     assert(false, 'Should have thrown SyntaxError for invalid JSON');
 } catch (e) {
     assert(e instanceof SyntaxError, 'Should throw SyntaxError for invalid JSON');
 }
+
+// Test 4: togglePasswordVisibility
+console.log('\n🧪 Testing window.togglePasswordVisibility...');
+const mockInput = new MockElement();
+mockInput.type = 'password';
+const mockBtn = new MockElement();
+
+// Setup getElementById for this test
+const originalGetElementById = global.document.getElementById;
+global.document.getElementById = (id) => id === 'testPass' ? mockInput : null;
+
+window.togglePasswordVisibility('testPass', mockBtn);
+assert(mockInput.type === 'text', 'Input type should change to text');
+assert(mockBtn.textContent === '👁️‍🗨️', 'Button icon should change to eye');
+assert(mockBtn.getAttribute('aria-label') === 'Hide password', 'Aria-label should be "Hide password"');
+
+window.togglePasswordVisibility('testPass', mockBtn);
+assert(mockInput.type === 'password', 'Input type should change back to password');
+assert(mockBtn.textContent === '🙈', 'Button icon should change back to monkey');
+assert(mockBtn.getAttribute('aria-label') === 'Show password', 'Aria-label should be "Show password"');
+
+// Restore mock
+global.document.getElementById = originalGetElementById;
 
 // Summary
 console.log(`\nTest Summary: ${testsPassed} passed, ${testsFailed} failed.`);
