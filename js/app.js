@@ -263,25 +263,6 @@ async function initElementSDK() {
   }
 }
 
-function initAccessibility() {
-  // Global listener for keyboard interactions on role="button" elements
-  document.addEventListener('keydown', (e) => {
-    if ((e.key === 'Enter' || e.key === ' ') && e.target.getAttribute('role') === 'button') {
-      // Avoid triggering if it's already a native button or link (they handle Enter/Space automatically)
-      if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
-
-      e.preventDefault();
-      e.target.click();
-    }
-  });
-}
-
-(async function init() {
-  await initDataSDK();
-  await initElementSDK();
-  initAccessibility();
-})();
-
 function parsePrice(priceStr) {
   return parseInt(priceStr.replace(/[^0-9]/g, ''));
 }
@@ -828,9 +809,32 @@ window.copyToClipboard = function(text) {
     });
 };
 
+function handleDeepLink() {
+  const hash = window.location.hash;
+  if (!hash) return;
+
+  // Add small delay to ensure SDK and DOM are ready
+  setTimeout(() => {
+    if (hash === '#history') {
+      openHistory();
+    } else if (hash === '#request') {
+      openRequestGameModal();
+    } else if (hash === '#games') {
+      scrollToSection('games');
+    } else if (hash === '#home') {
+      scrollToSection('home');
+    } else if (hash === '#contact') {
+      scrollToSection('contact');
+    }
+  }, 300);
+}
+
 // Init
-window.onload = () => {
-  initDataSDK();
-  initElementSDK();
+window.onload = async () => {
+  await initDataSDK();
+  await initElementSDK();
   renderGames();
+  handleDeepLink();
 };
+
+window.addEventListener('hashchange', handleDeepLink);
