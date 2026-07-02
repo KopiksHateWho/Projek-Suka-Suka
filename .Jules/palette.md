@@ -14,3 +14,7 @@
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+
+## 2026-02-23 - Password Visibility & Input Polish
+**Learning:** Absolute-positioned password toggles inside `relative` containers require careful nesting to avoid disrupting the vertical alignment of block-level labels. Using emojis (🙈/👁️‍🗨️) provides a lightweight, dependency-free visual cue that fits well with the "Purple Galaxy" design language.
+**Action:** Use a dedicated `relative` wrapper for input+toggle only, keeping the `<label>` outside. Ensure ARIA labels reflect the current state (Show/Hide) for screen readers.
