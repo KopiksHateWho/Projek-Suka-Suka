@@ -37,6 +37,40 @@ window.logout = function() {
     window.location.href = isInPages ? '../index.html' : 'index.html';
 };
 
+window.escapeHTML = function(str) {
+    if (!str) return '';
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+};
+
+window.togglePasswordVisibility = function(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+    if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '👁️‍🗨️';
+        btn.setAttribute('aria-label', 'Hide password');
+    } else {
+        input.type = 'password';
+        btn.textContent = '🙈';
+        btn.setAttribute('aria-label', 'Show password');
+    }
+};
+
+window.initAccessibility = function() {
+    // Global listener for keyboard interactions on role="button" elements
+    document.addEventListener('keydown', (e) => {
+        if ((e.key === 'Enter' || e.key === ' ') && e.target.getAttribute('role') === 'button') {
+            // Avoid triggering if it's already a native button or link
+            if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
+
+            e.preventDefault();
+            e.target.click();
+        }
+    });
+};
+
 window.updateNavbar = function() {
     const authLinks = document.getElementById('auth-links');
     if (!authLinks) return;
@@ -48,13 +82,13 @@ window.updateNavbar = function() {
     if (user) {
         const isAdmin = user.email === 'admin@kingslayer.com';
         authLinks.innerHTML = `
-            ${isAdmin ? `<a href="${pagesPrefix}admin.html" class="nav-link w-full md:w-auto text-center text-primary font-bold" onclick="window.closeMenu()">ADMIN</a>` : ''}
-            <a href="${pagesPrefix}dashboard.html" class="nav-link w-full md:w-auto text-center" onclick="window.closeMenu()">DASHBOARD</a>
-            <a href="#" class="nav-link w-full md:w-auto text-center" onclick="window.logout(); window.closeMenu()">LOGOUT</a>
+            ${isAdmin ? `<a href="${pagesPrefix}admin.html" class="nav-link w-full md:w-auto text-center text-primary font-bold" onclick="window.closeMenu()">🛠️ ADMIN</a>` : ''}
+            <a href="${pagesPrefix}dashboard.html" class="nav-link w-full md:w-auto text-center" onclick="window.closeMenu()">👤 DASHBOARD</a>
+            <a href="#" class="nav-link w-full md:w-auto text-center" onclick="window.logout(); window.closeMenu()">🚪 LOGOUT</a>
         `;
     } else {
         authLinks.innerHTML = `
-            <a href="${pagesPrefix}login.html" class="nav-link w-full md:w-auto text-center" onclick="window.closeMenu()">LOGIN</a>
+            <a href="${pagesPrefix}login.html" class="nav-link w-full md:w-auto text-center" onclick="window.closeMenu()">🔑 LOGIN</a>
         `;
     }
 };
@@ -133,6 +167,7 @@ window.openWhatsApp = function() {
 
 document.addEventListener('DOMContentLoaded', () => {
     window.updateNavbar();
+    window.initAccessibility();
 });
 
 // Add default admin for simulation
