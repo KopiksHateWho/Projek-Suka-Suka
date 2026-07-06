@@ -14,3 +14,7 @@
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+
+## 2026-03-01 - Password Visibility & Sub-page Proxy Pattern
+**Learning:** In vanilla multi-page apps, implementing a "Show Password" toggle requires a shared utility in a global JS file (like `auth.js`) that updates both the `type` and `aria-label`. Additionally, navigation from sub-pages back to specific main-page sections/modals should use proxy functions that handle redirection vs. modal opening based on context.
+**Action:** Centralize micro-UX utilities in a shared auth/utility layer. Use relative positioning for password input containers to ensure toggle buttons are correctly anchored.
