@@ -14,3 +14,8 @@
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+
+## 2026-02-22 - [Critical Navigation Repair & Password Accessibility]
+**Learning:** Sub-pages (`login.html`, `dashboard.html`, `admin.html`) were discovered with "broken" navigation caused by visible Git merge conflict markers and duplicate menu structures. This effectively blocked user flow. Additionally, the lack of password visibility toggles on authentication forms is a recurring UX friction point in vanilla JS projects.
+
+**Action:** Standardized navigation across all sub-pages to match the main page's emoji-based scheme. Implemented a global `togglePasswordVisibility` utility in `js/auth.js` and applied it to all login/register forms to improve accessibility and user confidence during entry. Always verify sub-page navigation after major layout changes to ensure mobile overlays (`nav-backdrop`) are preserved.
