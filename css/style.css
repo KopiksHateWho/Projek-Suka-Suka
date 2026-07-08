@@ -339,6 +339,9 @@ h1, h2, h3, .logo-text, .hero-title, .btn-primary {
 /* Form Fields */
 .form-field { margin-bottom: 1.25rem; }
 .field-label { display: block; font-weight: 700; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem; text-transform: uppercase; }
+
+.password-wrapper { position: relative; }
+
 .field-input {
   width: 100%;
   background: rgba(2, 6, 23, 0.6);
