@@ -48,13 +48,13 @@ window.updateNavbar = function() {
     if (user) {
         const isAdmin = user.email === 'admin@kingslayer.com';
         authLinks.innerHTML = `
-            ${isAdmin ? `<a href="${pagesPrefix}admin.html" class="nav-link w-full md:w-auto text-center text-primary font-bold" onclick="window.closeMenu()">ADMIN</a>` : ''}
-            <a href="${pagesPrefix}dashboard.html" class="nav-link w-full md:w-auto text-center" onclick="window.closeMenu()">DASHBOARD</a>
-            <a href="#" class="nav-link w-full md:w-auto text-center" onclick="window.logout(); window.closeMenu()">LOGOUT</a>
+            ${isAdmin ? `<a href="${pagesPrefix}admin.html" class="nav-link w-full md:w-auto text-center text-primary font-bold" onclick="window.closeMenu()">🛠️ ADMIN</a>` : ''}
+            <a href="${pagesPrefix}dashboard.html" class="nav-link w-full md:w-auto text-center" onclick="window.closeMenu()">👤 DASHBOARD</a>
+            <a href="#" class="nav-link w-full md:w-auto text-center" onclick="window.logout(); window.closeMenu()">🚪 LOGOUT</a>
         `;
     } else {
         authLinks.innerHTML = `
-            <a href="${pagesPrefix}login.html" class="nav-link w-full md:w-auto text-center" onclick="window.closeMenu()">LOGIN</a>
+            <a href="${pagesPrefix}login.html" class="nav-link w-full md:w-auto text-center" onclick="window.closeMenu()">🔑 LOGIN</a>
         `;
     }
 };
@@ -104,24 +104,43 @@ window.toggleMenu = function() {
 window.closeMenu = function() {
     const links = document.querySelector('.nav-links-container');
     const overlay = document.querySelector('.nav-overlay');
+    const backdrop = document.getElementById('nav-backdrop');
 
     if (links) links.classList.remove('active');
     if (overlay) overlay.classList.remove('active');
+    if (backdrop) backdrop.classList.remove('active');
     document.body.style.overflow = '';
 };
 
+window.escapeHTML = function(str) {
+    if (!str) return '';
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+};
+
+window.togglePasswordVisibility = function(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+    const isPassword = input.type === 'password';
+    input.type = isPassword ? 'text' : 'password';
+    btn.textContent = isPassword ? '🙈' : '👁️';
+    btn.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
+};
+
+window.openHistory = function() {
+    if (window.location.pathname.includes('/pages/')) {
+        window.location.href = '../index.html#history';
+    } else if (window.openModal) {
+        window.openModal('historyModal');
+    }
+};
+
 window.openRequestGameModal = function() {
-    // This function is implemented in js/app.js where modal logic resides,
-    // but we can proxy it or let app.js handle the global definition.
-    // However, since auth.js loads before app.js, we should ensure it doesn't conflict.
-    // If app.js defines it, we can remove this or make it a safe fallback.
-    // Best practice: Let app.js handle UI interaction logic like modals.
-    // We'll remove this conflicting definition and rely on app.js.
-    // If we need it here for some reason (e.g. auth-links injection), we should delegate.
-    if (window.openModal) {
+    if (window.location.pathname.includes('/pages/')) {
+        window.location.href = '../index.html#request';
+    } else if (window.openModal) {
         window.openModal('requestGameModal');
-    } else {
-        console.warn('Modal system not ready');
     }
 };
 
@@ -131,8 +150,19 @@ window.openWhatsApp = function() {
     window.open(`https://wa.me/${num}`, '_blank');
 };
 
+function initAccessibility() {
+    document.addEventListener('keydown', (e) => {
+        if ((e.key === 'Enter' || e.key === ' ') && e.target.getAttribute('role') === 'button') {
+            if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
+            e.preventDefault();
+            e.target.click();
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     window.updateNavbar();
+    initAccessibility();
 });
 
 // Add default admin for simulation

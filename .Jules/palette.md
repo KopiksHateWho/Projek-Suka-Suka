@@ -14,3 +14,7 @@
 ## 2026-02-21 - Destructive Cleanup & CSS Regression
 **Learning:** When cleaning up Git conflict markers or branch-related labels, it's crucial to identify which code belongs to which branch and ensure that essential structure (like @media queries) is not accidentally removed. A broken media query can make mobile-only styles global, ruining the desktop UX.
 **Action:** Always verify brace balance and media query integrity after a multi-line cleanup. Use specific Playwright tests to check that mobile-specific styles do not "leak" into the desktop view.
+
+## 2026-02-28 - Global Utilities & Accessibility Uniformity
+**Learning:** Centralizing micro-UX utilities (like password toggles and keyboard listeners) in a shared entry point (e.g., `auth.js`) ensures that even secondary pages (Login, Dashboard) benefit from accessibility and usability polish. Standardizing icon-based navigation links with consistent emojis improves brand identity and visual scanning speed.
+**Action:** Move shared UI logic to the earliest-loading JS file. Ensure every modal has a clear 'Close' button with English ARIA labels. Match password toggle icons (🙈/👁️) with corresponding input type changes and accessibility hints.
